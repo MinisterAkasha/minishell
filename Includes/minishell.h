@@ -6,13 +6,15 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/08 19:49:29 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/08 20:17:06 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+
+# include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <sys/errno.h>
