@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 20:47:02 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 21:44:38 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 
 # include <sys/types.h>
 # include <sys/wait.h>
+
+#include <dirent.h>
 
 # include "structures.h"
 
@@ -48,6 +50,10 @@ void	init_support_parsing_arr(t_support_parsing_data *data);
 void	free_2d_arr(char **arr);
 void	write_error_message(char *message_title, char *message_body, char *message_error);
 
+/*
+** cd.c
+*/
+int		exe_cd(char **args);
 
 
 #endif

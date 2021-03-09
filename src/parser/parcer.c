@@ -6,29 +6,18 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 15:05:53 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 20:48:23 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 21:44:18 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			exe_cd(char **args)
-{
-	char	*path;
-	int		res;
-
-	path = args[1];
-	res = chdir(path);
-	if (res == -1)
-		write_error_message("minishell: cd: ", path, ": No such file or directory");
-	return (res);
-}
 int			exe_pwd(char **args)
 {
-	char dir[100];
+	char path[100];
 
 	//TODO обработать ошибки
-	ft_putendl_fd(getcwd(dir, 100), 1);
+	ft_putendl_fd(getcwd(path, 100), 1);
 	return (1);
 }
 int			exe_echo(char **args)
@@ -53,6 +42,7 @@ int			exe_env(char **args)
 }
 int			exe_exit(char **args)
 {
+	exit(1);
 	write(1, "exit\n", 5);
 	return (1);
 }
