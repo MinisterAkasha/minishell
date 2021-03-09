@@ -6,19 +6,19 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 16:52:28 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 18:56:12 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute(t_data *data, char **args)
+int	execute(t_data *data, char **args, t_parser_data support)
 {
 	t_exe_info	info;
 
 	if (!args[0])
 		return (1);
-	info = parser(args);
+	info = parser(args, support);
 	info.exe_function(info.args);
 	if (!ft_strcmp(info.oper, ""))
 		return (1);
