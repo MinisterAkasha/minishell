@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 15:05:53 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 16:42:56 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 16:52:22 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ t_exe_info	parser(char **args)
 		&exe_env,
 		&exe_exit
 	};
-	
 	info.exe_function = NULL;
 	info.operator_exe_function = NULL;
 	info.args = args;
