@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/08 20:50:35 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 12:24:34 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int launch_shell(t_data *data, char **args)
 		if (!child_process_id)
 		{
 			if (execve(data->procces_name, args, data->env) == -1)
-				printf("%d", errno);
+				printf("%d", errno); //TODO обработать ошибку
 		}
 		else if (child_process_id < 0)
-			printf("%d", errno);
+			printf("%d", errno); //TODO обработать ошибку
 		else
 			wait_child_process_end(child_process_id);
 	}
@@ -53,6 +53,8 @@ int loop_shell(t_data *data)
 		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 		get_next_line(0, &line);
 		args = ft_split(line, ' ');
+		// args = parser(args);
+		// status = execute(args);
 		status = launch_shell(data, args);
 		free(line);
 		free(args);
@@ -64,8 +66,8 @@ int main(int argc, char **argv, char **env)
 {
 	t_data *data;
 
-	data = (t_data*)malloc(sizeof(t_data));
-	
+	if (!(data = (t_data*)malloc(sizeof(t_data))))
+		return (0); //TODO обработать ошибку
 	data->argv = argv;
 	data->env = env;
 	data->procces_name = argv[0];
