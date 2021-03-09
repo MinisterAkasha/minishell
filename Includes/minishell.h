@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/08 20:28:03 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 13:12:35 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,11 @@ typedef struct	s_data
 	char		*procces_name;
 }				t_data;
 
+typedef struct	s_exe_info
+{
+	int			(*exe_function)();
+	int			(*operator_exe_function)();
+	char		**args;
+}				t_exe_info;
 
 #endif
