@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:40:03 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 14:52:48 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 17:04:21 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ typedef struct	s_data
 	char		**argv;
 	char		*procces_name;
 }				t_data;
+
+typedef struct	s_parser_data
+{
+	char		*exe_str[7];
+	int			(*exe_func_arr[7])(char **);
+}				t_parser_data;
 
 
 
