@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 15:05:53 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 19:29:00 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 20:32:35 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int			exe_cd(char **args)
 }
 int			exe_pwd(char **args)
 {
-	write(1, "pwd\n", 4);
+	char dir[100];
+
+	ft_putendl_fd(getcwd(dir, 100), 1);
 	return (1);
 }
 int			exe_echo(char **args)
