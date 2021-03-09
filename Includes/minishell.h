@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 19:29:00 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 20:47:02 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	init_support_parsing_arr(t_support_parsing_data *data);
 ** support.c
 */
 void	free_2d_arr(char **arr);
+void	write_error_message(char *message_title, char *message_body, char *message_error);
 
 
 
