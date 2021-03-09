@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 19:01:54 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 19:20:41 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,11 @@ int launch_shell(t_data *data, char **args)
 	return (1);
 }
 
-
 int loop_shell(t_data *data)
 {
-	char *line;
-	char **args;
-	int status;
+	char			*line;
+	char			**args;
+	int				status;
 	t_parser_data	support;
 
 	status = 1;
@@ -57,6 +56,7 @@ int loop_shell(t_data *data)
 		args = ft_split(line, ' ');
 		status = execute(data, args, support);
 		free(line);
+		free_2d_arr(args);
 		free(args);
 	}
 	return (1);

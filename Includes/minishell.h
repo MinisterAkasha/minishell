@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 19:01:54 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 19:21:14 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,12 @@ int		launch_shell(t_data *data, char **args);
 ** init.c
 */
 void	init_support_parsing_arr(t_parser_data *data);
+
+/*
+** init.c
+*/
+void	free_2d_arr(char **arr);
+
+
 
 #endif
