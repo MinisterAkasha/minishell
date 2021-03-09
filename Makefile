@@ -12,17 +12,35 @@
 
 NAME = minishell
 CC = gcc
-INCLUDE = -I ./Includes
+INCLUDE = ./Includes
 LIBFT = ./src/utils/libft/libft.a
-#exlude libft -> -path ./src/utils/libft -prune -false -o
-C_FILES = $(shell find . -path ./src/utils/libft -prune -false -o -name "*.c")
+C_FILES = main.c get_next_line.c
+OBJDIR = ./src/obj
+OBJ = $(C_FILES:%.c=%.o)
+OFILES = $(addprefix $(OBJDIR)/, $(OBJ))
+
+vpath %.c ./src/utils/GNL ./src/utils ./src
+vpath %.o $(OBJDIR)
+vpath %.h $(INCLUDE)
 
 .PHONY: all clean fclean re libft
 
-all: libft $(NAME)
+all: $(OBJDIR) libft $(NAME)
 
 libft:
 	make -C ./src/utils/libft/
 
-$(NAME):
-	$(CC) $(INCLUDE) $(LIBFT) $(C_FILES)
+$(NAME): $(OBJ)
+	$(CC) -I$(INCLUDE) $(LIBFT) $(OFILES) -o $@
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+%.o: %.c
+	echo "Creating objects"
+	$(CC) -I$(INCLUDE) -c $^ -o $(OBJDIR)/$@
+
+clean:
+	rm -rf $(OBJDIR)
+
+
