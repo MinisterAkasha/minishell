@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 12:24:34 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 15:12:50 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int loop_shell(t_data *data)
 		get_next_line(0, &line);
 		args = ft_split(line, ' ');
 		// args = parser(args);
-		// status = execute(args);
-		status = launch_shell(data, args);
+		status = execute(data, args);
+		// status = launch_shell(data, args);
 		free(line);
 		free(args);
 	}
