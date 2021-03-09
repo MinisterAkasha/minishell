@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 15:12:50 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 16:49:19 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int launch_shell(t_data *data, char **args)
 {
 	pid_t child_process_id;
 
-	if (!ft_strcmp(args[0], "minishell")) {
+	if (!ft_strcmp(args[0], "./minishell")) {
 		child_process_id = fork();
 		if (!child_process_id)
 		{
@@ -53,9 +53,7 @@ int loop_shell(t_data *data)
 		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 		get_next_line(0, &line);
 		args = ft_split(line, ' ');
-		// args = parser(args);
 		status = execute(data, args);
-		// status = launch_shell(data, args);
 		free(line);
 		free(args);
 	}
