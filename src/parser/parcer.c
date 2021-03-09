@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 15:05:53 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 20:32:35 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 20:48:23 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,20 @@
 
 int			exe_cd(char **args)
 {
-	write(1, "cd\n", 3);
-	return (1);
+	char	*path;
+	int		res;
+
+	path = args[1];
+	res = chdir(path);
+	if (res == -1)
+		write_error_message("minishell: cd: ", path, ": No such file or directory");
+	return (res);
 }
 int			exe_pwd(char **args)
 {
 	char dir[100];
 
+	//TODO обработать ошибки
 	ft_putendl_fd(getcwd(dir, 100), 1);
 	return (1);
 }
@@ -52,9 +59,7 @@ int			exe_exit(char **args)
 
 int			unknown_command(char **args)
 {
-	write(1, "minishell: ", 12);
-	write(1, args[0], ft_strlen(args[0]));
-	write(1, ": command not found\n", 21);
+	write_error_message("minishell: ", args[0], ": command not found");
 	return (1);
 }
 
