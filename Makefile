@@ -13,13 +13,15 @@
 NAME = minishell
 CC = gcc
 INCLUDE = ./Includes
+LIBFT_PATH = ./src/utils/libft/
 LIBFT = ./src/utils/libft/libft.a
-C_FILES = main.c get_next_line.c
+C_FILES = $(shell find . -path ./src/utils/libft -prune -false -o -name "*.c" -execdir echo {} ';')
 OBJDIR = ./src/obj
 OBJ = $(C_FILES:%.c=%.o)
 OFILES = $(addprefix $(OBJDIR)/, $(OBJ))
+SRC_PATHS = ./src/utils/GNL ./src/utils ./src ./src/execute
 
-vpath %.c ./src/utils/GNL ./src/utils ./src
+vpath %.c $(SRC_PATHS)
 vpath %.o $(OBJDIR)
 vpath %.h $(INCLUDE)
 
@@ -42,5 +44,12 @@ $(OBJDIR):
 
 clean:
 	rm -rf $(OBJDIR)
+	cd $(LIBFT_PATH) && make clean
+
+fclean:
+	rm -f $(NAME)
+	cd $(LIBFT_PATH) && make fclean
+
+re: fclean all
 
 
