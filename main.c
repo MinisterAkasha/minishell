@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 19:20:41 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 19:29:00 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int loop_shell(t_data *data)
 	char			*line;
 	char			**args;
 	int				status;
-	t_parser_data	support;
+	t_support_parsing_data	support;
 
 	status = 1;
 	init_support_parsing_arr(&support);

@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 15:05:53 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 18:53:09 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/09 19:29:00 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int			unknown_command(char **args)
 }
 
 
-t_exe_info	parser(char **args, t_parser_data support)
+t_exe_info	parser(char **args, t_support_parsing_data support)
 {
 	t_exe_info		info;
 	int				i;
@@ -66,9 +66,9 @@ t_exe_info	parser(char **args, t_parser_data support)
 	info.exe_function = NULL;
 	info.operator_exe_function = NULL;
 	info.args = args;
-	while (i < sizeof(support.exe_str) / sizeof(char *))
+	while (i < sizeof(support.exe_str_arr) / sizeof(char *))
 	{
-		if (!ft_strcmp(args[0], support.exe_str[i]))
+		if (!ft_strcmp(args[0], support.exe_str_arr[i]))
 			info.exe_function = support.exe_func_arr[i];
 		i++;
 	}
