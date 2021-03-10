@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tilda <marvin@42.fr>                       +#+  +:+       +#+         #
+#    By: akasha <akasha@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/09 14:03:17 by tilda             #+#    #+#              #
-#    Updated: 2021/03/09 14:03:19 by tilda            ###   ########.fr        #
+#    Updated: 2021/03/10 12:48:51 by akasha           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,10 +50,10 @@ libft:
 	@echo "$(UNDERLINE)$(BLUE)Libft:$(TEXT_RESET)"
 	@make -C $(LIBFT_PATH)
 	@echo "$(GREEN)Libft has been compiled!\n"
-
-$(NAME): $(OBJ)
 	@echo "$(TEXT_RESET)"
 	@echo "$(UNDERLINE)$(BLUE)$(NAME):"
+
+$(NAME): $(OBJ)
 	@$(CC) -I$(INCLUDE) $(LIBFT) $(O_FILES) -o $@
 	@echo "$(GREEN)Success!"
 
