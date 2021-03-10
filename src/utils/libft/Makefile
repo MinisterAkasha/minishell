@@ -39,21 +39,21 @@ OBJ_BONUS = $(SRC_BONUS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ) $(INCLUDES)
-	ar rcs $@ $(OBJ)
-	ranlib $@
+	@ar rcs $@ $(OBJ)
+	@ranlib $@
 
 bonus: $(NAME) $(OBJ_BONUS)
-	ar rcs $(NAME) $(OBJ_BONUS)
-	ranlib $(NAME)
+	@ar rcs $(NAME) $(OBJ_BONUS)
+	@ranlib $(NAME)
 
 .c.o:
-	gcc $(FLAG) -I$(INCLUDES) -c $< -o ${<:.c=.o}
+	@gcc $(FLAG) -I$(INCLUDES) -c $< -o ${<:.c=.o}
 
 clean:
-	rm -rf $(OBJ) $(OBJ_BONUS) *.out *.h.gch
+	@rm -rf $(OBJ) $(OBJ_BONUS) *.out *.h.gch
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all
 
