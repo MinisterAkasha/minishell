@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 21:43:13 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 22:05:07 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/10 13:11:50 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ static int run_basic_path_cd(char *path)
 	return (res);
 }
 
-static int run_star_path_cd(char *path)
+static int run_star_path_cd(char *pwd, char *cd_path)
 {
 	DIR *dir;
 	struct dirent *entry;
 	int res;
 
-	if (!(dir = opendir(path)))
+	if (!(dir = opendir(pwd)))
 	{
 		// perror("diropen");
-        // exit(1);
+		// exit(1);
 		//TODO обработать ошибку opendir
 	}
 	entry = readdir(dir);
@@ -45,15 +45,22 @@ static int run_star_path_cd(char *path)
 
 int exe_cd(char **args)
 {
-	char *cd_path;
-	char path[100];
-	char *pwd;
-	int res;
-	
-	cd_path = args[1]; // TODO добавить trim();
-	if (!ft_strcmp(cd_path, "*"))
-		res = run_star_path_cd(getcwd(path, 100));
-	else
-		res = run_basic_path_cd(cd_path);
+	char	pwd_path[100];
+	char	**path;
+	int		res;
+	int		i;
+
+	path = ft_split(args[1], '/');
+	i = 0;
+	while (path[i])
+	{
+		if (!path[i])
+			return (1);
+		else if (!ft_strcmp(path[i], "*"))
+			res = run_star_path_cd(getcwd(pwd_path, 100), path[i]);
+		else
+			res = run_basic_path_cd(path[i]);
+		i++;
+	}
 	return (res);
 }
