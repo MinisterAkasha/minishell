@@ -21,6 +21,8 @@ OBJ = $(C_FILES:%.c=%.o)
 O_FILES = $(addprefix $(OBJDIR)/, $(OBJ))
 SRC_PATHS = ./src \
 			./src/execute \
+			./src/init \
+			./src/parser \
 			./src/utils \
 			./src/utils/GNL
 
@@ -47,7 +49,7 @@ libft:
 	@echo "$(TEXT_RESET)"
 	@echo "$(UNDERLINE)$(BLUE)Libft:$(TEXT_RESET)"
 	@make -C $(LIBFT_PATH)
-	@echo "$(GREEN)Lift has been compiled!\n"
+	@echo "$(GREEN)Libft has been compiled!\n"
 
 $(NAME): $(OBJ)
 	@echo "$(TEXT_RESET)"
