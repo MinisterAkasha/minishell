@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 21:43:13 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/10 13:11:50 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/10 13:17:47 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ int exe_cd(char **args)
 			res = run_basic_path_cd(path[i]);
 		i++;
 	}
+	free_2d_arr(path);
 	return (res);
 }
