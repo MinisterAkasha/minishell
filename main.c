@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 19:29:00 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/10 13:05:17 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int loop_shell(t_data *data)
 		status = execute(data, args, support);
 		free(line);
 		free_2d_arr(args);
-		free(args);
+		// free(args);
 	}
 	return (1);
 }

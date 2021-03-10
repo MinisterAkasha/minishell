@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 19:20:42 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 20:46:55 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/10 13:05:15 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	free_2d_arr(char **arr)
 		free(arr[i]);
 		i++;
 	}
+	free(arr);
 }
 
 void	write_error_message(char *message_title, char *message_body, char *message_error)
