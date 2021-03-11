@@ -19,7 +19,7 @@ int	execute(t_data *data, char **args, t_support_parsing_data support)
 	if (!args[0])
 		return (1);
 	info = parser(args, support);
-	info.exe_function(info.args);
+	info.exe_function(info.args, data->env);
 	if (!ft_strcmp(info.oper, ""))
 		return (1);
 	else

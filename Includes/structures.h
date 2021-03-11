@@ -15,7 +15,7 @@
 
 typedef struct	s_exe_info
 {
-	int			(*exe_function)(char **args);
+	int			(*exe_function)(char **args, char **env);
 	int			(*operator_exe_function)(char **args);
 	char		**args;
 	char		*oper;
@@ -31,7 +31,7 @@ typedef struct	s_data
 typedef struct	s_support_parsing_data
 {
 	char		*exe_str_arr[7];
-	int			(*exe_func_arr[7])(char **);
+	int			(*exe_func_arr[7])(char **, char **);
 	char		*operators_arr[5];
 }				t_support_parsing_data;
 

@@ -53,7 +53,7 @@ void	write_error_message(char *message_title, char *message_body, char *message_
 /*
 ** cd.c
 */
-int		exe_cd(char **args);
+int		exe_cd(char **args, char **env);
 
 
 #endif

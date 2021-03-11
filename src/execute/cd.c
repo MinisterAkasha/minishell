@@ -45,7 +45,7 @@ char *create_path(char *cd_path);
 // 	return (res);
 // }
 
-int exe_cd(char **args)
+int exe_cd(char **args, char **env)
 {
 	char **path;
 	char *full_path;

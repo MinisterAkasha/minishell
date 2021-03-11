@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int			exe_pwd(char **args)
+int			exe_pwd(char **args, char **env)
 {
 	char path[100];
 
@@ -20,34 +20,34 @@ int			exe_pwd(char **args)
 	ft_putendl_fd(getcwd(path, 100), 1);
 	return (1);
 }
-int			exe_echo(char **args)
+int			exe_echo(char **args, char **env)
 {
 	write(1, "echo\n", 5);
 	return (1);
 }
-int			exe_export(char **args)
+int			exe_export(char **args, char **env)
 {
 	write(1, "export\n", 7);
 	return (1);
 }
-int			exe_unset(char **args)
+int			exe_unset(char **args, char **env)
 {
 	write(1, "unset\n", 6);
 	return (1);
 }
-int			exe_env(char **args)
+int			exe_env(char **args, char **env)
 {
 	write(1, "env\n", 4);
 	return (1);
 }
-int			exe_exit(char **args)
+int			exe_exit(char **args, char **env)
 {
 	exit(1);
 	write(1, "exit\n", 5);
 	return (1);
 }
 
-int			unknown_command(char **args)
+int			unknown_command(char **args, char **env)
 {
 	write_error_message("minishell: ", args[0], ": command not found");
 	return (1);

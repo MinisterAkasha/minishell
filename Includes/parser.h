@@ -15,14 +15,14 @@
 
 # include "structures.h"
 
-int			exe_cd(char **args);
-int			exe_pwd(char **args);
-int			exe_echo(char **args);
-int			exe_export(char **args);
-int			exe_unset(char **args);
-int			exe_env(char **args);
-int			exe_exit(char **args);
-int			unknown_command(char **args);
+int			exe_cd(char **args, char **env);
+int			exe_pwd(char **args, char **env);
+int			exe_echo(char **args, char **env);
+int			exe_export(char **args, char **env);
+int			exe_unset(char **args, char **env);
+int			exe_env(char **args, char **env);
+int			exe_exit(char **args, char **env);
+int			unknown_command(char **args, char **env);
 
 t_exe_info	parser(char **args, t_support_parsing_data support);
 
