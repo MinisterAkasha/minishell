@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/10 14:44:22 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/11 17:47:45 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ void	write_error_message(char *message_title, char *message_body, char *message_
 ** cd.c
 */
 int		exe_cd(char **args, char **env);
+
+/*
+** env.c
+*/
+void	change_env(char *value, char *key, char ***env);
+char	**create_env(char **env);
 
 
 #endif

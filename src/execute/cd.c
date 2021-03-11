@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 21:43:13 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/11 16:14:19 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/11 17:46:52 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int exe_cd(char **args, char **env)
+int		exe_cd(char **args, char **env)
 {
 	int		res;
 	char	old_pwd[2048]; //TODO
@@ -25,6 +25,8 @@ int exe_cd(char **args, char **env)
 	else
 	{
 		getcwd(new_pwd, 2048);
+		change_env(old_pwd, "OLDPWD=", &env);
+		change_env(new_pwd, "PWD=", &env);
 	}
 	return (res);
 }
