@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:15:38 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/11 17:47:00 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/11 18:21:06 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ void	change_env(char *value, char *key, char ***env)
 {
 	int i;
 	char **tmp;
-	char **env_string;
-	char *new;
+	char *key_pattern;
 
 	i = 0;
 	tmp = *env;
@@ -26,7 +25,9 @@ void	change_env(char *value, char *key, char ***env)
 		if (!(ft_strncmp(tmp[i], key, ft_strlen(key))))
 		{
 			free(tmp[i]);
-			tmp[i] = ft_strjoin(key, value);
+			key_pattern = ft_strjoin(key, "=");
+			tmp[i] = ft_strjoin(key_pattern, value);
+			free(key_pattern);
 			return ;
 		}
 		i++;
