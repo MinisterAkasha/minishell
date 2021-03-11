@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.h                                          :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/09 13:23:49 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/11 16:16:19 by akasha           ###   ########.fr       */
+/*   Created: 2021/03/11 16:15:38 by akasha            #+#    #+#             */
+/*   Updated: 2021/03/11 16:20:23 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTE_H
-# define EXECUTE_H
+#include "minishell.h"
 
-int execute(t_data *data, char **args, t_support_parsing_data support);
-int exe_env(char **args, char **env);
+int exe_env(char **args, char **env)
+{
+	int i;
 
-#endif
+	i = 0;
+	while (env[i])
+	{
+		ft_putendl_fd(env[i], 1);
+		i++;
+	}
+	return (1);
+}
