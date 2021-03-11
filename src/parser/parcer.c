@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 15:05:53 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 21:44:18 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/11 16:16:47 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int			exe_unset(char **args, char **env)
 	write(1, "unset\n", 6);
 	return (1);
 }
-int			exe_env(char **args, char **env)
-{
-	write(1, "env\n", 4);
-	return (1);
-}
+// int			exe_env(char **args, char **env)
+// {
+// 	write(1, "env\n", 4);
+// 	return (1);
+// }
 int			exe_exit(char **args, char **env)
 {
 	exit(1);
