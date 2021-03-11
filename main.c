@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/10 13:05:17 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/11 12:18:34 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,37 +40,35 @@ int launch_shell(t_data *data, char **args)
 	return (1);
 }
 
-int loop_shell(t_data *data)
+int loop_shell(t_store *store)
 {
 	char			*line;
 	char			**args;
 	int				status;
-	t_support_parsing_data	support;
 
 	status = 1;
-	init_support_parsing_arr(&support);
+	init_support_parsing_arr(&store->support);
 	while (status)
 	{
 		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 		get_next_line(0, &line);
 		args = ft_split(line, ' ');
-		status = execute(data, args, support);
+		status = execute(&store->input, args, store->support);
 		free(line);
 		free_2d_arr(args);
-		// free(args);
 	}
 	return (1);
 }
 
 int main(int argc, char **argv, char **env)
 {
-	t_data *data;
+	t_store *store;
 
-	if (!(data = (t_data*)malloc(sizeof(t_data))))
+	if (!(store = (t_store*)malloc(sizeof(t_store))))
 		return (0); //TODO обработать ошибку
-	data->argv = argv;
-	data->env = env;
-	data->procces_name = argv[0];
-	loop_shell(data);
+	store->input.argv = argv;
+	store->input.env = env;
+	store->input.procces_name = argv[0];
+	loop_shell(store);
 	return (0);
 }
