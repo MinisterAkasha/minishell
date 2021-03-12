@@ -6,21 +6,11 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:12:44 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 17:05:43 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/12 17:34:31 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int get_arr_length(char **arr)
-{
-	int len;
-
-	len = 0;
-	while (arr[len])
-		len++;
-	return (len);
-}
 
 static int check_dir(char *path, char *arg)
 {
