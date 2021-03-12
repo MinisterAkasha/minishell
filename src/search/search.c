@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:12:44 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 13:29:05 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/12 13:31:48 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ static int	check_dir(char *path, char *arg)
 	entry = readdir(dir);
     while (entry != NULL)
 	{
-		entry = readdir(dir));
 		if (!ft_strcmp(arg, entry->d_name))
+		{
+			closedir(dir);
 			return (1);
+		}
+		entry = readdir(dir);
     };
     closedir(dir);
 	return (0);

@@ -6,7 +6,7 @@
 #    By: akasha <akasha@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/09 14:03:17 by tilda             #+#    #+#              #
-#    Updated: 2021/03/10 12:48:51 by akasha           ###   ########.fr        #
+#    Updated: 2021/03/11 22:13:04 by akasha           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ O_FILES = $(addprefix $(OBJDIR)/, $(OBJ))
 SRC_PATHS = ./src \
 			./src/execute \
 			./src/init \
+			./src/search \
 			./src/parser \
 			./src/utils \
 			./src/utils/GNL
