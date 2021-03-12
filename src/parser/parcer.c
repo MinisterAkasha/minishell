@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 15:05:53 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/11 16:16:47 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/12 14:25:14 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,6 @@ int			exe_exit(char **args, char **env)
 	return (1);
 }
 
-int			unknown_command(char **args, char **env)
-{
-	write_error_message("minishell: ", args[0], ": command not found");
-	return (1);
-}
-
-
 t_exe_info	parser(char **args, t_support_parsing_data support)
 {
 	t_exe_info		info;
@@ -70,7 +63,7 @@ t_exe_info	parser(char **args, t_support_parsing_data support)
 		i++;
 	}
 	if (!info.exe_function)
-		info.exe_function = unknown_command;
+		info.exe_function = NULL;
 	info.oper = "";
 	return (info);
 }

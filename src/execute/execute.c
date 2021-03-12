@@ -6,11 +6,17 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 13:33:06 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/12 14:24:57 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int			unknown_command(char **args, char **env)
+{
+	write_error_message("minishell: ", args[0], ": command not found");
+	return (1);
+}
 
 int	execute(t_data *data, char **args, t_support_parsing_data support)
 {
@@ -20,13 +26,12 @@ int	execute(t_data *data, char **args, t_support_parsing_data support)
 	if (!args[0])
 		return (1);
 	info = parser(args, support);
-	bin_exe_path = search(info.args[0], get_env_param("PATH",data->env));
-	if (!ft_strcmp(args[0], "./minishell"))
-		return (launch_shell(data, args));
-	info.exe_function(info.args, data->env);
-	if (!ft_strcmp(info.oper, ""))
-		return (1);
+	bin_exe_path = search(info.args[0], get_env_param("PATH", data->env));
+	if (info.exe_function)
+		info.exe_function(info.args, data->env);
+	else if (bin_exe_path)
+		launch_shell(data, args, bin_exe_path);
 	else
-		info.operator_exe_function(info.args);
-	return (launch_shell(data, args));
+		unknown_command(info.args, data->env);
+	return (1);
 }

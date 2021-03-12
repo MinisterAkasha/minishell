@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 13:38:05 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/12 13:47:32 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 ** loop_shell
 */
 void	wait_child_process_end(pid_t id);
-int		launch_shell(t_data *data, char **args);
+int		launch_shell(t_data *data, char **args, char *bin_path);
 
 /*
 ** init.c
