@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:12:44 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 17:34:31 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/12 17:49:42 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int check_dir(char *path, char *arg)
+static int	check_dir(char *path, char *arg)
 {
 	DIR *dir;
 	struct dirent *entry;
@@ -34,7 +34,7 @@ static int check_dir(char *path, char *arg)
 	return (0);
 }
 
-char	*get_command_from_path(char *path)
+static char	*get_command_from_path(char *path)
 {
 	char **splited_path;
 	char *command;
@@ -45,7 +45,7 @@ char	*get_command_from_path(char *path)
 	return (command);
 }
 
-static char *get_bin_path_command(char *arg, const char *$_path)
+static char	*get_bin_path_command(char *arg, const char *$_path)
 {
 	char	**bin_paths;
 	char	*current_path;
@@ -72,18 +72,23 @@ static char *get_bin_path_command(char *arg, const char *$_path)
 	return (current_path);
 }
 
-char *get_dir_path(char *pwd, char *arg)
+static char	*get_dir_path(char *pwd, char *arg)
 {
 	char	*dir_path;
 	char	*arg_path;
+	int		len;
 
-	arg_path = ft_substr(arg, 0, ft_strlen(arg) - ft_strlen(ft_strrchr(arg, '/')));
+	if (ft_strrchr(arg, '/'))
+		len = ft_strlen(arg) - ft_strlen(ft_strrchr(arg, '/'));
+	else
+		len = ft_strlen(arg);
+	arg_path = ft_substr(arg, 0, len);
 	dir_path = ft_strjoin(pwd, arg_path);
 	free(arg_path);
 	return (dir_path);
 }
 
-char	*get_relative_path(char *arg)
+static char	*get_relative_path(char *arg)
 {
 	char	*current_path;
 	char	*command;
@@ -104,7 +109,7 @@ char	*get_relative_path(char *arg)
 	return (current_path);
 }
 
-char *search(char *arg, const char *$_path)
+char		*search(char *arg, const char *$_path)
 {
 	char *current_path;
 
