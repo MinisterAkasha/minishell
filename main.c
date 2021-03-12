@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 13:45:59 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/12 14:59:52 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,16 @@ int launch_shell(t_data *data, char **args, char *bin_path)
 {
 	pid_t child_process_id;
 
-	// if (!ft_strcmp(args[0], "./minishell")) {
-		child_process_id = fork();
-		if (!child_process_id)
-		{
-			if (execve(bin_path, args, data->env) == -1)
-				printf("%d", errno); //TODO обработать ошибку
-		}
-		else if (child_process_id < 0)
-			printf("%d", errno); //TODO обработать ошибку
-		else
-			wait_child_process_end(child_process_id);
-	// }
+	child_process_id = fork();
+	if (!child_process_id)
+	{
+		if (execve(bin_path, args, data->env) == -1)
+			printf("EXECVE ERROR. CODE: %s\n", strerror(errno)); //TODO обработать ошибку
+	}
+	else if (child_process_id < 0)
+		printf("FORK ERROR: CODE: %d\n", errno); //TODO обработать ошибку
+	else
+		wait_child_process_end(child_process_id);
 	return (1);
 }
 

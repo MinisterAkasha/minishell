@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:12:44 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 14:29:07 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/12 14:58:49 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	check_dir(char *path, char *arg)
 	entry = readdir(dir);
     while (entry != NULL)
 	{
-		if (!ft_strcmp(arg, entry->d_name))
+		if (!(ft_strcmp(arg, entry->d_name)))
 		{
 			closedir(dir);
 			return (1);
@@ -42,18 +42,18 @@ char		*search(char *arg, const char *$_path)
 	int		i = 0;
 
 	bin_paths = ft_split(ft_strchr($_path, '=') + 1, ':');
+	current_path = NULL;
 	while (bin_paths[i])
 	{
+		with_slash = ft_strjoin(bin_paths[i], "/");
 		if (check_dir(bin_paths[i], arg))
 		{
-			with_slash = ft_strjoin(bin_paths[i], "/");
 			current_path = ft_strjoin(with_slash, arg);
-			free(with_slash);
-			free_2d_arr(bin_paths);
-			return (current_path);
+			break ;
 		}
 		i++;
 	}
+	free(with_slash);
 	free_2d_arr(bin_paths);
-	return (NULL);
+	return (current_path);
 }
