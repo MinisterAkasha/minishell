@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:15:38 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/11 18:21:06 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/12 12:47:58 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,23 @@ void	change_env(char *value, char *key, char ***env)
 		}
 		i++;
 	}
+}
+
+char	*get_env_param(char *key, char **env)
+{
+	int		i;
+	char	*env_param;
+
+	i = 0;
+	while (env[i])
+	{
+		if (!(ft_strncmp(env[i], key, ft_strlen(key))))
+		{
+			return env[i];
+		}
+		i++;
+	}
+	return "no matches found";//TODO
 }
 
 char	**create_env(char **env)
