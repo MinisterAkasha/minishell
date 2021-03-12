@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:12:44 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 13:35:46 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/12 14:29:07 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char		*search(char *arg, const char *$_path)
 			with_slash = ft_strjoin(bin_paths[i], "/");
 			current_path = ft_strjoin(with_slash, arg);
 			free(with_slash);
+			free_2d_arr(bin_paths);
 			return (current_path);
 		}
 		i++;
