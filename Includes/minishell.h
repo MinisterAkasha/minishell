@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 13:30:40 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/12 13:38:05 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <sys/errno.h>
-
-# include <sys/types.h>
 # include <sys/wait.h>
 
-#include <dirent.h>
+/*
+** required for working with directories
+*/
+# include <dirent.h>
+# include <sys/types.h>
 
 # include "structures.h"
 

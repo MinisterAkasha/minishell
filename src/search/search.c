@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:12:44 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 13:31:48 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/12 13:35:46 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ static int	check_dir(char *path, char *arg)
     struct dirent *entry;
 
     dir = opendir(path);
-    if (!dir) {
-        printf("Can't open");//TODO
-    };
+    if (!dir)
+        return (0);
 	entry = readdir(dir);
     while (entry != NULL)
 	{
@@ -30,7 +29,7 @@ static int	check_dir(char *path, char *arg)
 			return (1);
 		}
 		entry = readdir(dir);
-    };
+    }
     closedir(dir);
 	return (0);
 }
