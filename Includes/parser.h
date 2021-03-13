@@ -24,6 +24,8 @@ int			exe_env(char **args, char **env);
 int			exe_exit(char **args, char **env);
 int			unknown_command(char **args, char **env);
 
-t_exe_info	parser(char **args, t_support_parsing_data support);
+//t_exe_info	parser(char **args, t_support_parsing_data support);
+t_exe_info	*get_exe_info(char **args, t_store *store);
+char		**split(char const *s);
 
 #endif

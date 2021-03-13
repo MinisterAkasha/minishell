@@ -33,4 +33,9 @@ void init_support_parsing_arr(t_support_parsing_data *data)
 	data->operators_arr[2] = ">";
 	data->operators_arr[3] = ">>";
 	data->operators_arr[4] = "<";
+	data->operators_exe_func_arr[0] = &exe_oper_semicolon;
+	data->operators_exe_func_arr[1] = &exe_oper_pipe;
+	data->operators_exe_func_arr[2] = &exe_oper_redirect;
+	data->operators_exe_func_arr[3] = &exe_oper_double_redirect;
+	data->operators_exe_func_arr[4] = &exe_oper_reverse_redirect;
 }

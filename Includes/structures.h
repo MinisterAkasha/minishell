@@ -15,10 +15,10 @@
 
 typedef struct	s_exe_info
 {
-	int			(*exe_function)(char **args, char **env);
-	int			(*operator_exe_function)(char **args);
-	char		**args;
-	char		*oper;
+	int					(*exe_function)(char **args, char **env);
+	int					(*operator_exe_function)(char **args, char **env);
+	char				*arg;
+	struct s_exe_info	*next;
 }				t_exe_info;
 
 typedef struct	s_data
@@ -31,7 +31,8 @@ typedef struct	s_data
 typedef struct	s_support_parsing_data
 {
 	char		*exe_str_arr[7];
-	int			(*exe_func_arr[7])(char **, char **);
+	int			(*exe_func_arr[7])(char **args, char **env);
+	int			(*operators_exe_func_arr[5])(char **args, char **env);
 	char		*operators_arr[5];
 }				t_support_parsing_data;
 
@@ -39,7 +40,7 @@ typedef struct	s_store
 {
 	t_support_parsing_data	support;
 	t_data					input;
-	t_exe_info				exe_info;
+	t_exe_info				*exe_info;
 }				t_store;
 
 #endif

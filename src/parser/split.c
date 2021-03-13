@@ -15,7 +15,6 @@
 static t_list *word_count(char const *s, char **str)
 {
 	t_list	*head;
-	t_list	*tmp;
 	int		i;
 	int		len;
 	char	separator;
@@ -40,12 +39,6 @@ static t_list *word_count(char const *s, char **str)
 			space = 1;
 		if (start_index != -1)
 		{
-//			ft_putendl_fd("Add index:", 1);
-//			ft_putchar_fd(tmp_str[i], 1);
-//			ft_putchar_fd('\n', 1);
-//			ft_putendl_fd("Add value index:", 1);
-//			ft_putnbr_fd(start_index, 1);
-//			ft_putchar_fd('\n', 1);
 			ft_lstadd_back(&head, ft_lstnew(start_index));
 			start_index = -1;
 		}
@@ -55,9 +48,6 @@ static t_list *word_count(char const *s, char **str)
 		else if (separator == tmp_str[i] || space == 1 || tmp_str[i + 1] == '\0' ||
 				(tmp_str[i + 1] == ' ' && separator == 'f'))
 		{
-//			ft_putendl_fd("Add len:", 1);
-//			ft_putnbr_fd(len, 1);
-//			ft_putchar_fd('\n', 1);
 			ft_lstadd_back(&head, ft_lstnew(len));
 			len = 0;
 			separator = 'f';
@@ -74,6 +64,18 @@ static t_list *word_count(char const *s, char **str)
 	return head;
 }
 
+void print_2d_arr(char **arr)
+{
+	size_t i;
+	i = 0;
+	while (arr[i])
+	{
+		ft_putstr_fd(arr[i], 1);
+		ft_putstr_fd("|->|", 1);
+		i++;
+	}
+}
+
 char	**split(char const *s)
 {
 	t_list	*data_words;
@@ -88,9 +90,7 @@ char	**split(char const *s)
 	i = 0;
 	data_words = word_count(s, &str);
 	copy_data_words = data_words;
-//	ft_putendl_fd(str, 1);
 	len_arr = ft_lstsize(data_words) / 2;
-//	ft_putnbr_fd((int)len_arr, 1);
 	if (!(splited_str = (char **)ft_calloc( len_arr + 1, sizeof (char *))))
 		return (0);
 	while (i < len_arr)
@@ -102,54 +102,46 @@ char	**split(char const *s)
 		splited_str[i] = ft_substr(str, start, len_str);
 		i++;
 	}
+	print_2d_arr(splited_str);
 	return (splited_str);
 }
 
-void print_2d_arr(char **arr)
-{
-	size_t i;
-	i = 0;
-	while (arr[i])
-	{
-		ft_putstr_fd(arr[i], 1);
-		ft_putstr_fd("|->|", 1);
-		i++;
-	}
-}
 
-int main(void){
 
-	char	**tmp;
-	char	*tests []= {"echo 'hello world'",
-						"echo hello world     ",
-						"echo  hel   lo world   ",
-						"echo \"hello world\"",
-						"echo 1\"2\"3\"4\"5\"6\"7",
-						"echo \"1\"2\"3\"4\"5\"6\"7\"",
-						"echo \"hello          world\"",
-						"echo \"first      word\" '   second  \"  \"   word' '|' | pwd",
-						"echo 123\"'1''2'\"3\"\"",
-						"echo 123             \"1  23\"",
-						"echo '123'\"456\"",
-						"echo '123''456'",
-						"echo 123\"456\"",
-						"echo '|'",
-						"echo |",
-						"      echo 'pam' ",
-						};
-	int	i;
-	i = 0;
-	while (i < 16)
-	{
-		ft_putendl_fd("\n", 1);
-		tmp = split(tests[i]);
-		ft_putnbr_fd(i, 1);
-		ft_putchar_fd(')', 1);
-		ft_putendl_fd(tests[i], 1);
-		print_2d_arr(tmp);
-		free_2d_arr(tmp);
-		i++;
-	}
-
-	return (0);
-}
+//TEST
+//int main(void){
+//
+//	char	**tmp;
+//	char	*tests []= {"echo hello world     ",
+//						"echo 'hello world'",
+//						"echo  hel   lo world   ",
+//						"echo \"hello world\"",
+//						"echo 1\"2\"3\"4\"5\"6\"7",
+//						"echo \"1\"2\"3\"4\"5\"6\"7\"",
+//						"echo \"hello          world\"",
+//						"echo \"first      word\" '   second  \"  \"   word' '|' | pwd",
+//						"echo 123\"'1''2'\"3\"\"",
+//						"echo 123             \"1  23\"",
+//						"echo '123'\"456\"",
+//						"echo '123''456'",
+//						"echo 123\"456\"",
+//						"echo '|'",
+//						"echo |",
+//						"      echo 'pam' ",
+//						};
+//	int	i;
+//	i = 0;
+//	while (i < 16)
+//	{
+//		ft_putendl_fd("\n", 1);
+//		tmp = split(tests[i]);
+//		ft_putnbr_fd(i, 1);
+//		ft_putchar_fd(')', 1);
+//		ft_putendl_fd(tests[i], 1);
+//		print_2d_arr(tmp);
+//		free_2d_arr(tmp);
+//		i++;
+//	}
+//
+//	return (0);
+//}

@@ -24,6 +24,7 @@ SRC_PATHS = ./src \
 			./src/init \
 			./src/parser \
 			./src/utils \
+			./src/operators \
 			./src/utils/GNL
 
 vpath %.c $(SRC_PATHS)
