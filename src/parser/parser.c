@@ -103,6 +103,28 @@ static	char *cut_seporator(char *arg, char separator)
 	return (ft_strjoin(first, second));
 }
 
+static	void concat_arg(t_exe_info	**exe_info, char *arg)
+{
+	char	separator;
+	char	*copy_exe_arg;
+	t_exe_info	*copy_exe_info;
+
+	copy_exe_info = *exe_info;
+	separator = get_separator(arg);
+	copy_exe_arg = ft_strdup(copy_exe_info->arg);
+	free(copy_exe_info->arg);
+	if (separator == 'f')
+		copy_exe_info->arg = ft_strjoin(copy_exe_arg, arg); // check if first arg is "" or NULL
+	else
+	{
+		cut_seporator(arg, separator);
+		copy_exe_info->arg = ft_strjoin(copy_exe_arg, cut_seporator(arg, separator));
+	}
+	free(copy_exe_arg);
+	//clean ' " in str
+	//concatenate with str
+}
+
 static	int init_exec_func(t_exe_info	**exe_info, t_support_parsing_data support, char *arg)
 {
 	int				i;
@@ -139,17 +161,7 @@ static	int init_oper_exec_func(t_exe_info	**exe_info, t_support_parsing_data sup
 	while (i < sizeof(support.operators_arr) / sizeof(char *))
 	{
 		if (!ft_strcmp(arg, support.operators_arr[i]))
-		{
 			return (i);
-			copy_exe_info = copy_exe_info->next;
-			if (!(copy_exe_info = (t_exe_info *)malloc(sizeof(t_exe_info))))
-				return (0);
-			copy_exe_info->exe_function = NULL;
-			copy_exe_info->arg = ft_strdup("");;
-			copy_exe_info->next = NULL;
-			copy_exe_info->operator_exe_function = support.operators_exe_func_arr[i];
-			i = sizeof(support.operators_arr) / sizeof(char *);
-		}
 		i++;
 	}
 	if (!copy_exe_info->operator_exe_function)
@@ -157,43 +169,14 @@ static	int init_oper_exec_func(t_exe_info	**exe_info, t_support_parsing_data sup
 	return (-2);
 }
 
-static	void concat_arg(t_exe_info	**exe_info, char *arg)
-{
-	char	separator;
-	char	*copy_exe_arg;
-	t_exe_info	*copy_exe_info;
-
-	copy_exe_info = *exe_info;
-	separator = get_separator(arg);
-	copy_exe_arg = ft_strdup(copy_exe_info->arg);
-	free(copy_exe_info->arg);
-	if (separator == 'f')
-		copy_exe_info->arg = ft_strjoin(copy_exe_arg, arg); // check if first arg is "" or NULL
-	else
-	{
-		cut_seporator(arg, separator);
-		copy_exe_info->arg = ft_strjoin(copy_exe_arg, cut_seporator(arg, separator));
-	}
-	free(copy_exe_arg);
-	//clean ' " in str
-	//concatenate with str
-}
-
-
-
-t_exe_info	*get_exe_info(char **args, t_store *store)
+void		get_exe_info(char **args, t_store *store, t_exe_info **exe_info)
 {
 	t_exe_info	*copy_exe_info;
 	size_t		i;
 	int			index_oper;
 
 	i = 0;
-	if (!(store->exe_info = (t_exe_info *)malloc(sizeof(t_exe_info))))
-		return (0);
-	store->exe_info->next = NULL;
-	store->exe_info->exe_function = NULL;
-	store->exe_info->arg = ft_strdup("");
-	copy_exe_info = store->exe_info;
+	copy_exe_info = *exe_info;
 	while(args[i])
 	{
 		ft_putstr_fd("i : ", 1);
@@ -208,17 +191,21 @@ t_exe_info	*get_exe_info(char **args, t_store *store)
 		{
 			i++;
 			if (!args[i])
-				break ;
-			if ((index_oper = init_oper_exec_func(&copy_exe_info, store->support, args[i])) >= 0)
 			{
 				ft_putstr_fd("Аргумент: ", 1);
 				ft_putendl_fd(copy_exe_info->arg, 1);
+				break ;
+			}
+			if ((index_oper = init_oper_exec_func(&copy_exe_info, store->support, args[i])) >= 0)//TODO -1 or -2
+			{
+				ft_putstr_fd("Аргумент: ", 1);
+				ft_putendl_fd(copy_exe_info->arg, 1);
+				if (!(copy_exe_info->next = (t_exe_info *)malloc(sizeof(t_exe_info))))
+					return ;
 				copy_exe_info = copy_exe_info->next;
-				if (!(copy_exe_info = (t_exe_info *)malloc(sizeof(t_exe_info))))
-					return (0);
-				copy_exe_info->exe_function = NULL;
-				copy_exe_info->arg = ft_strdup("");;
 				copy_exe_info->next = NULL;
+				copy_exe_info->exe_function = NULL;
+				copy_exe_info->arg = ft_strdup("");
 				ft_putstr_fd("The operator for next command: ", 1);
 				ft_putendl_fd(args[i], 1);
 				copy_exe_info->operator_exe_function = store->support.operators_exe_func_arr[index_oper];
@@ -229,13 +216,12 @@ t_exe_info	*get_exe_info(char **args, t_store *store)
 		}
 		i++;
 	}
-
-	return (store->exe_info);
 }
 
 int main()
 {
 	t_exe_info *test;
+	t_exe_info *fucking_test;
 	char *str = "  echo 111'111' | cd papka > echo \"222\"222 >> 'echo' \"333333\" ;    echo '' | echo 444444 ";
 	char **splited_str;
 	t_store *store;
@@ -243,17 +229,22 @@ int main()
 	store = (t_store *)malloc(sizeof(t_store));
 	init_support_parsing_arr(&store->support);
 	splited_str = split(str);
-	test = get_exe_info(splited_str, store);
-	while(test)
+
+	store->exe_info = (t_exe_info *)malloc(sizeof (t_exe_info));
+	store->exe_info->next = NULL;
+	store->exe_info->exe_function = NULL;
+	store->exe_info->arg = ft_strdup("");
+	get_exe_info(splited_str, store, &store->exe_info);
+
+	while(store->exe_info)
 	{
 		printf("\n====$$$$====\n");
-		printf("test->arg: %s\n",test->arg);
-		printf("test->exe_function: %p\n",test->exe_function);
-		printf("test->operator_exe_function: %p\n",test->operator_exe_function);
+		printf("store->exe_info->arg: %s\n",store->exe_info->arg);
+		printf("store->exe_info->exe_function: %p\n",store->exe_info->exe_function);
+		printf("store->exe_info->operator_exe_function: %p\n",store->exe_info->operator_exe_function);
 		printf("\n");
-		test = test->next;
+		store->exe_info = store->exe_info->next;
 	}
-	ft_putendl_fd("Here", 1);
 	return (0);
 }
 
