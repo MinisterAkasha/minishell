@@ -12,101 +12,106 @@
 
 #include "minishell.h"
 
-static t_list *word_count(char const *s, char **str)
+static	int		skip_spaces(char *str, char separator, int i)
 {
-	t_list	*head;
-	int		i;
-	int		len;
-	char	separator;
-	int		start_index;
-	int		space;
-
-	head = NULL;
-	i = 0;
-	len = 0;
-	separator = 'f';
-	start_index = -1;
-	*str = ft_strtrim(s, " ");
-	while((*str)[i])
+	if ((str[i] == ' ' && separator == 'f'))
 	{
-		if(len == 0)
-			start_index = i;
-		if ((*str)[i] == ' ' && space == 0 && separator == 'f')
-			space = 1;
-		if (start_index != -1)
-		{
-			ft_lstadd_back(&head, ft_lstnew(start_index));
-			start_index = -1;
-		}
-		len++;
-		if (separator == 'f' && ((*str)[i] == '"' || (*str)[i] == '\''))
-			separator = (*str)[i];
-		else if (separator == (*str)[i] || space == 1 || (*str)[i + 1] == '\0' ||
-				((*str)[i + 1] == ' ' && separator == 'f'))
-		{
-			ft_lstadd_back(&head, ft_lstnew(len));
-			len = 0;
-			separator = 'f';
-		}
-		if (space != 0)
-		{
-			while((*str)[i] == ' ' && (*str)[i])
-				i++;
-			space = 0;
-		}
-		else
+		while (str[i] == ' ' && str[i])
 			i++;
 	}
-	return head;
+	else
+		i++;
+	return (i);
 }
 
-void print_2d_arr(char **arr)
+/*
+** Create a linked list 'head'
+** Which has data to cut the 'str' by quotes and spaces
+** Structure of the linked:
+** start_index -> len -> start_index -> len -> ...
+*/
+
+static	void	word_count(char **str, t_list **head)
 {
-	size_t i;
+	int		i;
+	int		len;
+	char	sep;
+
 	i = 0;
-	while (arr[i])
+	len = 0;
+	sep = 'f';
+	ft_lstadd_back(head, ft_lstnew(i));
+	while ((*str)[i])
 	{
-		ft_putstr_fd(arr[i], 1);
-		ft_putstr_fd("|->|", 1);
-		i++;
+		len++;
+		if (sep == 'f' && ((*str)[i] == '"' || (*str)[i] == '\''))
+			sep = (*str)[i];
+		else if (((*str)[i] == ' ' && sep == 'f') || (*str)[i + 1] == '\0' ||
+			((*str)[i + 1] == ' ' && sep == 'f') || sep == (*str)[i])
+		{
+			ft_lstadd_back(head, ft_lstnew(len));
+			len = 0;
+			sep = 'f';
+		}
+		i = skip_spaces((*str), sep, i);
+		if (len == 0)
+			ft_lstadd_back(head, ft_lstnew(i));
 	}
 }
 
-char	**split(char const *s)
+static	char	**init_arr_2d(char *str, t_list *copy_dw)
+{
+	int		i;
+	int		len_arr;
+	char	**arr_2d;
+
+	len_arr = ft_lstsize(copy_dw) / 2;
+	if (!(arr_2d = (char **)ft_calloc(len_arr + 1, sizeof(char *))))
+		return (0);
+	i = 0;
+	while (i < len_arr)
+	{
+		arr_2d[i] = ft_substr(str, copy_dw->content, copy_dw->next->content);
+		copy_dw = copy_dw->next->next;
+		i++;
+	}
+	return (arr_2d);
+}
+
+char			**split(char const *s)
 {
 	t_list	*data_words;
 	t_list	*copy_data_words;
-	char **splited_str;
-	int		len_arr;
+	char	**arr_2d;
 	char	*str;
-	int		start;
-	int		len_str;
-	int		i;
 
-	i = 0;
-	data_words = word_count(s, &str);
+	str = ft_strtrim(s, " ");
+	data_words = NULL;
+	word_count(&str, &data_words);
 	copy_data_words = data_words;
-	len_arr = ft_lstsize(data_words) / 2;
-	if (!(splited_str = (char **)ft_calloc( len_arr + 1, sizeof (char *))))
-		return (0);
-	while (i < len_arr)
-	{
-		start = copy_data_words->content;
-		copy_data_words = copy_data_words->next;
-		len_str = copy_data_words->content;
-		copy_data_words = copy_data_words->next;
-		splited_str[i] = ft_substr(str, start, len_str);
-		i++;
-	}
+	arr_2d = init_arr_2d(str, copy_data_words);
 	lstclear(&data_words);
 	free(str);
-	return (splited_str);
+	return (arr_2d);
 }
 
 //TEST
+//void print_2d_arr(char **arr)
+//{
+//	size_t i;
+//	i = 0;
+//	while (arr[i])
+//	{
+//		ft_putstr_fd(arr[i], 1);
+//		ft_putstr_fd("|->|", 1);
+//		i++;
+//	}
+//}
+
 //int main(void){
 //
 //	char	**tmp;
+//
 //	char	*tests []= {"echo hello world     ",
 //						"echo 'hello world'",
 //						"echo  hel   lo world   ",
@@ -126,6 +131,7 @@ char	**split(char const *s)
 //						};
 //	int	i;
 //	i = 0;
+//	tmp = split(tests[3]);
 //	while (i < 16)
 //	{
 //		ft_putendl_fd("\n", 1);
@@ -136,11 +142,6 @@ char	**split(char const *s)
 //		print_2d_arr(tmp);
 //		free_2d_arr(tmp);
 //		i++;
-//	}
-//
-//	while (1)
-//	{
-//
 //	}
 //	return (0);
 //}
