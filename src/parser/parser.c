@@ -70,39 +70,37 @@ static	char get_separator(char *arg)
 }
 
 //check string ""
-static	char *cut_seporator(char *arg, char separator)
+static	void cut_seporator(char **arg, char separator)
 {
 	int		i;
 	int		len;
 	char	*first;
 	char	*second;
-	char	*res_str;
 	int		start_index;
 
 	i = 0;
-	len = 0;
-	if (separator == arg[0])
+	first = 0;
+	if (separator == (*arg)[0])
 		i++;
-	start_index = i;
-	while (arg[i] != separator && arg[i])
+	while (1)
 	{
-		len++;
+		len = 0;
+		start_index = i;
+		while ((*arg)[i] != separator && (*arg)[i])
+		{
+			len++;
+			i++;
+		}
+		if (first != 0)
+			break;
+		first = ft_substr((*arg), start_index, len);
 		i++;
 	}
-	first = ft_substr(arg, start_index, len);
-	len = 0;
-	i++;
-	start_index = i;
-	while(arg[i] != separator && arg[i])
-	{
-		len++;
-		i++;
-	}
-	second = ft_substr(arg, start_index, len);
-	res_str = ft_strjoin(first, second);
+	second = ft_substr((*arg), start_index, len);
+	free((*arg));
+	(*arg) = ft_strjoin(first, ft_substr((*arg), start_index, len));
 	free(first);
 	free(second);
-	return (res_str);
 }
 
 static	void concat_arg(t_exe_info	**exe_info, char *arg)
@@ -118,7 +116,10 @@ static	void concat_arg(t_exe_info	**exe_info, char *arg)
 	if (separator == 'f')
 		copy_exe_info->arg = ft_strjoin(copy_exe_arg, arg); // check if first arg is "" or NULL
 	else
-		copy_exe_info->arg = ft_strjoin(copy_exe_arg, cut_seporator(arg, separator));
+	{
+		cut_seporator(&arg, separator);
+		copy_exe_info->arg = ft_strjoin(copy_exe_arg, arg);
+	}
 	free(copy_exe_arg);
 }
 
@@ -129,15 +130,15 @@ static	int init_exec_func(t_exe_info	**exe_info, t_support_parsing_data support,
 	t_exe_info	*copy_exe_info;
 
 	copy_exe_info = *exe_info;
-	str = cut_seporator(arg, get_separator(arg));
+	cut_seporator(&arg, get_separator(arg));
 	i = 0;
 	while (i < sizeof(support.exe_str_arr) / sizeof(char *))
 	{
-		if (!ft_strcmp(str, support.exe_str_arr[i]))
+		if (!ft_strcmp(arg, support.exe_str_arr[i]))
 			copy_exe_info->exe_function = support.exe_func_arr[i];
 		i++;
 	}
-	free(str);
+	free(arg);
 	if (!copy_exe_info->exe_function)
 		return (0);
 	return (1);
@@ -198,7 +199,7 @@ int main()
 {
 	t_exe_info *test;
 	t_exe_info *fucking_test;
-	char *str = "  echo 111'111' | cd papka > echo \"222\"222 >> 'echo' \"333333\" ;    echo '' |  echo 444444 ";
+	char *str = "  echo 111'111' | cd papka > echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' |  echo 444444";
 	char **splited_str;
 	t_store *store;
 
