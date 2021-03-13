@@ -31,3 +31,17 @@ void	write_error_message(char *message_title, char *message_body, char *message_
 	ft_putstr_fd(message_body, 1);
 	ft_putendl_fd(message_error, 1);
 }
+
+void	lstclear(t_list **lst)
+{
+	t_list	*cur;
+
+	if (!lst)
+		return ;
+	while (*lst)
+	{
+		cur = *lst;
+		*lst = (*lst)->next;
+		free(cur);
+	}
+}

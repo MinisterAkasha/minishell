@@ -196,42 +196,42 @@ void		get_exe_info(char **args, t_store *store, t_exe_info **exe_info)
 	}
 }
 
-int main()
-{
-	t_exe_info *test;
-	t_exe_info *fucking_test;
-	char *str = "  echo 111'111' | cd papka > echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' |  echo 444444";
-	char **splited_str;
-	t_store *store;
-
-	if (!(store = (t_store *)malloc(sizeof(t_store))))
-		return (0);
-	init_support_parsing_arr(&store->support);
-	splited_str = split(str);
-
-	if (!(store->exe_info = (t_exe_info *)malloc(sizeof (t_exe_info))))
-		return (0);
-	store->exe_info->next = NULL;
-	store->exe_info->exe_function = NULL;
-	store->exe_info->operator_exe_function = NULL;
-	store->exe_info->arg = ft_strdup("");
-	get_exe_info(splited_str, store, &store->exe_info);
-
-	while(store->exe_info)
-	{
-		printf("\n====$$$$====\n");
-		printf("store->exe_info->arg: %s\n",store->exe_info->arg);
-		printf("store->exe_info->exe_function: %p\n",store->exe_info->exe_function);
-		printf("store->exe_info->operator_exe_function: %p\n",store->exe_info->operator_exe_function);
-		printf("\n");
-		store->exe_info = store->exe_info->next;
-	}
-//	while (1)
-//	{
+//int main()
+//{
+//	t_exe_info *test;
+//	t_exe_info *fucking_test;
+//	char *str = "  echo 111'111' | cd papka > echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' |  echo 444444";
+//	char **splited_str;
+//	t_store *store;
 //
+//	if (!(store = (t_store *)malloc(sizeof(t_store))))
+//		return (0);
+//	init_support_parsing_arr(&store->support);
+//	splited_str = split(str);
+//
+//	if (!(store->exe_info = (t_exe_info *)malloc(sizeof (t_exe_info))))
+//		return (0);
+//	store->exe_info->next = NULL;
+//	store->exe_info->exe_function = NULL;
+//	store->exe_info->operator_exe_function = NULL;
+//	store->exe_info->arg = ft_strdup("");
+//	get_exe_info(splited_str, store, &store->exe_info);
+//
+//	while(store->exe_info)
+//	{
+//		printf("\n====$$$$====\n");
+//		printf("store->exe_info->arg: %s\n",store->exe_info->arg);
+//		printf("store->exe_info->exe_function: %p\n",store->exe_info->exe_function);
+//		printf("store->exe_info->operator_exe_function: %p\n",store->exe_info->operator_exe_function);
+//		printf("\n");
+//		store->exe_info = store->exe_info->next;
 //	}
-	return (0);
-}
+////	while (1)
+////	{
+////
+////	}
+//	return (0);
+//}
 
 
 //

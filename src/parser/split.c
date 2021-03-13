@@ -20,22 +20,18 @@ static t_list *word_count(char const *s, char **str)
 	char	separator;
 	int		start_index;
 	int		space;
-	char	*tmp_str;
 
-	if (!(head = (t_list *)malloc(sizeof(t_list))))
-		return (0);
 	head = NULL;
 	i = 0;
 	len = 0;
 	separator = 'f';
 	start_index = -1;
 	*str = ft_strtrim(s, " ");
-	tmp_str = *str;
-	while(tmp_str[i])
+	while((*str)[i])
 	{
 		if(len == 0)
 			start_index = i;
-		if (tmp_str[i] == ' ' && space == 0 && separator == 'f')
+		if ((*str)[i] == ' ' && space == 0 && separator == 'f')
 			space = 1;
 		if (start_index != -1)
 		{
@@ -43,10 +39,10 @@ static t_list *word_count(char const *s, char **str)
 			start_index = -1;
 		}
 		len++;
-		if (separator == 'f' && (tmp_str[i] == '"' || tmp_str[i] == '\''))
-			separator = tmp_str[i];
-		else if (separator == tmp_str[i] || space == 1 || tmp_str[i + 1] == '\0' ||
-				(tmp_str[i + 1] == ' ' && separator == 'f'))
+		if (separator == 'f' && ((*str)[i] == '"' || (*str)[i] == '\''))
+			separator = (*str)[i];
+		else if (separator == (*str)[i] || space == 1 || (*str)[i + 1] == '\0' ||
+				((*str)[i + 1] == ' ' && separator == 'f'))
 		{
 			ft_lstadd_back(&head, ft_lstnew(len));
 			len = 0;
@@ -54,7 +50,7 @@ static t_list *word_count(char const *s, char **str)
 		}
 		if (space != 0)
 		{
-			while(tmp_str[i] == ' ' && tmp_str[i])
+			while((*str)[i] == ' ' && (*str)[i])
 				i++;
 			space = 0;
 		}
@@ -102,11 +98,10 @@ char	**split(char const *s)
 		splited_str[i] = ft_substr(str, start, len_str);
 		i++;
 	}
-	print_2d_arr(splited_str);
+	lstclear(&data_words);
+	free(str);
 	return (splited_str);
 }
-
-
 
 //TEST
 //int main(void){
@@ -143,5 +138,9 @@ char	**split(char const *s)
 //		i++;
 //	}
 //
+//	while (1)
+//	{
+//
+//	}
 //	return (0);
 //}
