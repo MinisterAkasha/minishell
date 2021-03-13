@@ -76,12 +76,11 @@ static	char *cut_seporator(char *arg, char separator)
 	int		len;
 	char	*first;
 	char	*second;
+	char	*res_str;
 	int		start_index;
 
 	i = 0;
 	len = 0;
-	first = 0;
-	second = 0;
 	if (separator == arg[0])
 		i++;
 	start_index = i;
@@ -91,16 +90,19 @@ static	char *cut_seporator(char *arg, char separator)
 		i++;
 	}
 	first = ft_substr(arg, start_index, len);
-	len = -1;
+	len = 0;
 	i++;
 	start_index = i;
-	while(arg[i])
+	while(arg[i] != separator && arg[i])
 	{
 		len++;
 		i++;
 	}
 	second = ft_substr(arg, start_index, len);
-	return (ft_strjoin(first, second));
+	res_str = ft_strjoin(first, second);
+	free(first);
+	free(second);
+	return (res_str);
 }
 
 static	void concat_arg(t_exe_info	**exe_info, char *arg)
@@ -116,14 +118,8 @@ static	void concat_arg(t_exe_info	**exe_info, char *arg)
 	if (separator == 'f')
 		copy_exe_info->arg = ft_strjoin(copy_exe_arg, arg); // check if first arg is "" or NULL
 	else
-	{
-		ft_putendl_fd("Cutted str:", 1);
-		ft_putendl_fd(cut_seporator(arg, separator), 1);
 		copy_exe_info->arg = ft_strjoin(copy_exe_arg, cut_seporator(arg, separator));
-	}
 	free(copy_exe_arg);
-	//clean ' " in str
-	//concatenate with str
 }
 
 static	int init_exec_func(t_exe_info	**exe_info, t_support_parsing_data support, char *arg)
@@ -138,25 +134,19 @@ static	int init_exec_func(t_exe_info	**exe_info, t_support_parsing_data support,
 	while (i < sizeof(support.exe_str_arr) / sizeof(char *))
 	{
 		if (!ft_strcmp(str, support.exe_str_arr[i]))
-		{
-			ft_putstr_fd("\nThe added func -> : ", 1);
-			ft_putendl_fd(support.exe_str_arr[i], 1);
 			copy_exe_info->exe_function = support.exe_func_arr[i];
-		}
 		i++;
 	}
 	free(str);
 	if (!copy_exe_info->exe_function)
 		return (0);
-	return 1;
+	return (1);
 }
 
 static	int init_oper_exec_func(t_exe_info	**exe_info, t_support_parsing_data support, char *arg)
 {
 	int		i;
-	t_exe_info	*copy_exe_info;
 
-	copy_exe_info = *exe_info;
 	i = 0;
 	while (i < sizeof(support.operators_arr) / sizeof(char *))
 	{
@@ -164,9 +154,7 @@ static	int init_oper_exec_func(t_exe_info	**exe_info, t_support_parsing_data sup
 			return (i);
 		i++;
 	}
-//	if (!copy_exe_info->operator_exe_function)
-//		return (-1);
-	return (-2);
+	return (-1);
 }
 
 void		get_exe_info(char **args, t_store *store, t_exe_info **exe_info)
@@ -179,11 +167,6 @@ void		get_exe_info(char **args, t_store *store, t_exe_info **exe_info)
 	copy_exe_info = *exe_info;
 	while(args[i])
 	{
-		ft_putstr_fd("i : ", 1);
-		ft_putnbr_fd(i,1);
-		ft_putendl_fd("", 1);
-		ft_putstr_fd("args[i] ", 1);
-		ft_putendl_fd(args[i], 1);
 		index_oper = -1;
 		if (!init_exec_func(&copy_exe_info, store->support, args[i]))
 			copy_exe_info->exe_function = NULL;
@@ -191,15 +174,9 @@ void		get_exe_info(char **args, t_store *store, t_exe_info **exe_info)
 		{
 			i++;
 			if (!args[i])
-			{
-				ft_putstr_fd("Аргумент: ", 1);
-				ft_putendl_fd(copy_exe_info->arg, 1);
 				break ;
-			}
 			if ((index_oper = init_oper_exec_func(&copy_exe_info, store->support, args[i])) >= 0)//TODO -1 or -2
 			{
-				ft_putstr_fd("Аргумент: ", 1);
-				ft_putendl_fd(copy_exe_info->arg, 1);
 				if (!(copy_exe_info->next = (t_exe_info *)malloc(sizeof(t_exe_info))))
 					return ;
 				copy_exe_info = copy_exe_info->next;
@@ -207,8 +184,6 @@ void		get_exe_info(char **args, t_store *store, t_exe_info **exe_info)
 				copy_exe_info->exe_function = NULL;
 				copy_exe_info->operator_exe_function = NULL;
 				copy_exe_info->arg = ft_strdup("");
-				ft_putstr_fd("The operator for next command: ", 1);
-				ft_putendl_fd(args[i], 1);
 				copy_exe_info->operator_exe_function = store->support.operators_exe_func_arr[index_oper];
 				i++;
 			}
@@ -227,11 +202,13 @@ int main()
 	char **splited_str;
 	t_store *store;
 
-	store = (t_store *)malloc(sizeof(t_store));
+	if (!(store = (t_store *)malloc(sizeof(t_store))))
+		return (0);
 	init_support_parsing_arr(&store->support);
 	splited_str = split(str);
 
-	store->exe_info = (t_exe_info *)malloc(sizeof (t_exe_info));
+	if (!(store->exe_info = (t_exe_info *)malloc(sizeof (t_exe_info))))
+		return (0);
 	store->exe_info->next = NULL;
 	store->exe_info->exe_function = NULL;
 	store->exe_info->operator_exe_function = NULL;
@@ -247,6 +224,10 @@ int main()
 		printf("\n");
 		store->exe_info = store->exe_info->next;
 	}
+//	while (1)
+//	{
+//
+//	}
 	return (0);
 }
 
