@@ -6,30 +6,31 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 19:36:24 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/13 22:11:49 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/13 22:59:26 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char **create_variable(char *key, char *value)
+t_variable *create_variable(char *key, char *value, int is_exported)
 {
-	char **variable;
+	t_variable *variable;
 
-	variable = (char**)malloc(sizeof(char*) * 2);
-	variable[0] = ft_strdup(key);
-	variable[1] = ft_strdup(value);
+	variable = (t_variable*)malloc(sizeof(t_variable));
+	variable->key = ft_strdup(key);
+	variable->value = ft_strdup(value);
+	variable->is_exported = is_exported;
 	return (variable);
 }
 
-void	add_variable_to_list(t_list **variable_list, char *key, char *value)
+void	add_variable_to_list(t_list **variable_list, char *key, char *value, int is_exported)
 {
-	ft_lstadd_front(variable_list, ft_lstnew(create_variable(key, value)));
+	ft_lstadd_front(variable_list, ft_lstnew(create_variable(key, value, is_exported)));
 }
 
-char	**find_variable(t_list *variable_list, char *key)
+t_variable	*find_variable(t_list *variable_list, char *key)
 {
-	char	**variable;
+	t_variable *variable;
 	t_list	*tmp;
 
 	tmp = variable_list;
@@ -37,7 +38,7 @@ char	**find_variable(t_list *variable_list, char *key)
 	while (tmp)
 	{
 		variable = tmp->content;
-		if (!ft_strcmp(variable[0], key))
+		if (!ft_strcmp(variable->key, key))
 			return (variable);
 		tmp = tmp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:40:03 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/13 21:05:38 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/13 22:51:33 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ typedef struct	s_support_parsing_data
 	int			(*exe_func_arr[7])(char **, char **);
 	char		*operators_arr[5];
 }				t_support_parsing_data;
+
+typedef struct	s_variable
+{
+	char	*key;
+	char	*value;
+	int		is_exported;
+}				t_variable;
 
 typedef struct	s_store
 {
