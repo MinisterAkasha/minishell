@@ -157,15 +157,14 @@ static	int init_oper_exec_func(t_exe_info	**exe_info, t_support_parsing_data sup
 
 	copy_exe_info = *exe_info;
 	i = 0;
-	copy_exe_info->operator_exe_function = NULL;
 	while (i < sizeof(support.operators_arr) / sizeof(char *))
 	{
 		if (!ft_strcmp(arg, support.operators_arr[i]))
 			return (i);
 		i++;
 	}
-	if (!copy_exe_info->operator_exe_function)
-		return (-1);
+//	if (!copy_exe_info->operator_exe_function)
+//		return (-1);
 	return (-2);
 }
 
@@ -205,6 +204,7 @@ void		get_exe_info(char **args, t_store *store, t_exe_info **exe_info)
 				copy_exe_info = copy_exe_info->next;
 				copy_exe_info->next = NULL;
 				copy_exe_info->exe_function = NULL;
+				copy_exe_info->operator_exe_function = NULL;
 				copy_exe_info->arg = ft_strdup("");
 				ft_putstr_fd("The operator for next command: ", 1);
 				ft_putendl_fd(args[i], 1);
@@ -222,7 +222,7 @@ int main()
 {
 	t_exe_info *test;
 	t_exe_info *fucking_test;
-	char *str = "  echo 111'111' | cd papka > echo \"222\"222 >> 'echo' \"333333\" ;    echo '' | echo 444444 ";
+	char *str = "  echo 111'111' | cd papka > echo \"222\"222 >> 'echo' \"333333\" ;    echo '' |  echo 444444 ";
 	char **splited_str;
 	t_store *store;
 
@@ -233,6 +233,7 @@ int main()
 	store->exe_info = (t_exe_info *)malloc(sizeof (t_exe_info));
 	store->exe_info->next = NULL;
 	store->exe_info->exe_function = NULL;
+	store->exe_info->operator_exe_function = NULL;
 	store->exe_info->arg = ft_strdup("");
 	get_exe_info(splited_str, store, &store->exe_info);
 
