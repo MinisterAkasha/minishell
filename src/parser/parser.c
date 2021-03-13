@@ -91,7 +91,7 @@ static	char *cut_seporator(char *arg, char separator)
 		i++;
 	}
 	first = ft_substr(arg, start_index, len);
-	len = 0;
+	len = -1;
 	i++;
 	start_index = i;
 	while(arg[i])
@@ -117,7 +117,8 @@ static	void concat_arg(t_exe_info	**exe_info, char *arg)
 		copy_exe_info->arg = ft_strjoin(copy_exe_arg, arg); // check if first arg is "" or NULL
 	else
 	{
-		cut_seporator(arg, separator);
+		ft_putendl_fd("Cutted str:", 1);
+		ft_putendl_fd(cut_seporator(arg, separator), 1);
 		copy_exe_info->arg = ft_strjoin(copy_exe_arg, cut_seporator(arg, separator));
 	}
 	free(copy_exe_arg);
