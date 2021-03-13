@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 17:35:32 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/13 18:53:39 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,14 @@ char	**create_env(char **env);
 char	*get_env_param(char *key, char **env);
 
 /*
-** env.c
+** search.c
 */
 char		*search(char *arg, const char *$_path);
+
+/*
+** shlvl.c
+*/
+void		shlvl(char **env);
 
 
 #endif
