@@ -6,7 +6,7 @@
 #    By: akasha <akasha@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/09 14:03:17 by tilda             #+#    #+#              #
-#    Updated: 2021/03/13 18:19:23 by akasha           ###   ########.fr        #
+#    Updated: 2021/03/13 23:07:56 by akasha           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC_PATHS = ./src \
 			./src/search \
 			./src/parser \
 			./src/shlvl \
+			./src/variable \
 			./src/utils \
 			./src/utils/GNL
 

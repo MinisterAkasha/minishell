@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/13 23:05:11 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/13 23:06:44 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int main(int argc, char **argv, char **env)
 	if (!(store = (t_store*)malloc(sizeof(t_store))))
 		return (0); //TODO обработать ошибку
 	store->input.argv = argv;
-	store->input.env = create_env(env);//env;
+	store->input.env = create_env(env);
 	store->input.procces_name = argv[0];
 	store->variables = NULL;
 	// add_variable_to_list(&store->variables, "name", "Ilya", 0);
