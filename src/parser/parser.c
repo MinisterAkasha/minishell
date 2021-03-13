@@ -120,6 +120,7 @@ static	void concat_arg(t_exe_info	**exe_info, char *arg)
 		cut_seporator(&arg, separator);
 		copy_exe_info->arg = ft_strjoin(copy_exe_arg, arg);
 	}
+	free(arg);
 	free(copy_exe_arg);
 }
 
