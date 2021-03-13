@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/13 18:53:39 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/13 22:09:34 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		exe_cd(char **args, char **env);
 /*
 ** env.c
 */
-void	change_env(char *value, char *key, char ***env);
+void	change_env_value(char *value, char *key, char ***env);
 char	**create_env(char **env);
 char	*get_env_param(char *key, char **env);
 
@@ -74,6 +74,13 @@ char		*search(char *arg, const char *$_path);
 ** shlvl.c
 */
 void		shlvl(char **env);
+
+/*
+** export.c
+*/
+char		**create_variable(char *key, char *value);
+char		**find_variable(t_list *variable_list, char *key);
+void		add_variable_to_list(t_list **variable_list, char *key, char *value);
 
 
 #endif

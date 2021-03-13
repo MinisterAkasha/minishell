@@ -6,7 +6,7 @@
 #    By: akasha <akasha@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/31 19:18:46 by akasha            #+#    #+#              #
-#    Updated: 2021/03/08 20:24:53 by akasha           ###   ########.fr        #
+#    Updated: 2021/03/13 21:07:13 by akasha           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ OBJ = $(SRC:.c=.o)
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
 
 
-all: $(NAME)
+all: $(NAME) bonus
 
 $(NAME): $(OBJ) $(INCLUDES)
 	@ar rcs $@ $(OBJ)

@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:15:38 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 12:47:58 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/13 19:48:17 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	change_env(char *value, char *key, char ***env)
+void	change_env_value(char *value, char *key, char ***env)
 {
 	int i;
 	char **tmp;
@@ -70,6 +70,11 @@ char	**create_env(char **env)
 	}
 	return (env_copy);
 }
+
+// char	*add_env_param(char **env, char **variable)
+// {
+	
+// }
 
 int exe_env(char **args, char **env)
 {

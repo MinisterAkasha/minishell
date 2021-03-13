@@ -6,12 +6,14 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:40:03 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/11 12:08:17 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/13 21:05:38 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
+
+# include "../src/utils/libft/includes/libft.h"
 
 typedef struct	s_exe_info
 {
@@ -40,6 +42,13 @@ typedef struct	s_store
 	t_support_parsing_data	support;
 	t_data					input;
 	t_exe_info				exe_info;
+	t_list					*variables;
 }				t_store;
+
+// typedef struct	s_variables
+// {
+// 	char	**variables; //! [[key, value], [key, value], [key, value], [key, value]]
+// 	struct s_variables *next;
+// }				t_variables;
 
 #endif
