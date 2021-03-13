@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:15:38 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/13 19:48:17 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/13 23:44:54 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**create_env(char **env)
 	
 // }
 
-int exe_env(char **args, char **env)
+int exe_env(char **args, char **env, t_list *variables)
 {
 	int i;
 

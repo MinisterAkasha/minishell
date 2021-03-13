@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 15:05:53 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/13 18:15:02 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/13 23:44:17 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			exe_pwd(char **args, char **env)
+int			exe_pwd(char **args, char **env, t_list *variables)
 {
 	char path[100];
 
@@ -20,22 +20,22 @@ int			exe_pwd(char **args, char **env)
 	ft_putendl_fd(getcwd(path, 100), 1);
 	return (1);
 }
-int			exe_echo(char **args, char **env)
+int			exe_echo(char **args, char **env, t_list *variables)
 {
 	write(1, "echo\n", 5);
 	return (1);
 }
-int			exe_export(char **args, char **env)
+int			exe_export(char **args, char **env, t_list *variables)
 {
 	write(1, "export\n", 7);
 	return (1);
 }
-int			exe_unset(char **args, char **env)
+int			exe_unset(char **args, char **env, t_list *variables)
 {
 	write(1, "unset\n", 6);
 	return (1);
 }
-int			exe_exit(char **args, char **env)
+int			exe_exit(char **args, char **env, t_list *variables)
 {
 	exit(1);
 	write(1, "exit\n", 5);

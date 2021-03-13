@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/13 23:06:44 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/13 23:43:12 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ int loop_shell(t_store *store)
 
 	status = 1;
 	init_support_parsing_arr(&store->support);
+	change_env_value("", "OLDPWD", &store->input.env); //TODO
 	shlvl(store->input.env);
 	while (status)
 	{
 		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 		get_next_line(0, &line);
 		args = ft_split(line, ' ');
-		status = execute(&store->input, args, store->support);
+		status = execute(&store->input, args, store->support, store);
 		free(line);
 		free_2d_arr(args);
 	}

@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 21:43:13 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/13 22:18:15 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/13 23:44:50 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		exe_cd(char **args, char **env)
+int		exe_cd(char **args, char **env, t_list *variables)
 {
 	int		res;
 	char	old_pwd[2048]; //TODO

@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:40:03 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/13 22:51:33 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/13 23:47:20 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 typedef struct	s_exe_info
 {
-	int			(*exe_function)(char **args, char **env);
+	int			(*exe_function)(char **args, char **env, t_list *);
 	int			(*operator_exe_function)(char **args);
 	char		**args;
 	char		*oper;
@@ -33,7 +33,7 @@ typedef struct	s_data
 typedef struct	s_support_parsing_data
 {
 	char		*exe_str_arr[7];
-	int			(*exe_func_arr[7])(char **, char **);
+	int			(*exe_func_arr[7])(char **, char **, t_list *);
 	char		*operators_arr[5];
 }				t_support_parsing_data;
 
