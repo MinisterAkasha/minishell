@@ -69,7 +69,6 @@ static	char get_separator(char *arg)
 	return (separator);
 }
 
-//check string ""
 static	void cut_seporator(char **arg, char separator)
 {
 	int		i;
@@ -86,11 +85,8 @@ static	void cut_seporator(char **arg, char separator)
 	{
 		len = 0;
 		start_index = i;
-		while ((*arg)[i] != separator && (*arg)[i])
-		{
+		while ((*arg)[i] != separator && (*arg)[i++])
 			len++;
-			i++;
-		}
 		if (first != 0)
 			break;
 		first = ft_substr((*arg), start_index, len);
@@ -98,7 +94,7 @@ static	void cut_seporator(char **arg, char separator)
 	}
 	second = ft_substr((*arg), start_index, len);
 	free((*arg));
-	(*arg) = ft_strjoin(first, ft_substr((*arg), start_index, len));
+	(*arg) = ft_strjoin(first, second);
 	free(first);
 	free(second);
 }
@@ -159,14 +155,25 @@ static	int init_oper_exec_func(t_exe_info	**exe_info, t_support_parsing_data sup
 	return (-1);
 }
 
-void		get_exe_info(char **args, t_store *store, t_exe_info **exe_info)
+static	void	create_new_list(t_exe_info **lst)
+{
+	(*lst)->next = NULL;
+	(*lst)->exe_function = NULL;
+	(*lst)->operator_exe_function = NULL;
+	(*lst)->arg = ft_strdup("");
+}
+
+void		get_exe_info(char **args, t_store *store)
 {
 	t_exe_info	*copy_exe_info;
 	size_t		i;
 	int			index_oper;
 
 	i = 0;
-	copy_exe_info = *exe_info;
+	if (!(store->exe_info = (t_exe_info *)malloc(sizeof (t_exe_info))))
+		return ;
+	create_new_list(&store->exe_info);
+	copy_exe_info = store->exe_info;
 	while(args[i])
 	{
 		index_oper = -1;
@@ -177,15 +184,12 @@ void		get_exe_info(char **args, t_store *store, t_exe_info **exe_info)
 			i++;
 			if (!args[i])
 				break ;
-			if ((index_oper = init_oper_exec_func(&copy_exe_info, store->support, args[i])) >= 0)//TODO -1 or -2
+			if ((index_oper = init_oper_exec_func(&copy_exe_info, store->support, args[i])) >= 0)
 			{
 				if (!(copy_exe_info->next = (t_exe_info *)malloc(sizeof(t_exe_info))))
 					return ;
 				copy_exe_info = copy_exe_info->next;
-				copy_exe_info->next = NULL;
-				copy_exe_info->exe_function = NULL;
-				copy_exe_info->operator_exe_function = NULL;
-				copy_exe_info->arg = ft_strdup("");
+				create_new_list(&copy_exe_info);
 				copy_exe_info->operator_exe_function = store->support.operators_exe_func_arr[index_oper];
 				i++;
 			}
@@ -196,42 +200,52 @@ void		get_exe_info(char **args, t_store *store, t_exe_info **exe_info)
 	}
 }
 
-//int main()
-//{
-//	t_exe_info *test;
-//	t_exe_info *fucking_test;
-//	char *str = "  echo 111'111' | cd papka > echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' |  echo 444444";
-//	char **splited_str;
-//	t_store *store;
-//
-//	if (!(store = (t_store *)malloc(sizeof(t_store))))
-//		return (0);
-//	init_support_parsing_arr(&store->support);
-//	splited_str = split(str);
-//
-//	if (!(store->exe_info = (t_exe_info *)malloc(sizeof (t_exe_info))))
-//		return (0);
-//	store->exe_info->next = NULL;
-//	store->exe_info->exe_function = NULL;
-//	store->exe_info->operator_exe_function = NULL;
-//	store->exe_info->arg = ft_strdup("");
-//	get_exe_info(splited_str, store, &store->exe_info);
-//
-//	while(store->exe_info)
+int main()
+{
+	t_exe_info *test;
+	t_exe_info *fucking_test;
+	char *str = "  echo 111'111' | cd papka > echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' |  echo 444444";
+	char **splited_str;
+	t_store *store;
+
+	if (!(store = (t_store *)malloc(sizeof(t_store))))
+		return (0);
+	init_support_parsing_arr(&store->support);
+	splited_str = split(str);
+	get_exe_info(splited_str, store);
+
+//	while (1)
 //	{
-//		printf("\n====$$$$====\n");
-//		printf("store->exe_info->arg: %s\n",store->exe_info->arg);
-//		printf("store->exe_info->exe_function: %p\n",store->exe_info->exe_function);
-//		printf("store->exe_info->operator_exe_function: %p\n",store->exe_info->operator_exe_function);
-//		printf("\n");
-//		store->exe_info = store->exe_info->next;
+//
 //	}
-////	while (1)
-////	{
-////
-////	}
-//	return (0);
-//}
+	while(store->exe_info)
+	{
+		printf("\n====$$$$====\n");
+		printf("store->exe_info->arg: %s\n",store->exe_info->arg);
+		printf("store->exe_info->exe_function: %p\n",store->exe_info->exe_function);
+		printf("store->exe_info->operator_exe_function: %p\n",store->exe_info->operator_exe_function);
+		printf("\n");
+		store->exe_info = store->exe_info->next;
+	}
+	return (0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //
