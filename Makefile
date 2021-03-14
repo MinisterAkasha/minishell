@@ -6,7 +6,7 @@
 #    By: akasha <akasha@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/09 14:03:17 by tilda             #+#    #+#              #
-#    Updated: 2021/03/13 23:07:56 by akasha           ###   ########.fr        #
+#    Updated: 2021/03/14 13:08:56 by akasha           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ OBJ = $(C_FILES:%.c=%.o)
 O_FILES = $(addprefix $(OBJDIR)/, $(OBJ))
 SRC_PATHS = ./src \
 			./src/execute \
+			./src/execute/export \
 			./src/init \
 			./src/search \
 			./src/parser \

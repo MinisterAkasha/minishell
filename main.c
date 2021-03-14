@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/13 23:43:12 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/14 14:02:57 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ int main(int argc, char **argv, char **env)
 	store->input.env = create_env(env);
 	store->input.procces_name = argv[0];
 	store->variables = NULL;
-	// add_variable_to_list(&store->variables, "name", "Ilya", 0);
-	// add_variable_to_list(&store->variables, "id", "1", 0);
-	// add_variable_to_list(&store->variables, "status", "ok", 0);
+	add_variable_to_list(&store->variables, "name", "Ilya", 0);
+	add_variable_to_list(&store->variables, "id", "1", 0);
+	add_variable_to_list(&store->variables, "status", "ok", 0);
 	// t_variable *variable = find_variable(store->variables, "name");
 	loop_shell(store);
 	free_2d_arr(store->input.env);
