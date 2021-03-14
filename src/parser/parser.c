@@ -69,7 +69,7 @@ static	char get_separator(char *arg)
 	return (separator);
 }
 
-static	void cut_seporator(char **arg, char separator)
+static	void cut_separator(char **arg, char separator)
 {
 	int		i;
 	int		len;
@@ -113,7 +113,7 @@ static	void concat_arg(t_exe_info	**exe_info, char *arg)
 		copy_exe_info->arg = ft_strjoin(copy_exe_arg, arg); // check if first arg is "" or NULL
 	else
 	{
-		cut_seporator(&arg, separator);
+		cut_separator(&arg, separator);
 		copy_exe_info->arg = ft_strjoin(copy_exe_arg, arg);
 	}
 	free(arg);
@@ -127,7 +127,7 @@ static	int init_exec_func(t_exe_info	**exe_info, t_support_parsing_data support,
 	t_exe_info	*copy_exe_info;
 
 	copy_exe_info = *exe_info;
-	cut_seporator(&arg, get_separator(arg));
+	cut_separator(&arg, get_separator(arg));
 	i = 0;
 	while (i < sizeof(support.exe_str_arr) / sizeof(char *))
 	{
@@ -141,20 +141,6 @@ static	int init_exec_func(t_exe_info	**exe_info, t_support_parsing_data support,
 	return (1);
 }
 
-static	int init_oper_exec_func(t_exe_info	**exe_info, t_support_parsing_data support, char *arg)
-{
-	int		i;
-
-	i = 0;
-	while (i < sizeof(support.operators_arr) / sizeof(char *))
-	{
-		if (!ft_strcmp(arg, support.operators_arr[i]))
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
 static	void	create_new_list(t_exe_info **lst)
 {
 	(*lst)->next = NULL;
@@ -163,7 +149,28 @@ static	void	create_new_list(t_exe_info **lst)
 	(*lst)->arg = ft_strdup("");
 }
 
-void		get_exe_info(char **args, t_store *store)
+static	int init_oper_exec_func(t_exe_info **copy_exe_info, t_support_parsing_data support, char *arg)
+{
+	int		i;
+
+	i = 0;
+	while (i < sizeof(support.operators_arr) / sizeof(char *))
+	{
+		if (!ft_strcmp(arg, support.operators_arr[i]))
+		{
+			if (!((*copy_exe_info)->next = (t_exe_info *)malloc(sizeof(t_exe_info))))
+				return (0);
+			(*copy_exe_info) = (*copy_exe_info)->next;
+			create_new_list(copy_exe_info);
+			(*copy_exe_info)->operator_exe_function = support.operators_exe_func_arr[i];
+			return (i);
+		}
+		i++;
+	}
+	return (-1);
+}
+
+int		get_exe_info(char **args, t_store *store)
 {
 	t_exe_info	*copy_exe_info;
 	size_t		i;
@@ -171,33 +178,29 @@ void		get_exe_info(char **args, t_store *store)
 
 	i = 0;
 	if (!(store->exe_info = (t_exe_info *)malloc(sizeof (t_exe_info))))
-		return ;
+		return (0);
 	create_new_list(&store->exe_info);
 	copy_exe_info = store->exe_info;
 	while(args[i])
 	{
 		index_oper = -1;
-		if (!init_exec_func(&copy_exe_info, store->support, args[i]))
-			copy_exe_info->exe_function = NULL;
-		while(args[i] && index_oper < 0)
+		init_exec_func(&copy_exe_info, store->support, args[i]);
+		while(args[i])
 		{
 			i++;
 			if (!args[i])
 				break ;
 			if ((index_oper = init_oper_exec_func(&copy_exe_info, store->support, args[i])) >= 0)
 			{
-				if (!(copy_exe_info->next = (t_exe_info *)malloc(sizeof(t_exe_info))))
-					return ;
-				copy_exe_info = copy_exe_info->next;
-				create_new_list(&copy_exe_info);
-				copy_exe_info->operator_exe_function = store->support.operators_exe_func_arr[index_oper];
 				i++;
+				break ;
 			}
 			else
 				concat_arg(&copy_exe_info, args[i]);
 		}
 		i++;
 	}
+	return (1);
 }
 
 int main()
@@ -212,7 +215,8 @@ int main()
 		return (0);
 	init_support_parsing_arr(&store->support);
 	splited_str = split(str);
-	get_exe_info(splited_str, store);
+	if (!(get_exe_info(splited_str, store)))
+		return (0);
 
 //	while (1)
 //	{
