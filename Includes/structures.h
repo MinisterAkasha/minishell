@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:40:03 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/13 22:51:33 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/14 14:45:07 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,16 @@
 
 # include "../src/utils/libft/includes/libft.h"
 
+typedef struct	s_exe_args
+{
+	char		**env;
+	char		**args;
+	t_list		*variables;
+}				t_exe_args;
+
 typedef struct	s_exe_info
 {
-	int			(*exe_function)(char **args, char **env);
+	int			(*exe_function)(t_exe_args *);
 	int			(*operator_exe_function)(char **args);
 	char		**args;
 	char		*oper;
@@ -27,13 +34,12 @@ typedef struct	s_data
 {
 	char		**env;
 	char		**argv;
-	char		*procces_name;
 }				t_data;
 
 typedef struct	s_support_parsing_data
 {
 	char		*exe_str_arr[7];
-	int			(*exe_func_arr[7])(char **, char **);
+	int			(*exe_func_arr[7])(t_exe_args *);
 	char		*operators_arr[5];
 }				t_support_parsing_data;
 
@@ -49,7 +55,7 @@ typedef struct	s_store
 	t_support_parsing_data	support;
 	t_data					input;
 	t_exe_info				exe_info;
-	t_list					*variables;
+	t_exe_args				exe_args;
 }				t_store;
 
 // typedef struct	s_variables

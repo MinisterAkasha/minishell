@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:12:44 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 17:49:42 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/14 14:37:52 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ static char	*get_relative_path(char *arg)
 	free(command);
 	free(dir_path);
 	free(pwd_with_slash);
+	printf("%s\n", current_path);
 	return (current_path);
 }
 

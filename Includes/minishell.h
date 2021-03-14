@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/13 23:07:18 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/14 14:40:13 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 ** loop_shell
 */
 void	wait_child_process_end(pid_t id);
-int		launch_shell(t_data *data, char **args, char *bin_path);
+int		launch_shell(char **env, char **args, char *bin_path);
 
 /*
 ** init.c
@@ -52,11 +52,6 @@ void	init_support_parsing_arr(t_support_parsing_data *data);
 void	free_2d_arr(char **arr);
 void	write_error_message(char *message_title, char *message_body, char *message_error);
 int		get_arr_length(char **arr);
-
-/*
-** cd.c
-*/
-int		exe_cd(char **args, char **env);
 
 /*
 ** env.c

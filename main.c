@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/13 23:06:44 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/14 14:46:15 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void wait_child_process_end(pid_t id)
 		waitpid(id, &status, WUNTRACED);
 }
 
-int launch_shell(t_data *data, char **args, char *bin_path)
+int launch_shell(char **env, char **args, char *bin_path)
 {
 	pid_t child_process_id;
 
 	child_process_id = fork();
 	if (!child_process_id)
 	{
-		if (execve(bin_path, args, data->env) == -1)
+		if (execve(bin_path, args, env) == -1)
 			printf("EXECVE ERROR. CODE: %s\n", strerror(errno)); //TODO обработать ошибку
 	}
 	else if (child_process_id < 0)
@@ -46,13 +46,13 @@ int loop_shell(t_store *store)
 
 	status = 1;
 	init_support_parsing_arr(&store->support);
-	shlvl(store->input.env);
+	shlvl(store->exe_args.env);
 	while (status)
 	{
 		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 		get_next_line(0, &line);
 		args = ft_split(line, ' ');
-		status = execute(&store->input, args, store->support);
+		status = execute(&store->input, args, store->support, &store->exe_args);
 		free(line);
 		free_2d_arr(args);
 	}
@@ -65,11 +65,10 @@ int main(int argc, char **argv, char **env)
 
 	if (!(store = (t_store*)malloc(sizeof(t_store))))
 		return (0); //TODO обработать ошибку
-	store->input.argv = argv;
-	store->input.env = create_env(env);
-	store->input.procces_name = argv[0];
-	store->variables = NULL;
-	// add_variable_to_list(&store->variables, "name", "Ilya", 0);
+	store->exe_args.args = argv;
+	store->exe_args.env = create_env(env);
+	store->exe_args.variables = NULL;
+	// add_variable_to_list(&store->exe_args.variables, "name", "Ilya", 0);
 	// add_variable_to_list(&store->variables, "id", "1", 0);
 	// add_variable_to_list(&store->variables, "status", "ok", 0);
 	// t_variable *variable = find_variable(store->variables, "name");
