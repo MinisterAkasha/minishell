@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:40:03 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/14 14:45:07 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/14 14:52:43 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ typedef struct	s_exe_info
 	char		*oper;
 }				t_exe_info;
 
-typedef struct	s_data
-{
-	char		**env;
-	char		**argv;
-}				t_data;
-
 typedef struct	s_support_parsing_data
 {
 	char		*exe_str_arr[7];
@@ -53,7 +47,6 @@ typedef struct	s_variable
 typedef struct	s_store
 {
 	t_support_parsing_data	support;
-	t_data					input;
 	t_exe_info				exe_info;
 	t_exe_args				exe_args;
 }				t_store;

@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/14 14:46:15 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/14 14:53:34 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int loop_shell(t_store *store)
 		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 		get_next_line(0, &line);
 		args = ft_split(line, ' ');
-		status = execute(&store->input, args, store->support, &store->exe_args);
+		status = execute(store, args);
 		free(line);
 		free_2d_arr(args);
 	}
@@ -73,6 +73,6 @@ int main(int argc, char **argv, char **env)
 	// add_variable_to_list(&store->variables, "status", "ok", 0);
 	// t_variable *variable = find_variable(store->variables, "name");
 	loop_shell(store);
-	free_2d_arr(store->input.env);
+	free_2d_arr(store->exe_args.env);
 	return (0);
 }
