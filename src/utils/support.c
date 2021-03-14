@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 19:20:42 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/10 13:05:15 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/12 17:34:38 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,14 @@ void	lstclear(t_list **lst)
 		*lst = (*lst)->next;
 		free(cur);
 	}
+}
+
+int		get_arr_length(char **arr)
+{
+	int len;
+
+	len = 0;
+	while (arr[len])
+		len++;
+	return (len);
 }

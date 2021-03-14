@@ -24,6 +24,15 @@ static	int		skip_spaces(char *str, char separator, int i)
 	return (i);
 }
 
+static	int		init_data_word_count(char *sep, int **info_arr, t_list **head)
+{
+	if (!(*info_arr = (int *)ft_calloc(2, sizeof(int))))
+		return (0);
+	*sep = 'f';
+	ft_lstadd_back(head, ft_lstnew(*info_arr));
+	return (1);
+}
+
 /*
 ** Create a linked list 'head'
 ** Which has data to cut the 'str' by quotes and spaces
@@ -31,51 +40,58 @@ static	int		skip_spaces(char *str, char separator, int i)
 ** start_index -> len -> start_index -> len -> ...
 */
 
-static	void	word_count(char **str, t_list **head)
+static	int		word_count(char **str, t_list **head)
 {
-	int		i;
-	int		len;
-	char	sep;
+	int			i;
+	char		sep;
+	int			*info_arr;
 
 	i = 0;
-	len = 0;
-	sep = 'f';
-	ft_lstadd_back(head, ft_lstnew(i));
+	if (!(init_data_word_count(&sep, &info_arr, head)))
+		return (0);
 	while ((*str)[i])
 	{
-		len++;
+		info_arr[1]++;
 		if (sep == 'f' && ((*str)[i] == '"' || (*str)[i] == '\''))
 			sep = (*str)[i];
 		else if (((*str)[i] == ' ' && sep == 'f') || (*str)[i + 1] == '\0' ||
 			((*str)[i + 1] == ' ' && sep == 'f') || sep == (*str)[i])
 		{
-			ft_lstadd_back(head, ft_lstnew(len));
-			len = 0;
-			sep = 'f';
+			if (!(init_data_word_count(&sep, &info_arr, head)))
+				return (0);
 		}
 		i = skip_spaces((*str), sep, i);
-		if (len == 0)
-			ft_lstadd_back(head, ft_lstnew(i));
+		if (info_arr[1] == 0)
+			info_arr[0] = i;
 	}
+	return (1);
 }
 
 static	char	**init_arr_2d(char *str, t_list *copy_dw)
 {
-	int		i;
-	int		len_arr;
-	char	**arr_2d;
+	int			i;
+	int			len_arr;
+	char		**arr_2d;
+	int			*info_arr;
 
-	len_arr = ft_lstsize(copy_dw) / 2;
+	len_arr = ft_lstsize(copy_dw) - 1;
 	if (!(arr_2d = (char **)ft_calloc(len_arr + 1, sizeof(char *))))
 		return (0);
 	i = 0;
 	while (i < len_arr)
 	{
-		arr_2d[i] = ft_substr(str, copy_dw->content, copy_dw->next->content);
-		copy_dw = copy_dw->next->next;
+		info_arr = copy_dw->content;
+		arr_2d[i] = ft_substr(str, info_arr[0], info_arr[1]);
+		copy_dw = copy_dw->next;
 		i++;
 	}
 	return (arr_2d);
+}
+
+void			del(void *value)
+{
+	free(value);
+	value = NULL;
 }
 
 char			**split(char const *s)
@@ -87,10 +103,11 @@ char			**split(char const *s)
 
 	str = ft_strtrim(s, " ");
 	data_words = NULL;
-	word_count(&str, &data_words);
+	if (!(word_count(&str, &data_words)))
+		return (0);
 	copy_data_words = data_words;
 	arr_2d = init_arr_2d(str, copy_data_words);
-	lstclear(&data_words);
+	ft_lstclear(&data_words, &del);
 	free(str);
 	return (arr_2d);
 }
@@ -131,7 +148,6 @@ char			**split(char const *s)
 //						};
 //	int	i;
 //	i = 0;
-//	tmp = split(tests[3]);
 //	while (i < 16)
 //	{
 //		ft_putendl_fd("\n", 1);

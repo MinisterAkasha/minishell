@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 16:43:25 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/09 19:29:00 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/14 14:17:07 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 
 # include "structures.h"
 
-int			exe_cd(char **args, char **env);
-int			exe_pwd(char **args, char **env);
-int			exe_echo(char **args, char **env);
-int			exe_export(char **args, char **env);
-int			exe_unset(char **args, char **env);
-int			exe_env(char **args, char **env);
-int			exe_exit(char **args, char **env);
-int			unknown_command(char **args, char **env);
+int			exe_pwd(t_exe_args *exe_args);
+int			exe_echo(t_exe_args *exe_args);
+int			exe_export(t_exe_args *exe_args);
+int			exe_unset(t_exe_args *exe_args);
+int			exe_exit(t_exe_args *exe_args);
+int			unknown_command(t_exe_args *exe_args);
 
 //t_exe_info	parser(char **args, t_support_parsing_data support);
 int			get_exe_info(char **args, t_store *store);

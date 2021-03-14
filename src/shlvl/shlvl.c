@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/02 19:46:40 by akasha            #+#    #+#             */
-/*   Updated: 2020/12/06 19:24:37 by akasha           ###   ########.fr       */
+/*   Created: 2021/03/13 18:19:30 by akasha            #+#    #+#             */
+/*   Updated: 2021/03/13 19:38:36 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-t_list	*ft_lstnew(void *content)
+void	shlvl(char **env)
 {
-	t_list *elem;
+	char	*lvl;
+	int		current_shlvl;
 
-	if (!(elem = (t_list*)malloc(sizeof(t_list))))
-		return (0);
-	elem->content = content;
-	elem->next = NULL;
-	return (elem);
+	current_shlvl = ft_atoi(ft_strchr(get_env_param("SHLVL", env), '=') + 1);
+	lvl = ft_itoa(current_shlvl + 1);
+	change_env_value(lvl, "SHLVL", &env);
+	free(lvl);
 }
