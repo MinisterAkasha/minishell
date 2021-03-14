@@ -12,25 +12,25 @@
 
 #include "minishell.h"
 
-int		exe_oper_semicolon(char **argv, char **env)
+int		exe_oper_semicolon(char **argv)
 {
 	return 0;
 }
 
-int		exe_oper_pipe(char **argv, char **env)
+int		exe_oper_pipe(char **argv)
 {
 	return 0;
 }
 
-int		exe_oper_redirect(char **argv, char **env)
+int		exe_oper_redirect(char **argv)
 {
 	return 0;
 }
-int		exe_oper_double_redirect(char **argv, char **env)
+int		exe_oper_double_redirect(char **argv)
 {
 	return 0;
 }
-int		exe_oper_reverse_redirect(char **argv, char **env)
+int		exe_oper_reverse_redirect(char **argv)
 {
 	return 0;
 }

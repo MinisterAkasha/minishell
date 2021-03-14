@@ -35,11 +35,11 @@ int			exe_unset(t_exe_args *exe_args)
 	write(1, "unset\n", 6);
 	return (1);
 }
-int			exe_env(t_exe_args *exe_args)
-{
-	write(1, "env\n", 4);
-	return (1);
-}
+//int			exe_env(t_exe_args *exe_args)
+//{
+//	write(1, "env\n", 4);
+//	return (1);
+//}
 int			exe_exit(t_exe_args *exe_args)
 {
 	exit(1);
@@ -69,7 +69,7 @@ static	char	get_separator(char *arg)
 	return (separator);
 }
 
-static	void		ft_costil(int *i, char **first)
+static	void		separator_init_data(int *i, char **first)
 {
 	*i = 0;
 	*first = 0;
@@ -83,7 +83,7 @@ static	void	cut_separator(char **arg, char separator)
 	char	*second;
 	int		start_index;
 
-	ft_costil(&i, &first);
+	separator_init_data(&i, &first);
 	if (separator == (*arg)[0])
 		i++;
 	while (1)

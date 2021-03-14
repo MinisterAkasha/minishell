@@ -15,10 +15,10 @@
 
 #include "structures.h"
 
-int		exe_oper_semicolon(char **argv, char **env);
-int		exe_oper_pipe(char **argv, char **env);
-int		exe_oper_redirect(char **argv, char **env);
-int		exe_oper_double_redirect(char **argv, char **env);
-int		exe_oper_reverse_redirect(char **argv, char **env);
+int		exe_oper_semicolon(char **argv);
+int		exe_oper_pipe(char **argv);
+int		exe_oper_redirect(char **argv);
+int		exe_oper_double_redirect(char **argv);
+int		exe_oper_reverse_redirect(char **argv);
 
 #endif
