@@ -69,7 +69,7 @@ static	char	get_separator(char *arg)
 	return (separator);
 }
 
-static	void		separator_init_data(int *i, char **first)
+static	void		cut_separator_init_data(int *i, char **first)
 {
 	*i = 0;
 	*first = 0;
@@ -83,7 +83,7 @@ static	void	cut_separator(char **arg, char separator)
 	char	*second;
 	int		start_index;
 
-	separator_init_data(&i, &first);
+	cut_separator_init_data(&i, &first);
 	if (separator == (*arg)[0])
 		i++;
 	while (1)
@@ -139,6 +139,14 @@ static	void	init_exec_func(t_exe_info **exe_info,
 		if (!ft_strcmp(arg, support.exe_str_arr[i]))
 			tmp_lst->exe_function = support.exe_func_arr[i];
 		i++;
+	}
+	if (tmp_lst->operator_exe_function != NULL &&
+		tmp_lst->operator_exe_function != support.operators_exe_func_arr[0] &&
+		tmp_lst->operator_exe_function != support.operators_exe_func_arr[1])
+	{
+		tmp_lst->exe_function = NULL;
+		free(tmp_lst->arg);
+		tmp_lst->arg = ft_strdup(arg);
 	}
 	free(arg);
 }
@@ -200,33 +208,33 @@ int				get_exe_info(char **args, t_store *store)
 	return (1);
 }
 
-//int main()
-//{
-//	t_exe_info *test;
-//	t_exe_info *fucking_test;
-//	char *str = "  echo 111'111' | cd papka > echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' |  echo 444444";
-//	char **splited_str;
-//	t_store *store;
-//
-//	if (!(store = (t_store *)malloc(sizeof(t_store))))
-//		return (0);
-//	init_support_parsing_arr(&store->support);
-//	splited_str = split(str);
-//	if (!(get_exe_info(splited_str, store)))
-//		return (0);
-//
-////	while (1)
-////	{
-////
-////	}
-//	while(store->exe_info)
-//	{
-//		printf("\n====$$$$====\n");
-//		printf("store->exe_info->arg: %s\n",store->exe_info->arg);
-//		printf("store->exe_info->exe_function: %p\n",store->exe_info->exe_function);
-//		printf("store->exe_info->operator_exe_function: %p\n",store->exe_info->operator_exe_function);
-//		printf("\n");
-//		store->exe_info = store->exe_info->next;
-//	}
-//	return (0);
-//}
+int main()
+{
+	t_exe_info *test;
+	t_exe_info *fucking_test;
+	char *str = "  echo 111'111' | cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 444444 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra";
+	char **splited_str;
+	t_store *store;
+
+	if (!(store = (t_store *)malloc(sizeof(t_store))))
+		return (0);
+	init_support_parsing_arr(&store->support);
+	splited_str = split(str);
+	if (!(get_exe_info(splited_str, store)))
+		return (0);
+
+	while (1)
+	{
+
+	}
+	while(store->exe_info)
+	{
+		printf("\n====$$$$====\n");
+		printf("store->exe_info->arg: %s\n",store->exe_info->arg);
+		printf("store->exe_info->exe_function: %p\n",store->exe_info->exe_function);
+		printf("store->exe_info->operator_exe_function: %p\n",store->exe_info->operator_exe_function);
+		printf("\n");
+		store->exe_info = store->exe_info->next;
+	}
+	return (0);
+}
