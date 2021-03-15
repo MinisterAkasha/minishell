@@ -108,25 +108,25 @@ char			**split(char const *s)
 }
 
 //TEST
-//void print_2d_arr(char **arr)
-//{
-//	size_t i;
-//	i = 0;
-//	while (arr[i])
-//	{
-//		ft_putstr_fd(arr[i], 1);
-//		ft_putstr_fd("|->|", 1);
-//		i++;
-//	}
-//}
+void print_2d_arr(char **arr)
+{
+	size_t i;
+	i = 0;
+	while (arr[i])
+	{
+		ft_putstr_fd(arr[i], 1);
+		ft_putstr_fd("|->|", 1);
+		i++;
+	}
+}
 
 //int main(void){
 //
 //	char	**tmp;
 //
 //	char	*tests []= {"echo hello world     ",
-//						"echo 'hello world'",
-//						"echo  hel   lo world   ",
+//						"ec'h'o 'hello world'",
+//						"e'c'h'o'  hel   lo world   ",
 //						"echo \"hello world\"",
 //						"echo 1\"2\"3\"4\"5\"6\"7",
 //						"echo \"1\"2\"3\"4\"5\"6\"7\"",

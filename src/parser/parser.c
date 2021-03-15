@@ -74,20 +74,44 @@ static	void	concat_arg(t_exe_info **exe_info, char *arg)
 	free(copy_exe_arg);
 }
 
-static	void	init_exec_func(t_exe_info **exe_info,
-								t_support_parsing_data support, char *arg)
+static	void	concat_test(char **first, char *second)
 {
-	int				i;
+	char		separator;
+	char		*copy_first;
+
+	separator = get_separator(second);
+	copy_first = ft_strdup(*first);
+	free(*first);
+	if (separator == 'f')
+		(*first) = ft_strjoin(copy_first, second);
+	else
+	{
+		cut_separator(&second, separator);
+		(*first) = ft_strjoin(copy_first, second);
+	}
+	free(copy_first);
+}
+
+static	void	init_exec_func(t_exe_info **exe_info,
+								t_support_parsing_data support, char **args, int *i)
+{
+	int				j;
 	t_exe_info		*tmp_lst;
+	char			*str_to_compare;
 
 	tmp_lst = *exe_info;
-	cut_separator(&arg, get_separator(arg));
-	i = 0;
-	while (i < sizeof(support.exe_str_arr) / sizeof(char *))
+	str_to_compare = ft_strdup("");
+	while (args[*i] && ft_strcmp(args[*i], " "))
 	{
-		if (!ft_strcmp(arg, support.exe_str_arr[i]))
-			tmp_lst->exe_function = support.exe_func_arr[i];
-		i++;
+		concat_test(&str_to_compare,  args[*i]);
+		*i += 1;
+	}
+	j = 0;
+	while (j < sizeof(support.exe_str_arr) / sizeof(char *))
+	{
+		if (!ft_strcmp(str_to_compare, support.exe_str_arr[j]))
+			tmp_lst->exe_function = support.exe_func_arr[j];
+		j++;
 	}
 	if (tmp_lst->operator_exe_function != NULL &&
 		tmp_lst->operator_exe_function != support.operators_exe_func_arr[0] &&
@@ -95,9 +119,10 @@ static	void	init_exec_func(t_exe_info **exe_info,
 	{
 		tmp_lst->exe_function = NULL;
 		free(tmp_lst->arg);
-		tmp_lst->arg = ft_strdup(arg);
+		tmp_lst->arg = ft_strdup(str_to_compare);
+		*i -= 1;
 	}
-	free(arg);
+	free(str_to_compare);
 }
 
 static	void	set_default_new_lst(t_exe_info **lst)
@@ -143,7 +168,7 @@ int				get_exe_info(char **args, t_store *store)
 	tmp_lst = store->exe_info;
 	while (args[i])
 	{
-		init_exec_func(&tmp_lst, store->support, args[i]);
+		init_exec_func(&tmp_lst, store->support, args, &i);
 		while (args[i])
 		{
 			if (!args[++i] ||
@@ -152,6 +177,8 @@ int				get_exe_info(char **args, t_store *store)
 			else
 				concat_arg(&tmp_lst, args[i]);
 		}
+		if (!args[i])
+			break ;
 		i++;
 	}
 	return (1);
@@ -161,14 +188,23 @@ int main()
 {
 	t_exe_info *test;
 	t_exe_info *fucking_test;
-	char *str = "  echo 111'111' | cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 444444 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra";
+	char *str = "'e'c'h'o pam > tyty ; e'ch'o 111'111' | cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra";
 	char **splited_str;
 	t_store *store;
+	int i;
 
+	i = 0;
 	if (!(store = (t_store *)malloc(sizeof(t_store))))
 		return (0);
 	init_support_parsing_arr(&store->support);
 	splited_str = split(str);
+	while (splited_str[i])
+	{
+		ft_putnbr_fd(i, 1);
+		ft_putchar_fd(')', 1);
+		ft_putendl_fd(splited_str[i], 1);
+		i++;
+	}
 	if (!(get_exe_info(splited_str, store)))
 		return (0);
 
