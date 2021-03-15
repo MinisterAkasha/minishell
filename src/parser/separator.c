@@ -63,7 +63,7 @@ static	int		verify_sep(char *arg, char sep)
 	return (0);
 }
 
-int				get_len(char *arg, int *i, char sep)
+static	int		get_len(char *arg, int *i, char sep)
 {
 	*i += 1;
 	while (arg[*i])
