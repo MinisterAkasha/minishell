@@ -52,8 +52,8 @@ void	init_support_parsing_arr(t_support_parsing_data *data);
 */
 void	free_2d_arr(char **arr);
 void	write_error_message(char *message_title, char *message_body, char *message_error);
-void	lstclear(t_list **lst);
 int		get_arr_length(char **arr);
+void			del_item_libft_lst(void *value)
 
 /*
 ** env.c

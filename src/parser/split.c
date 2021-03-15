@@ -88,11 +88,6 @@ static	char	**init_arr_2d(char *str, t_list *copy_dw)
 	return (arr_2d);
 }
 
-void			del(void *value)
-{
-	free(value);
-	value = NULL;
-}
 
 char			**split(char const *s)
 {
@@ -107,7 +102,7 @@ char			**split(char const *s)
 		return (0);
 	copy_data_words = data_words;
 	arr_2d = init_arr_2d(str, copy_data_words);
-	ft_lstclear(&data_words, &del);
+	ft_lstclear(&data_words, &del_item_libft_lst);
 	free(str);
 	return (arr_2d);
 }

@@ -32,18 +32,11 @@ void	write_error_message(char *message_title, char *message_body, char *message_
 	ft_putendl_fd(message_error, 1);
 }
 
-void	lstclear(t_list **lst)
-{
-	t_list	*cur;
 
-	if (!lst)
-		return ;
-	while (*lst)
-	{
-		cur = *lst;
-		*lst = (*lst)->next;
-		free(cur);
-	}
+void			del_item_libft_lst(void *value)
+{
+	free(value);
+	value = NULL;
 }
 
 int		get_arr_length(char **arr)
