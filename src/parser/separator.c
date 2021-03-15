@@ -12,53 +12,94 @@
 
 #include "minishell.h"
 
-static	void	cut_separator_init_data(int *i, char **first)
-{
-	*i = 0;
-	*first = 0;
-}
-
 char			get_separator(char *arg)
 {
 	int		i;
-	char	separator;
+	char	sep;
 
 	i = 0;
-	separator = 'f';
-	while (arg[i] && separator == 'f')
+	sep = 'f';
+	while (arg[i] && sep == 'f')
 	{
 		if (arg[i] == '"' || arg[i] == '\'')
-			separator = arg[i];
+			sep = arg[i];
 		i++;
 	}
-	return (separator);
+	return (sep);
 }
 
-void			cut_separator(char **arg, char separator)
+static	int		get_next_separators(char *arg, char sep, int *index)
 {
 	int		i;
-	int		len;
-	char	*first;
-	char	*second;
-	int		start_index;
 
-	cut_separator_init_data(&i, &first);
-	if (separator == (*arg)[0])
-		i++;
-	while (1)
+	i = *index;
+	while (arg[i])
 	{
-		len = 0;
-		start_index = i;
-		while ((*arg)[i] != separator && (*arg)[i++])
-			len++;
-		if (first != 0)
+		if (arg[i] == sep)
+		{
+			*index = i;
 			break ;
-		first = ft_substr((*arg), start_index, len);
+		}
 		i++;
 	}
-	second = ft_substr((*arg), start_index, len);
-	free((*arg));
-	(*arg) = ft_strjoin(first, second);
-	free(first);
+	return (*index);
+}
+
+static	int		verify_sep(char *arg, char sep)
+{
+	int		nbr_sep;
+	int		i;
+
+	i = 0;
+	nbr_sep = 0;
+	while (arg[i])
+	{
+		if (arg[i] == sep)
+			nbr_sep++;
+		i++;
+	}
+	if (nbr_sep == 2)
+		return (1);
+	return (0);
+}
+
+int				get_len(char *arg, int *i, char sep)
+{
+	*i += 1;
+	while (arg[*i])
+	{
+		if (sep == arg[*i])
+		{
+			*i -= 1;
+			break ;
+		}
+		*i += 1;
+	}
+	return (*i);
+}
+
+void			cut_separator(char **arg, char sep)
+{
+	int		i;
+	int		index;
+	char	*first;
+	char	*second;
+	char	*tmp;
+
+	if (!(verify_sep((*arg), sep)))
+		return ;
+	index = 0;
+	i = get_next_separators(*arg, sep, &index);
+	first = ft_substr(*arg, 0, index);
+	second = ft_substr(*arg, index + 1, (get_len((*arg), &i, sep) - index));
+	tmp = ft_strjoin(first, second);
 	free(second);
+	index++;
+	i = get_next_separators(*arg, sep, &index);
+	second = ft_substr(*arg, index + 1, (get_len((*arg), &i, sep)));
+	free((*arg));
+	(*arg) = ft_strjoin(tmp, second);
+	free(second);
+	free(first);
+	free(tmp);
 }
