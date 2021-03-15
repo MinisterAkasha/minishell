@@ -21,6 +21,8 @@ int			exe_export(t_exe_args *exe_args);
 int			exe_unset(t_exe_args *exe_args);
 int			exe_exit(t_exe_args *exe_args);
 int			unknown_command(t_exe_args *exe_args);
+char		get_separator(char *arg);
+void		cut_separator(char **arg, char separator);
 
 //t_exe_info	parser(char **args, t_support_parsing_data support);
 int			get_exe_info(char **args, t_store *store);
