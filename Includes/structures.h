@@ -33,7 +33,7 @@ typedef struct	s_exe_info
 typedef struct	s_support_parsing_data
 {
 	char		*exe_str_arr[7];
-	int			(*exe_func_arr[7])(t_exe_args *);
+	int			(*exe_func_arr[8])(t_exe_args *);
 	int			(*operators_exe_func_arr[5])(char **args);
 	char		*operators_arr[5];
 }				t_support_parsing_data;

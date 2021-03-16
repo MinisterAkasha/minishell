@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+int			exe_create_env(t_exe_args *exe_args)
+{
+	return (1);
+}
+
 int			exe_pwd(t_exe_args *exe_args)
 {
 	char path[100];
@@ -52,13 +57,53 @@ int			unknown_command(t_exe_args *exe_args)
 	write_error_message("minishell: ", exe_args->args[0], ": command not found");
 	return (1);
 }
-static	char	*get_str_to_compare(char **args, int *i)
+
+
+//Расписать одну переменную на состояния и передавать ее по указателю
+//0 - не был найден ни запретный символ ни первое равно
+//1 - первое равно
+//2 - есть запретный символ
+//3 - есть запретный символ до равно или двойное равно
+//4 - нет запретных сиволов и двойных равно перед равно
+void		verify_exe_create_env(char *str, int *state_create_env)
+{
+	int		i;
+
+	i = 0;
+	while(str[i])
+	{
+		if (str[i] == '=' && *state_create_env == 0)
+			*state_create_env = 1;
+		else if (str[i] == '=' && *state_create_env == 2)
+			*state_create_env = 3;
+		else if (str[i] != '=' && !ft_isalnum(str[i]))
+//		(str[i] >= 0 && str[i] <= 47) ||
+//				(str[i] >= 58 && str[i] <= 64) ||
+//				(str[i] >= 91 && str[i] <= 96) ||
+//				(str[i] >= 123 && str[i] <= 127))
+		{
+			if (*state_create_env == 0)
+				*state_create_env = 2;
+		}
+		if (str[i + 1] && str[i] == '=' && str[i + 1] == '=')
+			*state_create_env = 3;
+		i++;
+	}
+}
+
+static	char	*get_str_to_compare(char **args, int *i, int *state_create_env)
 {
 	char			*str_to_compare;
 
 	str_to_compare = ft_strdup("");
 	while (args[*i] && ft_strcmp(args[*i], " "))
 	{
+		if (*state_create_env == 0 || *state_create_env == 2)
+			verify_exe_create_env(args[*i], state_create_env);
+		if (*state_create_env == 1 && args[*i][0] == '=')
+			*state_create_env = 3;
+		else if (*state_create_env == 1)
+			*state_create_env = 4;
 		concat_exe_arg(&str_to_compare,  args[*i]);
 		*i += 1;
 	}
@@ -72,9 +117,11 @@ static	void	init_exec_func(t_exe_info **exe_info,
 	int				j;
 	t_exe_info		*tmp_lst;
 	char			*str_to_compare;
+	int 			state_create_env;
 
+	state_create_env = 0;
 	tmp_lst = *exe_info;
-	str_to_compare = get_str_to_compare(args, i);
+	str_to_compare = get_str_to_compare(args, i, &state_create_env);
 	j = 0;
 	while (j < sizeof(support.exe_str_arr) / sizeof(char *))
 	{
@@ -91,6 +138,8 @@ static	void	init_exec_func(t_exe_info **exe_info,
 		tmp_lst->arg = ft_strdup(str_to_compare);
 		*i -= 1;
 	}
+	if (!tmp_lst->exe_function && state_create_env == 4)
+		init_exe_create_env(&tmp_lst, support, i, str_to_compare);
 	free(str_to_compare);
 }
 
@@ -157,7 +206,14 @@ int main()
 {
 	t_exe_info *test;
 	t_exe_info *fucking_test;
-	char *str = "'e'c'h'o pam > tyty ; e'ch'o 111'111' | cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra";
+	//TODO сделать эти кейсы
+	//"name= fsd" -> OK
+	//"na'me'=fasdf" -> OK
+	//"name'='dsaf" -> OK
+	//"'na'me=fasdf" -> OK
+	//"name==kklkf" -> OK
+	//char *str = "na'm'e=jjjj ; 'e'c'h'o pam > tyty ; e'ch'o 111'111' | cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ; name=name";
+	char *str = "name==kklkf ; name=fasdf'fasdf' ; name='fdsa'sfda ;  name=ppp'fds'=mmmm";
 	char **splited_str;
 	t_store *store;
 	int i;
