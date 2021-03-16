@@ -52,45 +52,19 @@ int			unknown_command(t_exe_args *exe_args)
 	write_error_message("minishell: ", exe_args->args[0], ": command not found");
 	return (1);
 }
-
-static	void	concat_arg(t_exe_info **exe_info, char *arg)
+static	char	*get_str_to_compare(char **args, int *i)
 {
-	char		separator;
-	char		*copy_exe_arg;
-	t_exe_info	*tmp_lst;
+	char			*str_to_compare;
 
-	tmp_lst = *exe_info;
-	separator = get_separator(arg);
-	copy_exe_arg = ft_strdup(tmp_lst->arg);
-	free(tmp_lst->arg);
-	if (separator == 'f')
-		tmp_lst->arg = ft_strjoin(copy_exe_arg, arg);
-	else
+	str_to_compare = ft_strdup("");
+	while (args[*i] && ft_strcmp(args[*i], " "))
 	{
-		cut_separator(&arg, separator);
-		tmp_lst->arg = ft_strjoin(copy_exe_arg, arg);
+		concat_exe_arg(&str_to_compare,  args[*i]);
+		*i += 1;
 	}
-	free(arg);
-	free(copy_exe_arg);
+	return (str_to_compare);
 }
 
-static	void	concat_test(char **first, char *second)
-{
-	char		separator;
-	char		*copy_first;
-
-	separator = get_separator(second);
-	copy_first = ft_strdup(*first);
-	free(*first);
-	if (separator == 'f')
-		(*first) = ft_strjoin(copy_first, second);
-	else
-	{
-		cut_separator(&second, separator);
-		(*first) = ft_strjoin(copy_first, second);
-	}
-	free(copy_first);
-}
 
 static	void	init_exec_func(t_exe_info **exe_info,
 								t_support_parsing_data support, char **args, int *i)
@@ -100,12 +74,7 @@ static	void	init_exec_func(t_exe_info **exe_info,
 	char			*str_to_compare;
 
 	tmp_lst = *exe_info;
-	str_to_compare = ft_strdup("");
-	while (args[*i] && ft_strcmp(args[*i], " "))
-	{
-		concat_test(&str_to_compare,  args[*i]);
-		*i += 1;
-	}
+	str_to_compare = get_str_to_compare(args, i);
 	j = 0;
 	while (j < sizeof(support.exe_str_arr) / sizeof(char *))
 	{
@@ -198,13 +167,13 @@ int main()
 		return (0);
 	init_support_parsing_arr(&store->support);
 	splited_str = split(str);
-	while (splited_str[i])
-	{
-		ft_putnbr_fd(i, 1);
-		ft_putchar_fd(')', 1);
-		ft_putendl_fd(splited_str[i], 1);
-		i++;
-	}
+//	while (splited_str[i])
+//	{
+//		ft_putnbr_fd(i, 1);
+//		ft_putchar_fd(')', 1);
+//		ft_putendl_fd(splited_str[i], 1);
+//		i++;
+//	}
 	if (!(get_exe_info(splited_str, store)))
 		return (0);
 
