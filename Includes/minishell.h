@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/14 14:56:58 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/17 14:52:13 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		get_arr_length(char **arr);
 ** env.c
 */
 void	change_env_value(char *value, char *key, char ***env);
-char	**create_env(char **env);
+char	**copy_2d_arr(char **arr);
 char	*get_env_param(char *key, char **env);
 
 /*

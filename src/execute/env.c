@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:15:38 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/17 12:58:15 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/17 14:51:57 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,27 +49,6 @@ char	*get_env_param(char *key, char **env)
 		i++;
 	}
 	return NULL;
-}
-
-char	**create_env(char **env)
-{
-	char	**env_copy;
-	int		len;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (env[i])
-		i++;
-	env_copy = (char **)malloc(sizeof(char*) * i);
-	i = 0;
-	while (env[i])
-	{
-		env_copy[i] = ft_strdup(env[i]);
-		i++;
-	}
-	env[i] = NULL;
-	return (env_copy);
 }
 
 // char	*add_env_param(char **env, char **variable)

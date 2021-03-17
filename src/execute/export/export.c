@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/17 14:49:36 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/17 14:51:28 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int exe_export(t_exe_args *exe_arg)
 	char **export;
 	
 
-	// export = create_env(exe_arg->env);
+	// export = copy_2d_arr(exe_arg->env);
 	fill_variable_list(exe_arg);
 	
 

@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 19:20:42 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/12 17:34:38 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/17 14:52:08 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,25 @@ int		get_arr_length(char **arr)
 	while (arr[len])
 		len++;
 	return (len);
+}
+
+char	**copy_2d_arr(char **arr)
+{
+	char	**env_copy;
+	int		len;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (arr[i])
+		i++;
+	env_copy = (char **)malloc(sizeof(char*) * i);
+	i = 0;
+	while (arr[i])
+	{
+		env_copy[i] = ft_strdup(arr[i]);
+		i++;
+	}
+	arr[i] = NULL;
+	return (env_copy);
 }
