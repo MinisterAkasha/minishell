@@ -6,17 +6,17 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/17 14:55:04 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/17 19:39:42 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	fill_variable_list(t_exe_args *exe_arg)
+void fill_variable_list(t_exe_args *exe_arg)
 {
 	char **variable;
 	int i = 1;
-	
+
 	while (exe_arg->args[i])
 	{
 		variable = ft_split(exe_arg->args[i], '=');
@@ -31,36 +31,47 @@ void	fill_variable_list(t_exe_args *exe_arg)
 	}
 }
 
+char **fill_export_with_variable(char **export, t_variable *$variable)
+{
+	char *variable;
+	char *key_pattern;
+	char **export_copy;
+
+	key_pattern = ft_strjoin($variable->key, "=");
+	variable = ft_strjoin(key_pattern, $variable->value);
+
+	export_copy = add_param_to_2d_arr(export, variable);
+
+	free(variable);
+	free(key_pattern);
+
+	return (export_copy);
+}
+
 int exe_export(t_exe_args *exe_arg)
 {
 	char **export;
-	
-
-	// export = copy_2d_arr(exe_arg->env);
-	fill_variable_list(exe_arg);
-	
-
+	char **export_copy;
 	t_list *tmp;
 	t_variable *$variable;
+
+	export = copy_2d_arr(exe_arg->env);
+	fill_variable_list(exe_arg);
 	tmp = exe_arg->variables;
 	while (tmp)
 	{
 		$variable = tmp->content;
-		printf("%s:%s\n", $variable->key, $variable->value);
+		if ($variable->is_exported)
+		{
+			export_copy = copy_2d_arr(export);
+			free_2d_arr(export);
+			export = fill_export_with_variable(export_copy, $variable);
+			free_2d_arr(export_copy);
+		}
 		tmp = tmp->next;
 	}
-
-	// while ()
-	// if (get_arr_length(exe_arg->args) == 1)
-	// {
-	// 	sort_export(export, 0, get_arr_length(export) - 1);
-	// 	int i = 0;
-	// 	while (export[i])
-	// 	{
-	// 		printf("%s\n", export[i]);
-	// 		i++;
-	// 	}
-	// }
-
+	if (get_arr_length(exe_arg->args) == 1)
+		print_2d_arr(sort_export(export, 0, get_arr_length(export) - 1));
+	free_2d_arr(export);
 	return (1);
 }

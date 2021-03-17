@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/17 14:52:13 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/17 15:04:50 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ void	init_support_parsing_arr(t_support_parsing_data *data);
 void	free_2d_arr(char **arr);
 void	write_error_message(char *message_title, char *message_body, char *message_error);
 int		get_arr_length(char **arr);
+char	**add_param_to_2d_arr(char **arr, char *param);
+char	**copy_2d_arr(char **arr);
 
 /*
 ** env.c
 */
 void	change_env_value(char *value, char *key, char ***env);
-char	**copy_2d_arr(char **arr);
 char	*get_env_param(char *key, char **env);
 
 /*
