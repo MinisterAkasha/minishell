@@ -58,58 +58,46 @@ int			unknown_command(t_exe_args *exe_args)
 	return (1);
 }
 
-
-//Расписать одну переменную на состояния и передавать ее по указателю
-//0 - не был найден ни запретный символ ни первое равно
-//1 - первое равно
-//2 - есть запретный символ
-//3 - есть запретный символ до равно или двойное равно
-//4 - нет запретных сиволов и двойных равно перед равно
-void		verify_exe_create_env(char *str, int *state_create_env)
+static	void	init_redirection(t_exe_info **tmp_lst, t_support_parsing_data support, int *decrement, char *str)
 {
+	if ((*tmp_lst)->operator_exe_function != NULL
+		 && (*tmp_lst)->operator_exe_function != support.operators_exe_func_arr[0]
+		 && (*tmp_lst)->operator_exe_function != support.operators_exe_func_arr[1])
+	{
+		(*tmp_lst)->exe_function = NULL;
+		free((*tmp_lst)->arg);
+		(*tmp_lst)->arg = ft_strdup(str);
+		*decrement -= 1;
+	}
+	return ;
+}
+
+static	void	init_exe_env(t_exe_info **tmp_lst, t_support_parsing_data support, int *decrement, char *str)
+{
+	char	**splited_str;
+	int		result;
 	int		i;
 
+	result = 1;
 	i = 0;
-	while(str[i])
+	splited_str = ft_split(str, '=');
+	if (get_arr_length(splited_str) < 2)
+		result = 0;
+	while (splited_str[0][i])
 	{
-		if (str[i] == '=' && *state_create_env == 0)
-			*state_create_env = 1;
-		else if (str[i] == '=' && *state_create_env == 2)
-			*state_create_env = 3;
-		else if (str[i] != '=' && !ft_isalnum(str[i]))
-//		(str[i] >= 0 && str[i] <= 47) ||
-//				(str[i] >= 58 && str[i] <= 64) ||
-//				(str[i] >= 91 && str[i] <= 96) ||
-//				(str[i] >= 123 && str[i] <= 127))
-		{
-			if (*state_create_env == 0)
-				*state_create_env = 2;
-		}
-		if (str[i + 1] && str[i] == '=' && str[i + 1] == '=')
-			*state_create_env = 3;
+		if (!ft_isalnum(splited_str[0][i]))
+			result = 0;
 		i++;
 	}
-}
-
-static	char	*get_str_to_compare(char **args, int *i, int *state_create_env)
-{
-	char			*str_to_compare;
-
-	str_to_compare = ft_strdup("");
-	while (args[*i] && ft_strcmp(args[*i], " "))
+	if (result == 1)
 	{
-		if (*state_create_env == 0 || *state_create_env == 2)
-			verify_exe_create_env(args[*i], state_create_env);
-		if (*state_create_env == 1 && args[*i][0] == '=')
-			*state_create_env = 3;
-		else if (*state_create_env == 1)
-			*state_create_env = 4;
-		concat_exe_arg(&str_to_compare,  args[*i]);
-		*i += 1;
+		free((*tmp_lst)->arg);
+		(*tmp_lst)->arg = ft_strdup(str);
+		(*tmp_lst)->exe_function = support.exe_func_arr[7];
+		*decrement -= 1;
 	}
-	return (str_to_compare);
+	free_2d_arr(splited_str);
 }
-
 
 static	void	init_exec_func(t_exe_info **exe_info,
 								t_support_parsing_data support, char **args, int *i)
@@ -117,11 +105,11 @@ static	void	init_exec_func(t_exe_info **exe_info,
 	int				j;
 	t_exe_info		*tmp_lst;
 	char			*str_to_compare;
-	int 			state_create_env;
+	int				state_env;
 
-	state_create_env = 0;
+	state_env = 0;
 	tmp_lst = *exe_info;
-	str_to_compare = get_str_to_compare(args, i, &state_create_env);
+	str_to_compare = get_str_to_compare(args, i, &state_env);
 	j = 0;
 	while (j < sizeof(support.exe_str_arr) / sizeof(char *))
 	{
@@ -129,29 +117,13 @@ static	void	init_exec_func(t_exe_info **exe_info,
 			tmp_lst->exe_function = support.exe_func_arr[j];
 		j++;
 	}
-	if (tmp_lst->operator_exe_function != NULL &&
-		tmp_lst->operator_exe_function != support.operators_exe_func_arr[0] &&
-		tmp_lst->operator_exe_function != support.operators_exe_func_arr[1])
-	{
-		tmp_lst->exe_function = NULL;
-		free(tmp_lst->arg);
-		tmp_lst->arg = ft_strdup(str_to_compare);
-		*i -= 1;
-	}
-	if (!tmp_lst->exe_function && state_create_env == 4)
-		init_exe_create_env(&tmp_lst, support, i, str_to_compare);
+	init_redirection(&tmp_lst, support, i, str_to_compare);
+	if (!tmp_lst->exe_function && state_env == 4)
+		init_exe_env(&tmp_lst, support, i, str_to_compare);
 	free(str_to_compare);
 }
 
-static	void	set_default_new_lst(t_exe_info **lst)
-{
-	(*lst)->next = NULL;
-	(*lst)->exe_function = NULL;
-	(*lst)->operator_exe_function = NULL;
-	(*lst)->arg = ft_strdup("");
-}
-
-static	int		init_operator(t_exe_info **tmp_lst, int *increm,
+static	int	init_operator(t_exe_info **tmp_lst, int *increm,
 								t_support_parsing_data support, char *arg)
 {
 	int		i;
@@ -174,7 +146,7 @@ static	int		init_operator(t_exe_info **tmp_lst, int *increm,
 	return (-1);
 }
 
-int				get_exe_info(char **args, t_store *store)
+int	get_exe_info(char **args, t_store *store)
 {
 	t_exe_info	*tmp_lst;
 	int			i;
@@ -189,8 +161,8 @@ int				get_exe_info(char **args, t_store *store)
 		init_exec_func(&tmp_lst, store->support, args, &i);
 		while (args[i])
 		{
-			if (!args[++i] ||
-				(init_operator(&tmp_lst, &i, store->support, args[i])) > 0)
+			if (!args[++i]
+				 || (init_operator(&tmp_lst, &i, store->support, args[i])) > 0)
 				break ;
 			else
 				concat_arg(&tmp_lst, args[i]);
@@ -206,14 +178,15 @@ int main()
 {
 	t_exe_info *test;
 	t_exe_info *fucking_test;
-	//TODO сделать эти кейсы
 	//"name= fsd" -> OK
 	//"na'me'=fasdf" -> OK
 	//"name'='dsaf" -> OK
 	//"'na'me=fasdf" -> OK
 	//"name==kklkf" -> OK
-	//char *str = "na'm'e=jjjj ; 'e'c'h'o pam > tyty ; e'ch'o 111'111' | cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ; name=name";
-	char *str = "name==kklkf ; name=fasdf'fasdf' ; name='fdsa'sfda ;  name=ppp'fds'=mmmm";
+	//"name===fdsa" -> OK
+	//"na'm'e=test" -> OK
+	char *str = "name=test ; 'e'c'h'o pam > tyty ; e'ch'o 111'111' | cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ; name=name";
+	//char *str = "name==kklkf ; name=fasdf'fasdf' ; name='fdsa'sfda ;  name=ppp'fds'=mmmm";
 	char **splited_str;
 	t_store *store;
 	int i;
@@ -223,13 +196,6 @@ int main()
 		return (0);
 	init_support_parsing_arr(&store->support);
 	splited_str = split(str);
-//	while (splited_str[i])
-//	{
-//		ft_putnbr_fd(i, 1);
-//		ft_putchar_fd(')', 1);
-//		ft_putendl_fd(splited_str[i], 1);
-//		i++;
-//	}
 	if (!(get_exe_info(splited_str, store)))
 		return (0);
 

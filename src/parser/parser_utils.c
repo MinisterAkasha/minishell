@@ -12,29 +12,60 @@
 
 #include "minishell.h"
 
-void	init_exe_create_env(t_exe_info **tmp_lst, t_support_parsing_data support, int *decrement, char *str)
+static	void	verify_exe_create_env(char *str, int *state_env)
 {
-	char	**splited_str;
-	int		result;
 	int		i;
 
-	result = 1;
 	i = 0;
-	splited_str = ft_split(str, '=');
-	if (get_arr_length(splited_str) < 2)
-		result = 0;
-	while (splited_str[0][i])
+	while(str[i])
 	{
-		if (!ft_isalnum(splited_str[0][i]))
-			result = 0;
+		if (str[i] == '=' && *state_env == 0)
+			*state_env = 1;
+		else if (str[i] == '=' && *state_env == 2)
+			*state_env = 3;
+		else if (str[i] != '=' && !ft_isalnum(str[i]))
+		{
+			if (*state_env == 0)
+				*state_env = 2;
+		}
+		if (str[i + 1] && str[i] == '=' && str[i + 1] == '=')
+			*state_env = 3;
 		i++;
 	}
-	if (result == 1)
+}
+
+/*
+** state_env validate arg to env variable
+** 0 - didn't find equal char or forbidden char
+** 1 - find first equal char
+** 2 - find forbidden char
+** 3 - find forbidden char before equal char or several equal on each other
+** 4 - without forbidden chars and has one equal -> valid
+*/
+
+char			*get_str_to_compare(char **args, int *i, int *state_env)
+{
+	char			*str_to_compare;
+
+	str_to_compare = ft_strdup("");
+	while (args[*i] && ft_strcmp(args[*i], " "))
 	{
-		free((*tmp_lst)->arg);
-		(*tmp_lst)->arg = ft_strdup(str);
-		(*tmp_lst)->exe_function = support.exe_func_arr[7];
-		*decrement -= 1;
+		if (*state_env == 0 || *state_env == 2)
+			verify_exe_create_env(args[*i], state_env);
+		if (*state_env == 1 && args[*i][0] == '=')
+			*state_env = 3;
+		else if (*state_env == 1)
+			*state_env = 4;
+		concat_exe_arg(&str_to_compare,  args[*i]);
+		*i += 1;
 	}
-	free_2d_arr(splited_str);
+	return (str_to_compare);
+}
+
+void			set_default_new_lst(t_exe_info **lst)
+{
+	(*lst)->next = NULL;
+	(*lst)->exe_function = NULL;
+	(*lst)->operator_exe_function = NULL;
+	(*lst)->arg = ft_strdup("");
 }

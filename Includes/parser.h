@@ -38,7 +38,8 @@ void		concat_exe_arg(char **first, char *second);
 /*
 ** parser_utils.c
 */
-void		init_exe_create_env(t_exe_info **tmp_lst, t_support_parsing_data support, int *decrement, char *str);
+void		set_default_new_lst(t_exe_info **lst);
+char		*get_str_to_compare(char **args, int *i, int *state_create_env);
 
 /*
 ** split.c
