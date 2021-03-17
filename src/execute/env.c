@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:15:38 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/14 14:57:44 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/17 12:58:15 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*get_env_param(char *key, char **env)
 		}
 		i++;
 	}
-	return "no matches found";//TODO
+	return NULL;
 }
 
 char	**create_env(char **env)
@@ -68,6 +68,7 @@ char	**create_env(char **env)
 		env_copy[i] = ft_strdup(env[i]);
 		i++;
 	}
+	env[i] = NULL;
 	return (env_copy);
 }
 
