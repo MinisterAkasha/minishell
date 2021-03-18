@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/17 14:51:28 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/18 14:58:50 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int main(int argc, char **argv, char **env)
 		return (0); //TODO обработать ошибку
 	store->exe_args.args = argv;
 	store->exe_args.env = copy_2d_arr(env);
+	store->exe_args.env_init = copy_2d_arr(store->exe_args.env);
 	store->exe_args.variables = NULL;
 	// add_variable_to_list(&store->exe_args.variables, "name", "Ilya", 0);
 	// add_variable_to_list(&store->variables, "id", "1", 0);

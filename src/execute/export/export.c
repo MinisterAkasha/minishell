@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/18 14:28:57 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/18 14:54:45 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	write_transform_arr(char **arr, t_list *var)
 		ft_putstr_fd(str[0], 1);
 		if (variable && variable->is_env)
 		{
-			ft_putstr_fd("=", 1);
+			ft_putstr_fd("=", 1);//TODO 
 			ft_putstr_fd("\"", 1);
 		}
 		if (str[1])
