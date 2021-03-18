@@ -42,12 +42,6 @@ int			exe_exit(t_exe_args *exe_args)
 	return (1);
 }
 
-// int			unknown_command(t_exe_args *exe_args)
-// {
-// 	write_error_message("minishell: ", exe_args->args[0], ": command not found");
-// 	return (1);
-// }
-
 static	void	init_redirection(t_exe_info **tmp_lst, t_support_parsing_data support, int *decrement, char *str)
 {
 	if ((*tmp_lst)->operator_exe_function != NULL
@@ -55,8 +49,7 @@ static	void	init_redirection(t_exe_info **tmp_lst, t_support_parsing_data suppor
 		 && (*tmp_lst)->operator_exe_function != support.operators_exe_func_arr[1])
 	{
 		(*tmp_lst)->exe_function = NULL;
-		free((*tmp_lst)->args);
-		(*tmp_lst)->args = ft_strdup(str);
+		init_arg(tmp_lst, str);
 		*decrement -= 1;
 	}
 	return ;
@@ -81,9 +74,8 @@ static	void	init_exe_env(t_exe_info **tmp_lst, t_support_parsing_data support, i
 	}
 	if (result == 1)
 	{
-		free((*tmp_lst)->args);
-		(*tmp_lst)->args = ft_strdup(str);
 		(*tmp_lst)->exe_function = support.exe_func_arr[7];
+		init_arg(tmp_lst, str);
 		*decrement -= 1;
 	}
 	free_2d_arr(splited_str);
@@ -110,6 +102,8 @@ static	void	init_exec_func(t_exe_info **exe_info,
 	init_redirection(&tmp_lst, support, i, str_to_compare);
 	if (!tmp_lst->exe_function && state_env == 4)
 		init_exe_env(&tmp_lst, support, i, str_to_compare);
+	if (!tmp_lst->exe_function)
+		init_arg(&tmp_lst, str_to_compare);
 	free(str_to_compare);
 }
 
@@ -163,3 +157,47 @@ int	get_exe_info(char **args, t_store *store)
 	}
 	return (1);
 }
+
+//int main()
+//{
+//	t_exe_info *test;
+//	t_exe_info *fucking_test;
+//	//"name= fsd" -> OK
+//	//"na'me'=fasdf" -> OK
+//	//"name'='dsaf" -> OK
+//	//"'na'me=fasdf" -> OK
+//	//"name==kklkf" -> OK
+//	//"name===fdsa" -> OK
+//	//"na'm'e=test" -> OK
+//	char *str = "bin ; ls ; name=test ; 'e'c'h'o pam > tyty ; e'ch'o 111'111' | cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ; name=name";
+//	//char *str = "name==kklkf ; name=fasdf'fasdf' ; name='fdsa'sfda ;  name=ppp'fds'=mmmm";
+////	char *str = "  ";
+//	char **splited_str;
+//	t_store *store;
+//	int i;
+//
+//	i = 0;
+//	if (!(store = (t_store *) malloc(sizeof(t_store))))
+//		return (0);
+//	init_support_parsing_arr(&store->support);
+//	splited_str = split(str);
+//	if (!(get_exe_info(splited_str, store)))
+//		return (0);
+//
+////      while (1)
+////      {
+////
+////      }
+//	while (store->exe_info)
+//	{
+//		printf("\n====$$$$====\n");
+//		printf("store->exe_info->arg: %s\n", store->exe_info->args);
+//		printf("store->exe_info->exe_function: %p\n",
+//			   store->exe_info->exe_function);
+//		printf("store->exe_info->operator_exe_function: %p\n",
+//			   store->exe_info->operator_exe_function);
+//		printf("\n");
+//		store->exe_info = store->exe_info->next;
+//	}
+//	return (0);
+//}
