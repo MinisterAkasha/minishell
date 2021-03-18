@@ -23,4 +23,13 @@ char	**sort_export(char **export, int left, int right);
 int		partition(char **env, int left, int right);
 void	swap_elems(char **elem_1, char **elem_2);
 
+/*
+** export.c
+*/
+int		exe_export(t_exe_args *exe_arg);
+void	fill_variable_list(t_exe_args *exe_arg);
+char	**fill_arr_with_variable(char **arr, t_variable *$variable);
+char	**fill_export_with_variables(char **env, t_list *variables);
+char	**fill_env_with_variables(char **env, t_list *variables);
+
 #endif
