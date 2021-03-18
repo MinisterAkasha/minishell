@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/18 14:54:45 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/18 15:25:19 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ static void	write_transform_arr(char **arr, t_list *var)
 		variable = find_variable(var, str[0]);
 		ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(str[0], 1);
-		if (variable && variable->is_env)
+		if (!variable || (variable && variable->is_env))
 		{
 			ft_putstr_fd("=", 1);//TODO 
 			ft_putstr_fd("\"", 1);
 		}
 		if (str[1])
 			ft_putstr_fd(str[1], 1);
-		if (variable && variable->is_env)
+		if (!variable || (variable && variable->is_env))
 			ft_putstr_fd("\"", 1);
 		ft_putendl_fd("", 1);
 		free_2d_arr(str);
@@ -73,7 +73,7 @@ static void	write_transform_arr(char **arr, t_list *var)
 	}
 }
 
-char		**fill_env_with_variables(char **env, t_list *variables)
+char		**fill_export_with_variables(char **env, t_list *variables)
 {
 	char		**new_arr;
 	char		**sup_arr;
@@ -97,15 +97,41 @@ char		**fill_env_with_variables(char **env, t_list *variables)
 	return (new_arr);
 }
 
-int			exe_export(t_exe_args *exe_arg)
+char		**fill_env_with_variables(char **env, t_list *variables)
 {
-	char		**export;
-	char		**export_copy;
+	char		**new_arr;
+	char		**sup_arr;
 	t_list		*tmp;
 	t_variable	*$variable;
 
+	tmp = variables;
+	new_arr = copy_2d_arr(env);
+	while (tmp)
+	{
+		$variable = tmp->content;
+		if ($variable->is_env)
+		{
+			sup_arr = copy_2d_arr(new_arr);
+			free_2d_arr(new_arr);
+			new_arr = fill_arr_with_variable(sup_arr, $variable);
+			free_2d_arr(sup_arr);
+		}
+		tmp = tmp->next;
+	}
+	return (new_arr);
+}
+
+int			exe_export(t_exe_args *exe_arg)
+{
+	char		**export;
+	char		**env_copy;
+
 	fill_variable_list(exe_arg);
-	export = fill_env_with_variables(exe_arg->env, exe_arg->variables);
+	env_copy = copy_2d_arr(exe_arg->env_init);
+	export = fill_export_with_variables(env_copy, exe_arg->variables);
+	free_2d_arr(exe_arg->env);
+	exe_arg->env = fill_env_with_variables(env_copy, exe_arg->variables);
+	free_2d_arr(env_copy);
 	if (get_arr_length(exe_arg->args) == 1)
 		write_transform_arr(sort_export(export, 0, get_arr_length(export) - 1), exe_arg->variables);
 	free_2d_arr(export);
