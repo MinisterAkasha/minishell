@@ -67,6 +67,7 @@ void	print_2d_arr(char **arr);
 ** support_lst.c
 */
 void	del_item_libft_lst(void *value);
+void	exe_info_lstclear(t_exe_info **lst);
 
 /*
 ** env.c

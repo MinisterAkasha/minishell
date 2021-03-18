@@ -55,6 +55,7 @@ int loop_shell(t_store *store)
 		args = split(line);
 		get_exe_info(args, store);
 		status = execute(store);
+		exe_info_lstclear(&store->exe_info);
 		free(line);
 		//TODO зачистить args
 		// free_2d_arr(args);
