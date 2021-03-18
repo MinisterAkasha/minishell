@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/17 20:47:55 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/18 13:11:02 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ void	transform_arr(char **arr, t_list *var)
 {
 	int			i;
 	char		**str;
-	char		*tmp;
-	char		*support;
 	t_variable	*variable;
 
 	i = 0;
@@ -61,31 +59,18 @@ void	transform_arr(char **arr, t_list *var)
 	{
 		str = ft_split(arr[i], '=');
 		variable = find_variable(var, str[0]);
-		tmp = ft_strjoin("declare -x ", str[0]);
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(str[0], 1);
+		if (variable && variable->is_env)
+		{
+			ft_putstr_fd("=", 1);
+			ft_putstr_fd("\"", 1);
+		}
 		if (str[1])
-		{
-			support = ft_strjoin(tmp, "=");
-			free(tmp);
-			tmp = ft_strjoin(support, "\"");
-			free(support);
-			support = ft_strjoin(tmp, str[1]);
-			free(tmp);
-			tmp = ft_strjoin(support, "\"");
-			free(support);
-		}
-		else if (variable->is_env)
-		{
-			support = ft_strjoin(tmp, "=");
-			free(tmp);
-			tmp = ft_strjoin(support, "\"");
-			free(support);
-			support = ft_strjoin(tmp, "\"");
-			free(tmp);
-			tmp = ft_strjoin(support, "");
-			free(support);
-		}
-		ft_putendl_fd(tmp, 1);
-		free(tmp);
+			ft_putstr_fd(str[1], 1);
+		if (variable && variable->is_env)
+			ft_putstr_fd("\"", 1);
+		ft_putendl_fd("", 1);
 		free_2d_arr(str);
 		i++;
 	}
