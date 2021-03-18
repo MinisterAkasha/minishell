@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/18 13:11:02 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/18 13:16:25 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	fill_variable_list(t_exe_args *exe_arg)
+void		fill_variable_list(t_exe_args *exe_arg)
 {
 	char	**variable;
 	int		i = 1;
@@ -31,24 +31,21 @@ void	fill_variable_list(t_exe_args *exe_arg)
 	}
 }
 
-char	**fill_export_with_variable(char **export, t_variable *$variable)
+char		**fill_arr_with_variable(char **arr, t_variable *$variable)
 {
 	char *variable;
 	char *key_pattern;
-	char **export_copy;
+	char **arr_copy;
 
 	key_pattern = ft_strjoin($variable->key, "=");
 	variable = ft_strjoin(key_pattern, $variable->value);
-
-	export_copy = add_param_to_2d_arr(export, variable);
-
+	arr_copy = add_param_to_2d_arr(arr, variable);
 	free(variable);
 	free(key_pattern);
-
-	return (export_copy);
+	return (arr_copy);
 }
 
-void	transform_arr(char **arr, t_list *var)
+static void	write_transform_arr(char **arr, t_list *var)
 {
 	int			i;
 	char		**str;
@@ -76,7 +73,7 @@ void	transform_arr(char **arr, t_list *var)
 	}
 }
 
-int		exe_export(t_exe_args *exe_arg)
+int			exe_export(t_exe_args *exe_arg)
 {
 	char		**export;
 	char		**export_copy;
@@ -93,13 +90,13 @@ int		exe_export(t_exe_args *exe_arg)
 		{
 			export_copy = copy_2d_arr(export);
 			free_2d_arr(export);
-			export = fill_export_with_variable(export_copy, $variable);
+			export = fill_arr_with_variable(export_copy, $variable);
 			free_2d_arr(export_copy);
 		}
 		tmp = tmp->next;
 	}
 	if (get_arr_length(exe_arg->args) == 1)
-		transform_arr(sort_export(export, 0, get_arr_length(export) - 1), exe_arg->variables);
+		write_transform_arr(sort_export(export, 0, get_arr_length(export) - 1), exe_arg->variables);
 	free_2d_arr(export);
 	return (1);
 }
