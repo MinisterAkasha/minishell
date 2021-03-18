@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/18 17:52:06 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/18 18:52:13 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int loop_shell(t_store *store)
 		args = split(line);
 		get_exe_info(args, store);
 		status = execute(store);
+		// free_2d_arr(args);
 		free(line);
 		//TODO зачистить args
-		// free_2d_arr(args);
 	}
 	return (1);
 }
