@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/18 13:16:25 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/18 14:28:57 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,30 @@ static void	write_transform_arr(char **arr, t_list *var)
 	}
 }
 
+char		**fill_env_with_variables(char **env, t_list *variables)
+{
+	char		**new_arr;
+	char		**sup_arr;
+	t_list		*tmp;
+	t_variable	*$variable;
+
+	tmp = variables;
+	new_arr = copy_2d_arr(env);
+	while (tmp)
+	{
+		$variable = tmp->content;
+		if ($variable->is_exported)
+		{
+			sup_arr = copy_2d_arr(new_arr);
+			free_2d_arr(new_arr);
+			new_arr = fill_arr_with_variable(sup_arr, $variable);
+			free_2d_arr(sup_arr);
+		}
+		tmp = tmp->next;
+	}
+	return (new_arr);
+}
+
 int			exe_export(t_exe_args *exe_arg)
 {
 	char		**export;
@@ -80,21 +104,8 @@ int			exe_export(t_exe_args *exe_arg)
 	t_list		*tmp;
 	t_variable	*$variable;
 
-	export = copy_2d_arr(exe_arg->env);
 	fill_variable_list(exe_arg);
-	tmp = exe_arg->variables;
-	while (tmp)
-	{
-		$variable = tmp->content;
-		if ($variable->is_exported)
-		{
-			export_copy = copy_2d_arr(export);
-			free_2d_arr(export);
-			export = fill_arr_with_variable(export_copy, $variable);
-			free_2d_arr(export_copy);
-		}
-		tmp = tmp->next;
-	}
+	export = fill_env_with_variables(exe_arg->env, exe_arg->variables);
 	if (get_arr_length(exe_arg->args) == 1)
 		write_transform_arr(sort_export(export, 0, get_arr_length(export) - 1), exe_arg->variables);
 	free_2d_arr(export);

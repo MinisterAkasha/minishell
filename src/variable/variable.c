@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 19:36:24 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/17 20:08:15 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/18 14:30:16 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	add_variable_to_list(t_list **variable_list, char *key, char *value, int is
 	{
 		free(variable->value);
 		variable->value = ft_strdup(value);
+		variable->is_exported = is_exported;
+		variable->is_env = is_env;
 	}
 	else
 		ft_lstadd_front(variable_list, ft_lstnew(create_variable(key, value, is_exported, is_env)));
