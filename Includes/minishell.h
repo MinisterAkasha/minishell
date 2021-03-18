@@ -50,12 +50,22 @@ void	init_support_parsing_arr(t_support_parsing_data *data);
 /*
 ** support.c
 */
-void	free_2d_arr(char **arr);
 void	write_error_message(char *message_title, char *message_body, char *message_error);
-int		get_arr_length(char **arr);
+
+
+/*
+** support_arr.c
+*/
+void	free_2d_arr(char **arr);
 char	**add_param_to_2d_arr(char **arr, char *param);
+int		get_arr_length(char **arr);
 char	**copy_2d_arr(char **arr);
 void	print_2d_arr(char **arr);
+
+
+/*
+** support_lst.c
+*/
 void	del_item_libft_lst(void *value);
 
 /*
