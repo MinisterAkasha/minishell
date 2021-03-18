@@ -28,6 +28,7 @@ SRC_PATHS = ./src \
 			./src/shlvl \
 			./src/variable \
 			./src/utils \
+			./src/operators \
 			./src/utils/GNL
 
 vpath %.c $(SRC_PATHS)

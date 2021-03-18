@@ -15,6 +15,7 @@
 
 # include "structures.h"
 
+int			exe_create_env(t_exe_args *exe_args);
 int			exe_pwd(t_exe_args *exe_args);
 int			exe_echo(t_exe_args *exe_args);
 int			exe_export(t_exe_args *exe_args);
@@ -22,6 +23,32 @@ int			exe_unset(t_exe_args *exe_args);
 int			exe_exit(t_exe_args *exe_args);
 int			unknown_command(t_exe_args *exe_args);
 
-t_exe_info	parser(char **args, t_support_parsing_data support);
+/*
+** separator.c
+*/
+char		get_separator(char *arg);
+void		cut_separator(char **arg, char separator);
+
+/*
+** concatenate.c
+*/
+void		concat_arg(t_exe_info **exe_info, char *arg);
+void		concat_exe_arg(char **first, char *second);
+
+/*
+** parser_utils.c
+*/
+void		set_default_new_lst(t_exe_info **lst);
+char		*get_str_to_compare(char **args, int *i, int *state_create_env);
+
+/*
+** split.c
+*/
+char		**split(char const *s);
+
+/*
+** parser.c
+*/
+int			get_exe_info(char **args, t_store *store);
 
 #endif

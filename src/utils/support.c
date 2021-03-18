@@ -44,6 +44,13 @@ void	write_error_message(char *message_title, char *message_body, char *message_
 	ft_putendl_fd(message_error, 1);
 }
 
+
+void			del_item_libft_lst(void *value)
+{
+	free(value);
+	value = NULL;
+}
+
 int		get_arr_length(char **arr)
 {
 	int len;

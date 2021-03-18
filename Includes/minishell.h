@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/17 20:09:14 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/18 15:51:36 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 # include "execute.h"
 # include "parser.h"
+# include "operators.h"
 
 # include "get_next_line.h"
 # include "../src/utils/libft/includes/libft.h"
@@ -55,6 +56,8 @@ int		get_arr_length(char **arr);
 char	**add_param_to_2d_arr(char **arr, char *param);
 char	**copy_2d_arr(char **arr);
 void	print_2d_arr(char **arr);
+void	del_item_libft_lst(void *value);
+
 /*
 ** env.c
 */
