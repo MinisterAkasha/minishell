@@ -69,3 +69,9 @@ void			set_default_new_lst(t_exe_info **lst)
 	(*lst)->operator_exe_function = NULL;
 	(*lst)->args = ft_strdup("");
 }
+
+void			init_arg(t_exe_info **tmp_lst, char *str)
+{
+	free((*tmp_lst)->args);
+	(*tmp_lst)->args = ft_strdup(str);
+}
