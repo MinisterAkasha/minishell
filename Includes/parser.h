@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 16:43:25 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/18 17:53:06 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/18 22:44:58 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 int			exe_create_env(t_exe_args *exe_args);
 int			exe_pwd(t_exe_args *exe_args);
 int			exe_echo(t_exe_args *exe_args);
-int			exe_unset(t_exe_args *exe_args);
 int			exe_exit(t_exe_args *exe_args);
 int			unknown_command(t_exe_args *exe_args);
 

@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 15:05:53 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/18 15:55:59 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/18 22:24:15 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@ int			exe_pwd(t_exe_args *exe_args)
 int			exe_echo(t_exe_args *exe_args)
 {
 	write(1, "echo\n", 5);
-	return (1);
-}
-int			exe_unset(t_exe_args *exe_args)
-{
-	write(1, "unset\n", 6);
 	return (1);
 }
 int			exe_exit(t_exe_args *exe_args)
