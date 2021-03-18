@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/18 16:06:36 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/18 17:49:24 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int			exe_export(t_exe_args *exe_arg)
 	export = fill_export_with_variables(env_copy, exe_arg->variables);
 	free_2d_arr(exe_arg->env);
 	exe_arg->env = fill_env_with_variables(env_copy, exe_arg->variables);
-	// free_2d_arr(env_copy);
+	free_2d_arr(env_copy);
 	if (get_arr_length(exe_arg->args) == 0)
 		write_transform_arr(sort_export(export, 0, get_arr_length(export) - 1), exe_arg->variables);
 	free_2d_arr(export);
