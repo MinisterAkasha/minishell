@@ -44,8 +44,7 @@ static	void	init_redirection(t_exe_info **tmp_lst, t_support_parsing_data suppor
 		 && (*tmp_lst)->operator_exe_function != support.operators_exe_func_arr[1])
 	{
 		(*tmp_lst)->exe_function = NULL;
-		init_arg(tmp_lst, str);
-		*decrement -= 1;
+		init_arg(tmp_lst, str, decrement);
 	}
 	return ;
 }
@@ -70,8 +69,7 @@ static	void	init_exe_env(t_exe_info **tmp_lst, t_support_parsing_data support, i
 	if (result == 1)
 	{
 		(*tmp_lst)->exe_function = support.exe_func_arr[7];
-		init_arg(tmp_lst, str);
-		*decrement -= 1;
+		init_arg(tmp_lst, str, decrement);
 	}
 	free_2d_arr(splited_str);
 }
@@ -98,7 +96,7 @@ static	void	init_exec_func(t_exe_info **exe_info,
 	if (!tmp_lst->exe_function && state_env == 4)
 		init_exe_env(&tmp_lst, support, i, str_to_compare);
 	if (!tmp_lst->exe_function)
-		init_arg(&tmp_lst, str_to_compare);
+		init_arg(&tmp_lst, str_to_compare, i);
 	free(str_to_compare);
 }
 

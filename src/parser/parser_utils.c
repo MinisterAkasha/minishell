@@ -70,8 +70,9 @@ void			set_default_new_lst(t_exe_info **lst)
 	(*lst)->args = protect_malloc(ft_strdup(""));
 }
 
-void			init_arg(t_exe_info **tmp_lst, char *str)
+void			init_arg(t_exe_info **tmp_lst, char *str, int *decrement)
 {
 	free((*tmp_lst)->args);
 	(*tmp_lst)->args = protect_malloc(ft_strdup(str));
+	*decrement -= 1;
 }
