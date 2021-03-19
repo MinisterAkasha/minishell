@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/18 15:51:36 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:20:50 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char	**add_param_to_2d_arr(char **arr, char *param);
 int		get_arr_length(char **arr);
 char	**copy_2d_arr(char **arr);
 void	print_2d_arr(char **arr);
+char	**remove_param_from_2d_arr(char **arr, char *param);
 
 
 /*

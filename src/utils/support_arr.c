@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   support_arr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tilda <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 20:27:58 by tilda             #+#    #+#             */
-/*   Updated: 2021/03/18 20:27:59 by tilda            ###   ########.fr       */
+/*   Updated: 2021/03/19 15:55:32 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,30 @@ char	**add_param_to_2d_arr(char **arr, char *param)
 	}
 	new_arr[i++] = protect_malloc(ft_strdup(param));
 	new_arr[i] = NULL;
+	return (new_arr);
+}
+
+char	**remove_param_from_2d_arr(char **arr, char *param)
+{
+	char	**new_arr;
+	char	**str;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	new_arr = (char **)malloc(sizeof(char *) * (get_arr_length(arr)));
+	while (arr[i])
+	{
+		str = ft_split(arr[i], '=');
+		if (ft_strcmp(str[0], param))
+		{
+			new_arr[j] = ft_strdup(arr[i]);
+			j++;
+		}
+		i++;
+		free_2d_arr(str);
+	}
+	new_arr[j] = NULL;
 	return (new_arr);
 }

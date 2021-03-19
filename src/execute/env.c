@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:15:38 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/17 14:51:57 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/19 13:06:23 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ void	change_env_value(char *value, char *key, char ***env)
 		{
 			free(tmp[i]);
 			key_pattern = ft_strjoin(key, "=");
-			tmp[i] = ft_strjoin(key_pattern, value);
+			if (value)
+				tmp[i] = ft_strjoin(key_pattern, value);
+			else
+				tmp[i] = ft_strjoin(key_pattern, "");
 			free(key_pattern);
 			return ;
 		}
@@ -48,23 +51,18 @@ char	*get_env_param(char *key, char **env)
 		}
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
-
-// char	*add_env_param(char **env, char **variable)
-// {
-	
-// }
 
 int exe_env(t_exe_args *exe_arg)
 {
-	int i;
-
-	i = 0;
-	while (exe_arg->env[i])
-	{
-		ft_putendl_fd(exe_arg->env[i], 1);
-		i++;
-	}
+	char		**env_copy;
+	
+	fill_variable_list(exe_arg);
+	env_copy = copy_2d_arr(exe_arg->env_init);
+	free_2d_arr(exe_arg->env);
+	exe_arg->env = fill_env_with_variables(env_copy, exe_arg->variables);
+		free_2d_arr(env_copy);
+	print_2d_arr(exe_arg->env);
 	return (1);
 }
