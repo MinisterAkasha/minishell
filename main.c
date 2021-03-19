@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/19 15:09:46 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:58:49 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int loop_shell(t_store *store)
 
 	status = 1;//TODO начального OLDPWD нет
 	init_support_parsing_arr(&store->support);
-	shlvl(store->exe_args.env);
+	shlvl(store->exe_args.env_init);
 	while (status)
 	{
 		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
