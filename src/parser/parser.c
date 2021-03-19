@@ -46,6 +46,8 @@ static	void	init_redirection(t_exe_info **tmp_lst, t_support_parsing_data suppor
 		(*tmp_lst)->exe_function = NULL;
 		init_arg(tmp_lst, str, decrement);
 	}
+	else if (!(*tmp_lst)->exe_function)
+		init_arg(tmp_lst, str, decrement);
 	return ;
 }
 
@@ -93,10 +95,12 @@ static	void	init_exec_func(t_exe_info **exe_info,
 		j++;
 	}
 	init_redirection(&tmp_lst, support, i, str_to_compare);
-	if (!tmp_lst->exe_function && state_env == 4)
-		init_exe_env(&tmp_lst, support, i, str_to_compare);
-	if (!tmp_lst->exe_function)
-		init_arg(&tmp_lst, str_to_compare, i);
+//	if (!tmp_lst->exe_function && state_env == 4)
+//		init_exe_env(&tmp_lst, support, i, str_to_compare);
+//	if (!tmp_lst->exe_function)
+//	{
+//		init_arg(&tmp_lst, str_to_compare, i);
+//	}
 	free(str_to_compare);
 }
 
@@ -162,7 +166,7 @@ int	get_exe_info(char **args, t_store *store)
 //	//"name==kklkf" -> OK
 //	//"name===fdsa" -> OK
 //	//"na'm'e=test" -> OK
-//	char *str = "bin ; ls ; name=test ; 'e'c'h'o pam > tyty ; e'ch'o 111'111' | cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ; name=name";
+//	char *str = "bin ; ls ; 'e'c'h'o pam > tyty ; e'ch'o 111'111' | cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ";
 //	//char *str = "name==kklkf ; name=fasdf'fasdf' ; name='fdsa'sfda ;  name=ppp'fds'=mmmm";
 ////	char *str = "  ";
 //	char **splited_str;

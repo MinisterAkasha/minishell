@@ -54,7 +54,7 @@ static	int		word_count(char **str, t_list **head)
 		if (sep == 'f' && ((*str)[i] == '"' || (*str)[i] == '\''))
 			sep = (*str)[i];
 		else if (((*str)[i] == ' ' && sep == 'f') || (*str)[i + 1] == '\0' ||
-			((*str)[i + 1] == ' ' && sep == 'f') || sep == (*str)[i])
+			((*str)[i + 1] == ' ' && sep == 'f') || (sep == (*str)[i] && ((*str)[i] == '"' || (*str)[i] == '\'')))
 		{
 			init_data_word_count(&sep, &info_arr, head);
 		}
