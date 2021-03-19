@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 17:56:27 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/19 15:01:35 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:55:09 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,13 @@ int exe_unset(t_exe_args *exe_arg)
 		var = find_variable(exe_arg->variables, exe_arg->args[i]);
 		if (var)
 			ft_lstdelone_var(&exe_arg->variables, delete_var, var);
+		if (get_env_param(exe_arg->args[i], exe_arg->env_init))
+		{
+			env_copy = copy_2d_arr(exe_arg->env_init);
+			free_2d_arr(exe_arg->env_init);
+			exe_arg->env_init = remove_param_from_2d_arr(env_copy, exe_arg->args[i]);
+			free_2d_arr(env_copy);
+		}
 		i++;
 	}
 	env_copy = copy_2d_arr(exe_arg->env_init);
