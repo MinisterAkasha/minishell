@@ -58,7 +58,7 @@ static	void	init_exe_env(t_exe_info **tmp_lst, t_support_parsing_data support, i
 
 	result = 1;
 	i = 0;
-	splited_str = ft_split(str, '=');
+	splited_str = protect_ft_split(ft_split(str, '='));
 	if (get_arr_length(splited_str) < 2)
 		result = 0;
 	while (splited_str[0][i])
@@ -132,7 +132,7 @@ int	get_exe_info(char **args, t_store *store)
 
 	i = 0;
 	if (!(store->exe_info = (t_exe_info *)malloc(sizeof(t_exe_info))))
-		return (0);
+		error_malloc();
 	set_default_new_lst(&store->exe_info);
 	tmp_lst = store->exe_info;
 	while (args[i])

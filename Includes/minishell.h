@@ -31,6 +31,7 @@
 # include "execute.h"
 # include "parser.h"
 # include "operators.h"
+# include "errors.h"
 
 # include "get_next_line.h"
 # include "../src/utils/libft/includes/libft.h"

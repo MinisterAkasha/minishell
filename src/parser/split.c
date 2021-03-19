@@ -27,9 +27,9 @@ static	int		skip_spaces(char *str, char separator, int i)
 static	int		init_data_word_count(char *sep, int **info_arr, t_list **head)
 {
 	if (!(*info_arr = (int *)ft_calloc(2, sizeof(int))))
-		return (0);
+		error_malloc();
 	*sep = 'f';
-	ft_lstadd_back(head, ft_lstnew(*info_arr));
+	ft_lstadd_back(head, protect_malloc(ft_lstnew(*info_arr)));
 	return (1);
 }
 
@@ -47,8 +47,7 @@ static	int		word_count(char **str, t_list **head)
 	int			*info_arr;
 
 	i = 0;
-	if (!(init_data_word_count(&sep, &info_arr, head)))
-		return (0);
+	init_data_word_count(&sep, &info_arr, head);
 	while ((*str)[i])
 	{
 		info_arr[1]++;
@@ -57,8 +56,7 @@ static	int		word_count(char **str, t_list **head)
 		else if (((*str)[i] == ' ' && sep == 'f') || (*str)[i + 1] == '\0' ||
 			((*str)[i + 1] == ' ' && sep == 'f') || sep == (*str)[i])
 		{
-			if (!(init_data_word_count(&sep, &info_arr, head)))
-				return (0);
+			init_data_word_count(&sep, &info_arr, head);
 		}
 		i = skip_spaces((*str), sep, i);
 		if (info_arr[1] == 0)
@@ -76,12 +74,12 @@ static	char	**init_arr_2d(char *str, t_list *copy_dw)
 
 	len_arr = ft_lstsize(copy_dw) - 1;
 	if (!(arr_2d = (char **)ft_calloc(len_arr + 1, sizeof(char *))))
-		return (0);
+		error_malloc();
 	i = 0;
 	while (i < len_arr)
 	{
 		info_arr = copy_dw->content;
-		arr_2d[i] = ft_substr(str, info_arr[0], info_arr[1]);
+		arr_2d[i] = protect_malloc(ft_substr(str, info_arr[0], info_arr[1]));
 		copy_dw = copy_dw->next;
 		i++;
 	}
@@ -96,10 +94,10 @@ char			**split(char const *s)
 	char	**arr_2d;
 	char	*str;
 
-	str = ft_strtrim(s, " ");
+	str = protect_malloc(ft_strtrim(s, " "));
 	data_words = NULL;
 	if (!(word_count(&str, &data_words)))
-		return (0);
+		error_malloc();
 	copy_data_words = data_words;
 	arr_2d = init_arr_2d(str, copy_data_words);
 	ft_lstclear(&data_words, &del_item_libft_lst);

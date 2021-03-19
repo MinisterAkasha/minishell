@@ -20,14 +20,14 @@ void	concat_arg(t_exe_info **exe_info, char *arg)
 
 	tmp_lst = *exe_info;
 	separator = get_separator(arg);
-	copy_exe_arg = ft_strdup(tmp_lst->args);
+	copy_exe_arg = protect_malloc(ft_strdup(tmp_lst->args));
 	free(tmp_lst->args);
 	if (separator == 'f')
-		tmp_lst->args = ft_strjoin(copy_exe_arg, arg);
+		tmp_lst->args = protect_malloc(ft_strjoin(copy_exe_arg, arg));
 	else
 	{
 		cut_separator(&arg, separator);
-		tmp_lst->args = ft_strjoin(copy_exe_arg, arg);
+		tmp_lst->args = protect_malloc(ft_strjoin(copy_exe_arg, arg));
 	}
 	free(arg);
 	free(copy_exe_arg);
@@ -39,14 +39,14 @@ void	concat_exe_arg(char **first, char *second)
 	char		*copy_first;
 
 	separator = get_separator(second);
-	copy_first = ft_strdup(*first);
+	copy_first = protect_malloc(ft_strdup(*first));
 	free(*first);
 	if (separator == 'f')
-		(*first) = ft_strjoin(copy_first, second);
+		(*first) = protect_malloc(ft_strjoin(copy_first, second));
 	else
 	{
 		cut_separator(&second, separator);
-		(*first) = ft_strjoin(copy_first, second);
+		(*first) = protect_malloc(ft_strjoin(copy_first, second));
 	}
 	free(copy_first);
 }

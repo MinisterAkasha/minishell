@@ -29,6 +29,7 @@ SRC_PATHS = ./src \
 			./src/variable \
 			./src/utils \
 			./src/operators \
+			./src/errors \
 			./src/utils/GNL
 
 vpath %.c $(SRC_PATHS)
@@ -71,7 +72,7 @@ $(OBJDIR):
 
 clean:
 	@echo "$(TEXT_RESET)"
-	@rm -rf $(OBJDIR)
+	@rm -rf $(OBJDIR) ./Includes/*.h.gch
 	@cd $(LIBFT_PATH) && make clean
 	@echo "$(YELLOW)Delete 'o' files"
 

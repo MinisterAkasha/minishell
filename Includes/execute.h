@@ -14,7 +14,7 @@
 # define EXECUTE_H
 
 int		execute(t_store *store);
-
+int exe_unset(t_exe_args *exe_arg);
 int exe_env(t_exe_args *exe_args);
 int	exe_cd(t_exe_args *exe_args);
 
