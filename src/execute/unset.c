@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 17:56:27 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/18 22:44:13 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/19 15:01:35 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,14 @@ void ft_lstdelone_var(t_list **lst, void (*del)(void *), t_variable *var)
 		deleted_elem = deleted_elem->next;
 		cur_var = deleted_elem->content;
 	}
-	while (cur->next != deleted_elem)
-		cur = cur->next;
-	cur->next = deleted_elem->next;
+	if (cur != deleted_elem)
+	{
+		while (cur->next != deleted_elem)
+			cur = cur->next;
+		cur->next = deleted_elem->next;
+	}
+	else
+		*lst = deleted_elem->next;
 	del(cur_var);
 	free(deleted_elem);
 }
