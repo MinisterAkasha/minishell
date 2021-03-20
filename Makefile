@@ -15,10 +15,14 @@ CC = gcc
 INCLUDE = ./Includes
 LIBFT_PATH = ./src/utils/libft/
 LIBFT = ./src/utils/libft/libft.a
-C_FILES = $(shell find . -path ./src/utils/libft -prune -false -o -name "*.c" -execdir echo {} ';')
+
+C_FILES = $(shell find . -name "*.c" $(IGNORE_PATHS) -execdir echo {} ';')
 OBJDIR = ./src/obj
 OBJ = $(C_FILES:%.c=%.o)
 O_FILES = $(addprefix $(OBJDIR)/, $(OBJ))
+IGNORE_PATHS = ! -path "./src/utils/libft/*" \
+				! -path "./cmake-build-debug/*"
+
 SRC_PATHS = ./src \
 			./src/execute \
 			./src/execute/export \
