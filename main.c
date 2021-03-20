@@ -54,7 +54,7 @@ int loop_shell(t_store *store)
 		// args = ft_split(line, ' ');
 		args = split(line);
 		get_exe_info(args, store);
-		status = execute(store);
+		status = execute(store);//TODO Убрать лик (лик аргумента)
 		exe_info_lstclear(&store->exe_info);
 		free_2d_arr(args);
 		free(line);
