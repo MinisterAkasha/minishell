@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/20 19:46:37 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/20 20:04:48 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int			check_var_name_chars(char *name)
 
 int			validate_var_name(char *name, char *var)
 {
-	printf("%s\n", name);
 	if (ft_isdigit(name[0]) || ft_strchr(name, '.') || !check_var_name_chars(name))
 	{
 		write(1, "minishell: export: '", 20);
@@ -108,7 +107,7 @@ static void	write_transform_arr(char **arr, t_list *var)
 	i = 0;
 	while (arr[i])
 	{
-		str = ft_split(arr[i], '=');
+		str = splite_var_name(arr[i]);
 		variable = find_variable(var, str[0]);
 		ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(str[0], 1);
