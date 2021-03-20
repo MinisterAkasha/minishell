@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/20 19:24:58 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/20 19:38:36 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,30 @@ int			validate_var_name(char *name, char *var)
 	return (1);
 }
 
+char	**splite_var_name(char *str)
+{
+	char	**arr;
+	int		i;
+
+	arr = (char **)malloc(sizeof(char *) * 3);
+	i = 0;
+	while (str[i] != '=')
+		i++;
+	arr[0] = ft_substr(str, 0, i);
+	arr[1] = ft_substr(str, i + 1, ft_strlen(str) - i);
+	arr[2] = NULL;
+	return (arr);
+}
+
 void		fill_variable_list(t_exe_args *exe_arg)
 {
 	char	**variable;
-	int		i = 0;
+	int		i;
 
+	i = 0;
 	while (exe_arg->args[i])
 	{
-		variable = ft_split(exe_arg->args[i], '=');
+		variable = splite_var_name(exe_arg->args[i]);
 		if (validate_var_name(variable[0], exe_arg->args[i]))
 		{
 			if (!get_env_param(variable[0], exe_arg->env_init))
