@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:40:03 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/18 15:41:07 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/21 20:25:40 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,4 @@ typedef struct	s_store
 	t_exe_args				exe_args;
 }				t_store;
 
-// typedef struct	s_variables
-// {
-// 	char	**variables; //! [[key, value], [key, value], [key, value], [key, value]]
-// 	struct s_variables *next;
-// }				t_variables;
-
 #endif
-
-// t_list *get_variables()
-// {
-
-// 	faj;dlfas
-// 	returnte strore->varioabes;
-// }
