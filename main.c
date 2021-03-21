@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/19 15:58:49 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/21 16:07:57 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ int loop_shell(t_store *store)
 	status = 1;//TODO начального OLDPWD нет
 	init_support_parsing_arr(&store->support);
 	shlvl(store->exe_args.env_init);
-	while (status)
+	add_variable_to_list(&store->exe_args.variables, "?", "0", 0, 0);
+	t_variable *var;//!DELETE
+	while (status) //TODO пофиксить пустой инпут
 	{
 		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 		get_next_line(0, &line);
@@ -55,6 +57,10 @@ int loop_shell(t_store *store)
 		args = split(line);
 		get_exe_info(args, store);
 		status = execute(store);//TODO Убрать лик (лик аргумента)
+		
+		var = find_variable(store->exe_args.variables, "?");
+		printf("%s: %s\n", var->key, var->value);
+		
 		exe_info_lstclear(&store->exe_info);
 		free_2d_arr(args);
 		free(line);

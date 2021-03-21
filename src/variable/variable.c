@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 19:36:24 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/20 19:53:25 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/21 16:14:26 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	add_variable_to_list(t_list **variable_list, char *key, char *value, int is
 	{
 		if (!variable->is_env && is_env)
 			variable->is_env = is_env;
-		if (variable->is_env && is_env)
+		if ((variable->is_env && is_env) || (!variable->is_env && !is_env))
 		{
 			free(variable->value);
 			variable->value = ft_strdup(value);
