@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 21:24:08 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/21 15:52:44 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/21 18:58:03 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	exe_exit(t_exe_args *exe_args)
 	{
 		write(1, "exit\n", 5);
 		if (exe_args->args[0])
-			exit(ft_atoi(exe_args->args[0]));
+			exit(ft_atoi(exe_args->args[0]) % 256);
 		else
 			exit(0);
 	}
