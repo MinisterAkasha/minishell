@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:15:38 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/19 13:06:23 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/21 17:47:04 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,6 @@ int exe_env(t_exe_args *exe_arg)
 {
 	char		**env_copy;
 	
-	fill_variable_list(exe_arg);
-	env_copy = copy_2d_arr(exe_arg->env_init);
-	free_2d_arr(exe_arg->env);
-	exe_arg->env = fill_env_with_variables(env_copy, exe_arg->variables);
-		free_2d_arr(env_copy);
 	print_2d_arr(exe_arg->env);
 	return (1);
 }
