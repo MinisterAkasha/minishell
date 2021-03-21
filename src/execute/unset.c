@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 17:56:27 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/19 15:55:09 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/21 18:05:14 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,23 @@ void ft_lstdelone_var(t_list **lst, void (*del)(void *), t_variable *var)
 	free(deleted_elem);
 }
 
+void		set_unset_status_var(t_exe_args *exe_arg)
+{
+	int		i;
+
+	i = 0;
+	while (exe_arg->args[i])
+	{
+		if (!validate_var_name(exe_arg->args[i]))
+		{
+			add_variable_to_list(&exe_arg->variables, "?", "1", 0, 0);
+			return ;
+		}
+		i++;
+	}
+	add_variable_to_list(&exe_arg->variables, "?", "0", 0, 0);
+}
+
 int exe_unset(t_exe_args *exe_arg)
 {
 	int			i;
@@ -60,18 +77,24 @@ int exe_unset(t_exe_args *exe_arg)
 	i = 0;
 	while (exe_arg->args[i])
 	{
-		var = find_variable(exe_arg->variables, exe_arg->args[i]);
-		if (var)
-			ft_lstdelone_var(&exe_arg->variables, delete_var, var);
-		if (get_env_param(exe_arg->args[i], exe_arg->env_init))
+		if (validate_var_name(exe_arg->args[i]))
 		{
-			env_copy = copy_2d_arr(exe_arg->env_init);
-			free_2d_arr(exe_arg->env_init);
-			exe_arg->env_init = remove_param_from_2d_arr(env_copy, exe_arg->args[i]);
-			free_2d_arr(env_copy);
+			var = find_variable(exe_arg->variables, exe_arg->args[i]);
+			if (var)
+				ft_lstdelone_var(&exe_arg->variables, delete_var, var);
+			if (get_env_param(exe_arg->args[i], exe_arg->env_init))
+			{
+				env_copy = copy_2d_arr(exe_arg->env_init);
+				free_2d_arr(exe_arg->env_init);
+				exe_arg->env_init = remove_param_from_2d_arr(env_copy, exe_arg->args[i]);
+				free_2d_arr(env_copy);
+			}
 		}
+		else
+			write_error_message("minishell: unset: '", exe_arg->args[i], "': not a valid identifier");
 		i++;
 	}
+	set_unset_status_var(exe_arg);
 	env_copy = copy_2d_arr(exe_arg->env_init);
 	free_2d_arr(exe_arg->env);
 	exe_arg->env = fill_env_with_variables(env_copy, exe_arg->variables);

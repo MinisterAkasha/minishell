@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/21 17:54:18 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/21 18:01:12 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,9 +150,9 @@ char		**fill_env_with_variables(char **env, t_list *variables)
 	return (new_arr);
 }
 
-void		set_status_var(t_exe_args *exe_arg)
+void		set_export_status_var(t_exe_args *exe_arg)
 {
-		char	**variable;
+	char	**variable;
 	int		i;
 
 	i = 0;
@@ -176,7 +176,7 @@ int			exe_export(t_exe_args *exe_arg)
 	char		**env_copy;
 
 	fill_variable_list(exe_arg);
-	set_status_var(exe_arg);
+	set_export_status_var(exe_arg);
 	env_copy = copy_2d_arr(exe_arg->env_init);
 	export = fill_export_with_variables(env_copy, exe_arg->variables);
 	free_2d_arr(exe_arg->env);
