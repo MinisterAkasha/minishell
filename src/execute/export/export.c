@@ -6,32 +6,11 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/21 16:30:06 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/21 17:54:18 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int			check_var_name_chars(char *name)
-{
-	int i;
-
-	i = 0;
-	while (name[i])
-	{
-		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int			validate_var_name(char *name, char *var)
-{
-	if (ft_isdigit(name[0]) || ft_strchr(name, '.') || !check_var_name_chars(name))
-		return (0);
-	return (1);
-}
 
 char	**splite_var_name(char *str)
 {
@@ -57,7 +36,7 @@ void		fill_variable_list(t_exe_args *exe_arg)
 	while (exe_arg->args[i])
 	{
 		variable = splite_var_name(exe_arg->args[i]);
-		if (validate_var_name(variable[0], exe_arg->args[i]))
+		if (validate_var_name(variable[0]))
 		{
 			if (!get_env_param(variable[0], exe_arg->env_init))
 			{
@@ -180,7 +159,7 @@ void		set_status_var(t_exe_args *exe_arg)
 	while (exe_arg->args[i])
 	{
 		variable = splite_var_name(exe_arg->args[i]);
-		if (!validate_var_name(variable[0], exe_arg->args[i]))
+		if (!validate_var_name(variable[0]))
 		{
 			add_variable_to_list(&exe_arg->variables, "?", "1", 0, 0);
 			return ;
