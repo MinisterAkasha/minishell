@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:15:38 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/21 17:47:04 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/21 17:48:47 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,11 @@ char	*get_env_param(char *key, char **env)
 	return (NULL);
 }
 
-int exe_env(t_exe_args *exe_arg)
+int exe_env(t_exe_args *exe_args)
 {
 	char		**env_copy;
 	
-	print_2d_arr(exe_arg->env);
+	print_2d_arr(exe_args->env);
+	add_variable_to_list(&exe_args->variables, "?", "0", 0, 0);
 	return (1);
 }
