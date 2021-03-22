@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+/*
+** Don't change the value and order of exe_str_arr
+*/
 void init_support_parsing_arr(t_support_parsing_data *data)
 {
 	data->exe_str_arr[0] = "cd";

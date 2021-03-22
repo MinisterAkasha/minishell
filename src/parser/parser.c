@@ -140,7 +140,7 @@ int	get_exe_info(char **args, t_store *store)
 				 || (init_operator(&tmp_lst, &i, store->support, args[i])) > 0)
 				break ;
 			else
-				concat_arg(&tmp_lst, args[i]);
+				concat_arg(&tmp_lst, store->support, args[i]);
 		}
 		if (!args[i])
 			break ;
@@ -160,7 +160,7 @@ int	get_exe_info(char **args, t_store *store)
 //	//"name==kklkf" -> OK
 //	//"name===fdsa" -> OK
 //	//"na'm'e=test" -> OK
-//	char *str = "bin ; ls ; 'e'c'h'o pam > tyty ; e'ch'o 111'111' | cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ";
+//	char *str = "echo ch'l'en ; bin ; ls ; 'e'c'h'o pam > ty't'y ; e'ch'o 111'111' | cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ";
 //	//char *str = "name==kklkf ; name=fasdf'fasdf' ; name='fdsa'sfda ;  name=ppp'fds'=mmmm";
 ////	char *str = "  ";
 //	char **splited_str;

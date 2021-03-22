@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	concat_arg(t_exe_info **exe_info, char *arg)
+void	concat_arg(t_exe_info **exe_info, t_support_parsing_data support, char *arg)
 {
 	char		separator;
 	char		*copy_exe_arg;
@@ -22,7 +22,7 @@ void	concat_arg(t_exe_info **exe_info, char *arg)
 	separator = get_separator(arg);
 	copy_exe_arg = protect_malloc(ft_strdup(tmp_lst->args));
 	free(tmp_lst->args);
-	if (separator == 'f')
+	if (separator == 'f' || tmp_lst->exe_function == support.exe_func_arr[1])
 		tmp_lst->args = protect_malloc(ft_strjoin(copy_exe_arg, arg));
 	else
 	{

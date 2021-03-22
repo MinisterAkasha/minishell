@@ -30,7 +30,7 @@ void		cut_separator(char **arg, char separator);
 /*
 ** concatenate.c
 */
-void		concat_arg(t_exe_info **exe_info, char *arg);
+void		concat_arg(t_exe_info **exe_info, t_support_parsing_data support, char *arg);
 void		concat_exe_arg(char **first, char *second);
 
 /*
