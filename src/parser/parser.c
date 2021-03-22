@@ -31,44 +31,44 @@ int			exe_echo(t_exe_args *exe_args)
 	return (1);
 }
 
-static	void	init_redirection(t_exe_info **tmp_lst, t_support_parsing_data support, int *decrement, char *str)
+static	int		init_redirection(t_exe_info **tmp_lst, t_support_parsing_data support, int *decrement, char *str)
 {
 	if ((*tmp_lst)->operator_exe_function != NULL
 		 && (*tmp_lst)->operator_exe_function != support.operators_exe_func_arr[0]
 		 && (*tmp_lst)->operator_exe_function != support.operators_exe_func_arr[1])
 	{
 		(*tmp_lst)->exe_function = NULL;
-		init_arg(tmp_lst, str, decrement);
+		return (1);
 	}
 	else if (!(*tmp_lst)->exe_function)
-		init_arg(tmp_lst, str, decrement);
-	return ;
+		return (1);
+	return (0);
 }
 
-static	void	init_exe_env(t_exe_info **tmp_lst, t_support_parsing_data support, int *decrement, char *str)
-{
-	char	**splited_str;
-	int		result;
-	int		i;
-
-	result = 1;
-	i = 0;
-	splited_str = protect_ft_split(ft_split(str, '='));
-	if (get_arr_length(splited_str) < 2)
-		result = 0;
-	while (splited_str[0][i])
-	{
-		if (!ft_isalnum(splited_str[0][i]))
-			result = 0;
-		i++;
-	}
-	if (result == 1)
-	{
-		(*tmp_lst)->exe_function = support.exe_func_arr[7];
-		init_arg(tmp_lst, str, decrement);
-	}
-	free_2d_arr(splited_str);
-}
+//static	void	init_exe_env(t_exe_info **tmp_lst, t_support_parsing_data support, int *decrement, char *str)
+//{
+//	char	**splited_str;
+//	int		result;
+//	int		i;
+//
+//	result = 1;
+//	i = 0;
+//	splited_str = protect_ft_split(ft_split(str, '='));
+//	if (get_arr_length(splited_str) < 2)
+//		result = 0;
+//	while (splited_str[0][i])
+//	{
+//		if (!ft_isalnum(splited_str[0][i]))
+//			result = 0;
+//		i++;
+//	}
+//	if (result == 1)
+//	{
+//		(*tmp_lst)->exe_function = support.exe_func_arr[7];
+//		init_arg(tmp_lst, str, decrement);
+//	}
+//	free_2d_arr(splited_str);
+//}
 
 static	void	init_exec_func(t_exe_info **exe_info,
 								t_support_parsing_data support, char **args, int *i)
@@ -88,7 +88,8 @@ static	void	init_exec_func(t_exe_info **exe_info,
 			tmp_lst->exe_function = support.exe_func_arr[j];
 		j++;
 	}
-	init_redirection(&tmp_lst, support, i, str_to_compare);
+	if (init_redirection(&tmp_lst, support, i, str_to_compare))
+		init_arg(&tmp_lst, str_to_compare, i);
 //	if (!tmp_lst->exe_function && state_env == 4)
 //		init_exe_env(&tmp_lst, support, i, str_to_compare);
 //	if (!tmp_lst->exe_function)
