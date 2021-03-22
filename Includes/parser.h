@@ -30,15 +30,16 @@ void		cut_separator(char **arg, char separator);
 /*
 ** concatenate.c
 */
-void		concat_arg(t_exe_info **exe_info, char *arg);
+void		concat_arg(t_exe_info **exe_info, t_support_parsing_data support, char *arg);
 void		concat_exe_arg(char **first, char *second);
 
 /*
 ** parser_utils.c
 */
 void		set_default_new_lst(t_exe_info **lst);
-char		*get_str_to_compare(char **args, int *i, int *state_create_env);
+char		*get_str_to_compare(char **args, int *i);
 void		init_arg(t_exe_info **tmp_lst, char *str, int *decrement);
+int			is_word_to_cont(char *str, char sep, int i);
 
 /*
 ** split.c

@@ -6,33 +6,78 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/19 13:15:38 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/20 20:04:48 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int			check_var_name_chars(char *name)
+{
+	int i;
+
+	i = 0;
+	while (name[i])
+	{
+		if (!ft_isalnum(name[i]) && name[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int			validate_var_name(char *name, char *var)
+{
+	if (ft_isdigit(name[0]) || ft_strchr(name, '.') || !check_var_name_chars(name))
+	{
+		write(1, "minishell: export: '", 20);
+		write(1, var, ft_strlen(var));
+		write(1, "': not a valid identifier\n", 27);
+		return (0);
+	}
+	return (1);
+}
+
+char	**splite_var_name(char *str)
+{
+	char	**arr;
+	int		i;
+
+	arr = (char **)malloc(sizeof(char *) * 3);
+	i = 0;
+	while (str[i] != '=' && str[i])
+		i++;
+	arr[0] = ft_substr(str, 0, i);
+	arr[1] = ft_substr(str, i + 1, ft_strlen(str) - i);
+	arr[2] = NULL;
+	return (arr);
+}
+
 void		fill_variable_list(t_exe_args *exe_arg)
 {
 	char	**variable;
-	int		i = 0;
+	int		i;
 
+	i = 0;
 	while (exe_arg->args[i])
 	{
-		variable = ft_split(exe_arg->args[i], '=');
-		if (!get_env_param(variable[0], exe_arg->env_init))
+		variable = splite_var_name(exe_arg->args[i]);
+		if (validate_var_name(variable[0], exe_arg->args[i]))
 		{
-			if (!ft_strchr(exe_arg->args[i], '='))
-				add_variable_to_list(&exe_arg->variables, variable[0], "", 1, 0);
-			else if (variable[1])
-				add_variable_to_list(&exe_arg->variables, variable[0], variable[1], 1, 1);
+			if (!get_env_param(variable[0], exe_arg->env_init))
+			{
+				if (!ft_strchr(exe_arg->args[i], '='))
+					add_variable_to_list(&exe_arg->variables, variable[0], "", 1, 0);
+				else if (variable[1])
+					add_variable_to_list(&exe_arg->variables, variable[0], variable[1], 1, 1);
+				else
+					add_variable_to_list(&exe_arg->variables, variable[0], "", 1, 1);
+			}
 			else
-				add_variable_to_list(&exe_arg->variables, variable[0], "", 1, 1);
-		}
-		else
-		{
-			if (ft_strchr(exe_arg->args[i], '='))
-				change_env_value(variable[1], variable[0], &exe_arg->env_init);
+			{
+				if (ft_strchr(exe_arg->args[i], '='))
+					change_env_value(variable[1], variable[0], &exe_arg->env_init);
+			}
 		}
 		free_2d_arr(variable);
 		i++;
@@ -62,7 +107,7 @@ static void	write_transform_arr(char **arr, t_list *var)
 	i = 0;
 	while (arr[i])
 	{
-		str = ft_split(arr[i], '=');
+		str = splite_var_name(arr[i]);
 		variable = find_variable(var, str[0]);
 		ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(str[0], 1);

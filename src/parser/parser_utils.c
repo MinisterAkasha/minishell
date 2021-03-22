@@ -12,50 +12,18 @@
 
 #include "minishell.h"
 
-static	void	verify_exe_create_env(char *str, int *state_env)
-{
-	int		i;
-
-	i = 0;
-	while(str[i])
-	{
-		if (str[i] == '=' && *state_env == 0)
-			*state_env = 1;
-		else if (str[i] == '=' && *state_env == 2)
-			*state_env = 3;
-		else if (str[i] != '=' && !ft_isalnum(str[i]))
-		{
-			if (*state_env == 0)
-				*state_env = 2;
-		}
-		if (str[i + 1] && str[i] == '=' && str[i + 1] == '=')
-			*state_env = 3;
-		i++;
-	}
-}
-
-/*
-** state_env validate arg to env variable
-** 0 - didn't find equal char or forbidden char
-** 1 - find first equal char
-** 2 - find forbidden char
-** 3 - find forbidden char before equal char or several equal on each other
-** 4 - without forbidden chars and has one equal -> valid
-*/
-
-char			*get_str_to_compare(char **args, int *i, int *state_env)
+char			*get_str_to_compare(char **args, int *i)
 {
 	char			*str_to_compare;
 
 	str_to_compare = protect_malloc(ft_strdup(""));
-	while (args[*i] && ft_strcmp(args[*i], " "))
+	while (args[*i] && ft_strcmp(args[*i], " ")
+			&& ft_strcmp(args[*i], "|")
+			&& ft_strcmp(args[*i], ";")
+			&& ft_strcmp(args[*i], ">")
+			&& ft_strcmp(args[*i], "<")
+			&& ft_strcmp(args[*i], ">>"))
 	{
-		if (*state_env == 0 || *state_env == 2)
-			verify_exe_create_env(args[*i], state_env);
-		if (*state_env == 1 && args[*i][0] == '=')
-			*state_env = 3;
-		else if (*state_env == 1)
-			*state_env = 4;
 		concat_exe_arg(&str_to_compare,  args[*i]);
 		*i += 1;
 	}
@@ -74,5 +42,29 @@ void			init_arg(t_exe_info **tmp_lst, char *str, int *decrement)
 {
 	free((*tmp_lst)->args);
 	(*tmp_lst)->args = protect_malloc(ft_strdup(str));
-	*decrement -= 1;
+}
+
+int				is_word_to_cont(char *str, char sep, int i)
+{
+	int		cur_operands;
+	int		next_operands;
+	int		is_separator;
+	int		is_space;
+
+	is_separator = (str[i] == '"' || str[i] == '\'');
+	next_operands = (str[i + 1] == ';' || str[i + 1] == '|' ||
+						str[i + 1] == '>' || str[i + 1] == '<');
+	cur_operands = (str[i] == ';' || str[i] == '|' ||
+						str[i] == '>' || str[i] == '<');
+	is_space = ((str[i] == ' ' && sep == 'f') ||
+				(str[i + 1] == ' ' && sep == 'f'));
+
+	if (str[i + 1] == '\0' || is_space
+		|| (sep == str[i] && is_separator)
+		|| (sep == 'f' && next_operands)
+		|| (sep == 'f' && cur_operands))
+	{
+		return (1);
+	}
+	return (0);
 }

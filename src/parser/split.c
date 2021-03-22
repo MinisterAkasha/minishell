@@ -14,6 +14,8 @@
 
 static	int		skip_spaces(char *str, char separator, int i)
 {
+	if (!str[i])
+		return (i);
 	if ((str[i] == ' ' && separator == 'f'))
 	{
 		while (str[i] == ' ' && str[i])
@@ -53,11 +55,14 @@ static	int		word_count(char **str, t_list **head)
 		info_arr[1]++;
 		if (sep == 'f' && ((*str)[i] == '"' || (*str)[i] == '\''))
 			sep = (*str)[i];
-		else if (((*str)[i] == ' ' && sep == 'f') || (*str)[i + 1] == '\0' ||
-			((*str)[i + 1] == ' ' && sep == 'f') || (sep == (*str)[i] && ((*str)[i] == '"' || (*str)[i] == '\'')))
+		else if (sep == 'f' && (*str)[i] == '>' && (*str)[i + 1] == '>')
 		{
+			info_arr[1]++;
+			i++;
 			init_data_word_count(&sep, &info_arr, head);
 		}
+		else if (is_word_to_cont(*str, sep, i))
+			init_data_word_count(&sep, &info_arr, head);
 		i = skip_spaces((*str), sep, i);
 		if (info_arr[1] == 0)
 			info_arr[0] = i;
@@ -104,3 +109,21 @@ char			**split(char const *s)
 	free(str);
 	return (arr_2d);
 }
+
+//int main()
+//{
+//	char *str = "echo ch'l'en;bin;ls ;'e'c'h'o pam> ty't'y ;e'ch'o 111'111'| cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ";
+//	char **splited_str;
+//	int i;
+//
+//	i = 0;
+//	splited_str = split(str);
+//	while (splited_str[i])
+//	{
+//		ft_putnbr_fd(i, 1);
+//		ft_putchar_fd(')', 1);
+//		ft_putendl_fd(splited_str[i], 1);
+//		i++;
+//	}
+//	return (0);
+//}
