@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/21 20:45:22 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/23 13:19:06 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	execute(t_store *store)
 	info = store->exe_info;
 	store->exe_args.args = ft_split(info->args, ' ');
 	if (info->exe_function)
-		return (info->exe_function(&store->exe_args));
+		info->exe_function(&store->exe_args);
 	else if ((bin_exe_path = search(store->exe_args.args[0], get_env_param("PATH", store->exe_args.env)))) 
 	{
 		launch_shell(store, bin_exe_path);
@@ -35,5 +35,6 @@ int	execute(t_store *store)
 	}
 	else
 		unknown_command(&store->exe_args);
+	free_2d_arr(store->exe_args.args);
 	return (1);
 }
