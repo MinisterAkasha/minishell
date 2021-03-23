@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/21 20:43:42 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/23 18:43:04 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,23 @@ void wait_child_process_end(pid_t id, t_list *var)
 	waitpid(id, &status, WUNTRACED);
 	while (!WIFEXITED(status) && !WEXITSTATUS(status) && !WIFSIGNALED(status))
 		waitpid(id, &status, WUNTRACED);
-	add_variable_to_list(&var, "?", ft_itoa(status / 256), 0, 0);
+	add_variable_to_list(&var, "?", ft_itoa(status / 256), 0, 0);//TODO itoa leak
 }
 
-int launch_shell(t_store *store, char *bin_path)
+int launch_shell(t_exe_args exe_args, char *bin_path)
 {
 	pid_t child_process_id;
 
 	child_process_id = fork();
 	if (!child_process_id)
 	{
-		if (execve(bin_path, store->exe_args.args, store->exe_args.env) == -1)
+		if (execve(bin_path, exe_args.args, exe_args.env) == -1)
 			printf("EXECVE ERROR. CODE: %s\n", strerror(errno)); //TODO обработать ошибку
 	}
 	else if (child_process_id < 0)
 		printf("FORK ERROR: CODE: %d\n", errno); //TODO обработать ошибку
 	else
-		wait_child_process_end(child_process_id, store->exe_args.variables);
+		wait_child_process_end(child_process_id, exe_args.variables);
 	return (1);
 }
 

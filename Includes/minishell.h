@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/21 20:24:13 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/23 18:43:21 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <sys/errno.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 /*
 ** required for working with directories
@@ -41,7 +42,7 @@
 ** loop_shell
 */
 void	wait_child_process_end(pid_t id, t_list *var);
-int		launch_shell(t_store *store, char *bin_path);
+int		launch_shell(t_exe_args exe_args, char *bin_path);
 
 /*
 ** init.c

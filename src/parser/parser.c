@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 15:05:53 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/23 13:06:25 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/23 14:59:04 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,26 @@ static	void	init_exec_func(t_exe_info **exe_info,
 	free(str_to_compare);
 }
 
-static	int	init_operator(t_exe_info **tmp_lst, int *increm,
-								t_support_parsing_data support, char *arg)
+static	int	init_operator(t_exe_info **tmp_lst, int i,
+								t_support_parsing_data support, char **args)
 {
-	int		i;
+	int		j;
 
-	i = 0;
-	while (i < sizeof(support.operators_arr) / sizeof(char *))
+	j = 0;
+	while (j < sizeof(support.operators_arr) / sizeof(char *))
 	{
-		if (!ft_strcmp(arg, support.operators_arr[i]))
+		if (!ft_strcmp(args[i], support.operators_arr[j]))
 		{
+			(*tmp_lst)->operator_exe_function = support.operators_exe_func_arr[j];
+			if (!args[i + 1])
+				return (0);
 			if (!((*tmp_lst)->next = (t_exe_info *)malloc(sizeof(t_exe_info))))
 				error_malloc();
 			(*tmp_lst) = (*tmp_lst)->next;
 			set_default_new_lst(tmp_lst);
-			(*tmp_lst)->operator_exe_function = support.operators_exe_func_arr[i];
 			return (0);
 		}
-		i++;
+		j++;
 	}
 	return (1);
 }
@@ -92,7 +94,7 @@ int	get_exe_info(char **args, t_store *store)
 	while (args[i])
 	{
 		init_exec_func(&tmp_lst, store->support, args, &i);
-		while (args[i] && init_operator(&tmp_lst, &i, store->support, args[i]))
+		while (args[i] && init_operator(&tmp_lst, i, store->support, args))
 		{
 			concat_arg(&tmp_lst, store->support, args[i]);
 			i++;
