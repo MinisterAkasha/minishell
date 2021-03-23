@@ -38,7 +38,7 @@ void		concat_exe_arg(char **first, char *second);
 */
 void		set_default_new_lst(t_exe_info **lst);
 char		*get_str_to_compare(char **args, int *i);
-void		init_arg(t_exe_info **tmp_lst, char *str, int *decrement);
+void		init_arg(t_exe_info **tmp_lst, char *str);
 int			is_word_to_cont(char *str, char sep, int i);
 
 /*

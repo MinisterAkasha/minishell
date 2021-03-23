@@ -31,7 +31,6 @@ void init_support_parsing_arr(t_support_parsing_data *data)
 	data->exe_func_arr[4] = &exe_unset;
 	data->exe_func_arr[5] = &exe_env;
 	data->exe_func_arr[6] = &exe_exit;
-	data->exe_func_arr[7] = &exe_create_env;
 	data->operators_arr[0] = ";";
 	data->operators_arr[1] = "|";
 	data->operators_arr[2] = ">";

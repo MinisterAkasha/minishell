@@ -12,12 +12,6 @@
 
 #include "minishell.h"
 
-int			exe_create_env(t_exe_args *exe_args)
-{
-	return (1);
-}
-
-
 static	int		init_redirection(t_exe_info **tmp_lst, t_support_parsing_data support, int *decrement, char *str)
 {
 	if ((*tmp_lst)->operator_exe_function != NULL
@@ -51,7 +45,7 @@ static	void	init_exec_func(t_exe_info **exe_info,
 		j++;
 	}
 	if (init_redirection(&tmp_lst, support, i, str_to_compare))
-		init_arg(&tmp_lst, str_to_compare, i);
+		init_arg(&tmp_lst, str_to_compare);
 	else if (args[*i] && !ft_strcmp(args[*i], " "))
 		*i += 1;
 	free(str_to_compare);
