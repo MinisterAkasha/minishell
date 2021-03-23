@@ -17,7 +17,7 @@
 # include <termios.h>
 # include <term.h>
 
-int		gnl(int fd, char **line);
+int		gnl(char **line);
 int		find_nl(char **str_stat, char **line, char *tmp);
 int		get_next_hist_str();
 int		get_previos_hist_str();

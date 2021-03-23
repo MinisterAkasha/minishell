@@ -20,7 +20,7 @@ struct	termios		init_term()
 	term.c_lflag &= ~(ECHO);
 	term.c_lflag &= ~(ICANON);
 	tcsetattr(0, TCSANOW, &term);
-	tgetent(0, getenv("TERM"));
+	tgetent(0, getenv("TERM"));//TODO брать у Илюхи с ENV
 	write(1, save_cursor, strlen(save_cursor));
 
 	return	(term);
@@ -38,10 +38,16 @@ static int		return_line(char **str_stat, char **line)
 		get_previos_hist_str();
 	else if (!(ft_strcmp(*str_stat, "\177")))
 		delete_char(str_stat);
+	else if (!ft_strcmp(*str_stat, ""))
+	{
+		//TODO Записывать строку в буффер(или блять она на read записывается) и выводить ее
+//		result = ft_strjoin(buf_tmp, str);
+//		write(1, str, len);
+	}
 	return (2);
 }
 
-static int		read_or_ending(int fd, char **str_stat, char **line)
+static int		read_or_ending(char **str_stat, char **line)
 {
 	char		*buff;
 	char		*joined_str;
@@ -51,7 +57,7 @@ static int		read_or_ending(int fd, char **str_stat, char **line)
 	buffer_size = 1;
 	if (!(buff = (char *)malloc(buffer_size + 1 * sizeof(char))))
 		return (-1);
-	if ((bsize = read(fd, buff, buffer_size)) == -1)
+	if ((bsize = read(0, buff, buffer_size)) == -1)
 		return (-1);
 	buff[bsize] = 0;
 	if (bsize == 0 && !(ft_strchr(*str_stat, '\n')))
@@ -61,7 +67,7 @@ static int		read_or_ending(int fd, char **str_stat, char **line)
 		free(buff);
 		return (0);
 	}
-	joined_str = ft_strjoin(*str_stat, buff);
+	joined_str = ft_strjoin(*str_stat, buff);//TODO Защити это дерьмо
 	free(*str_stat);
 	free(buff);
 	if (!(*str_stat = ft_strdup(joined_str)))
@@ -70,14 +76,14 @@ static int		read_or_ending(int fd, char **str_stat, char **line)
 	return (2);
 }
 
-int		gnl(int fd, char **line)
+int		gnl(char **line)
 {
 	static char		*str_stat = NULL;
 	int				state;
 	struct	termios	term;
 
 	term = init_term();
-	if (fd < 0 || !line)
+	if (!line)
 		return (-1);
 	if (!str_stat)
 		str_stat = ft_strdup("");
@@ -86,7 +92,7 @@ int		gnl(int fd, char **line)
 		state = return_line(&str_stat, line);
 		if (state != 2)
 			break ;//return (state); TODO Проверить на соответсвтие цикла с history.c
-		state = read_or_ending(fd, &str_stat, line);
+		state = read_or_ending(&str_stat, line);
 		if (state != 2)
 		{
 			free(str_stat);
@@ -94,6 +100,8 @@ int		gnl(int fd, char **line)
 			break;//return (state);
 		}
 	}
+//	add_param_to_2d_arr();
+//	add_to_history_file();
 	term.c_lflag |= ~(ECHO);
 	term.c_lflag |= ~(ICANON);
 	return (state);

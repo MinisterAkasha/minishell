@@ -23,6 +23,8 @@ int find_nl(char **str_stat, char **line, char *tmp)
 		return (-1);
 	free(tmp);
 	return (1);
+
+	//TODO записывать в файл и двумерный массив
 }
 
 int		get_next_hist_str()
