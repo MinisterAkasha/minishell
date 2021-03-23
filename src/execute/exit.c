@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 21:24:08 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/21 15:52:44 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/21 20:26:10 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	check_alpha_in_string(char *str)
 
 int	exe_exit(t_exe_args *exe_args)
 {
-	//! Код ошибки должен быть в диапазоне от 0 - 255, если  > 255, то идет зацикливание т.е. 256 == 0 , 257 == 1 и т.д.
 	int len;
 
 	len = get_arr_length(exe_args->args);
@@ -46,7 +45,7 @@ int	exe_exit(t_exe_args *exe_args)
 	{
 		write(1, "exit\n", 5);
 		if (exe_args->args[0])
-			exit(ft_atoi(exe_args->args[0]));
+			exit(ft_atoi(exe_args->args[0]) % 256);
 		else
 			exit(0);
 	}

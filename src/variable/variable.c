@@ -6,11 +6,32 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 19:36:24 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/20 19:53:25 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/21 17:54:23 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int			check_var_name_chars(char *name)
+{
+	int i;
+
+	i = 0;
+	while (name[i])
+	{
+		if (!ft_isalnum(name[i]) && name[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int			validate_var_name(char *name)
+{
+	if (ft_isdigit(name[0]) || ft_strchr(name, '.') || !check_var_name_chars(name))
+		return (0);
+	return (1);
+}
 
 t_variable *create_variable(char *key, char *value, int is_exported, int is_env)
 {
@@ -35,7 +56,7 @@ void	add_variable_to_list(t_list **variable_list, char *key, char *value, int is
 	{
 		if (!variable->is_env && is_env)
 			variable->is_env = is_env;
-		if (variable->is_env && is_env)
+		if ((variable->is_env && is_env) || (!variable->is_env && !is_env))
 		{
 			free(variable->value);
 			variable->value = ft_strdup(value);

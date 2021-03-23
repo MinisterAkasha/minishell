@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 15:05:53 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/20 21:25:19 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/23 13:06:25 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,6 @@ int			exe_create_env(t_exe_args *exe_args)
 	return (1);
 }
 
-int			exe_pwd(t_exe_args *exe_args)
-{
-	char path[100];
-
-	//TODO обработать ошибки
-	ft_putendl_fd(getcwd(path, 100), 1);
-	return (1);
-}
-int			exe_echo(t_exe_args *exe_args)
-{
-	write(1, "echo\n", 5);
-	return (1);
-}
 
 static	int		init_redirection(t_exe_info **tmp_lst, t_support_parsing_data support, int *decrement, char *str)
 {

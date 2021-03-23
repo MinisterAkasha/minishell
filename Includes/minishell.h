@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/19 15:20:50 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/21 20:24:13 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@
 /*
 ** loop_shell
 */
-void	wait_child_process_end(pid_t id);
-int		launch_shell(char **env, char **args, char *bin_path);
+void	wait_child_process_end(pid_t id, t_list *var);
+int		launch_shell(t_store *store, char *bin_path);
 
 /*
 ** init.c
@@ -93,6 +93,8 @@ void		shlvl(char **env);
 t_variable *create_variable(char *key, char *value, int is_exported, int is_env);
 t_variable	*find_variable(t_list *variable_list, char *key);
 void		add_variable_to_list(t_list **variable_list, char *key, char *value, int is_exported, int is_env);
+int			validate_var_name(char *name);
+int			check_var_name_chars(char *name);
 
 
 #endif
