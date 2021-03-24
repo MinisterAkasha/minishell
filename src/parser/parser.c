@@ -27,7 +27,7 @@ static	int		init_redirection(t_exe_info **tmp_lst, t_support_parsing_data suppor
 }
 
 static	void	init_exec_func(t_exe_info **exe_info,
-								t_support_parsing_data support, char **args, int *i)
+								t_store *store, char **args, int *i)
 {
 	int				j;
 	t_exe_info		*tmp_lst;
@@ -36,39 +36,41 @@ static	void	init_exec_func(t_exe_info **exe_info,
 	tmp_lst = *exe_info;
 	if (args[*i] && !ft_strcmp(args[*i], " "))
 		*i += 1;
-	str_to_compare = get_str_to_compare(args, i);
+	str_to_compare = get_str_to_compare(args, store->exe_args, i);
 	j = 0;
-	while (j < sizeof(support.exe_str_arr) / sizeof(char *))
+	while (j < sizeof(store->support.exe_str_arr) / sizeof(char *))
 	{
-		if (!ft_strcmp(str_to_compare, support.exe_str_arr[j]))
-			tmp_lst->exe_function = support.exe_func_arr[j];
+		if (!ft_strcmp(str_to_compare, store->support.exe_str_arr[j]))
+			tmp_lst->exe_function = store->support.exe_func_arr[j];
 		j++;
 	}
-	if (init_redirection(&tmp_lst, support, i, str_to_compare))
+	if (init_redirection(&tmp_lst, store->support, i, str_to_compare))
 		init_arg(&tmp_lst, str_to_compare);
 	else if (args[*i] && !ft_strcmp(args[*i], " "))
 		*i += 1;
 	free(str_to_compare);
 }
 
-static	int	init_operator(t_exe_info **tmp_lst, int *increm,
-								t_support_parsing_data support, char *arg)
+static	int	init_operator(t_exe_info **tmp_lst, int i,
+								t_support_parsing_data support, char **args)
 {
-	int		i;
+	int		j;
 
-	i = 0;
-	while (i < sizeof(support.operators_arr) / sizeof(char *))
+	j = 0;
+	while (j < sizeof(support.operators_arr) / sizeof(char *))
 	{
-		if (!ft_strcmp(arg, support.operators_arr[i]))
+		if (!ft_strcmp(args[i], support.operators_arr[j]))
 		{
+			(*tmp_lst)->operator_exe_function = support.operators_exe_func_arr[j];
+			if (!args[i + 1])
+				return (0);
 			if (!((*tmp_lst)->next = (t_exe_info *)malloc(sizeof(t_exe_info))))
 				error_malloc();
 			(*tmp_lst) = (*tmp_lst)->next;
 			set_default_new_lst(tmp_lst);
-			(*tmp_lst)->operator_exe_function = support.operators_exe_func_arr[i];
 			return (0);
 		}
-		i++;
+		j++;
 	}
 	return (1);
 }
@@ -85,10 +87,10 @@ int	get_exe_info(char **args, t_store *store)
 	tmp_lst = store->exe_info;
 	while (args[i])
 	{
-		init_exec_func(&tmp_lst, store->support, args, &i);
-		while (args[i] && init_operator(&tmp_lst, &i, store->support, args[i]))
+		init_exec_func(&tmp_lst, store, args, &i);
+		while (args[i] && init_operator(&tmp_lst, i, store->support, args))
 		{
-			concat_arg(&tmp_lst, store->support, args[i]);
+			concat_arg(&tmp_lst, store->exe_args, args[i]);
 			i++;
 		}
 		if (!args[i])
@@ -100,18 +102,10 @@ int	get_exe_info(char **args, t_store *store)
 
 //int main()
 //{
-//	char *str = "echo ch'l'en;bin;ls ;'e'c'h'o pam> ty't'y ;e'ch'o 111'111'| cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ";
+////	char *str = "echo ch'l'en;bin;ls ;'e'c'h'o pam> ty't'y ;e'ch'o 111'111'| cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ";
+//	char *str = "echo fasdf\"$HOMEdsa\"fasdf ; echo fasdf\"$HOME \"fasdf ; echo fasdf$HOMEfasdf ; echo fasdf$HOME\"\"fasdf ; echo '$HOME' ; echo \"fadsf$\"fasd ; echo $";
 //	t_exe_info *test;
 //	t_exe_info *fucking_test;
-//	//"name= fsd" -> OK
-//	//"na'me'=fasdf" -> OK
-//	//"name'='dsaf" -> OK
-//	//"'na'me=fasdf" -> OK
-//	//"name==kklkf" -> OK
-//	//"name===fdsa" -> OK
-//	//"na'm'e=test" -> OK
-//	//char *str = "name==kklkf ; name=fasdf'fasdf' ; name='fdsa'sfda ;  name=ppp'fds'=mmmm";
-////	char *str = "  ";
 //	char **splited_str;
 //	t_store *store;
 //	int i;

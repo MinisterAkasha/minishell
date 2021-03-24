@@ -25,26 +25,28 @@ int			unknown_command(t_exe_args *exe_args);
 ** separator.c
 */
 char		get_separator(char *arg);
-void		cut_separator(char **arg, char separator);
+void		cut_separator(t_exe_args exe_args, char **arg, char separator);
 
 /*
 ** concatenate.c
 */
-void		concat_arg(t_exe_info **exe_info, t_support_parsing_data support, char *arg);
-void		concat_exe_arg(char **first, char *second);
+void		concat_arg(t_exe_info **exe_info, t_exe_args exe_args, char *arg);
+void		concat_exe_arg(t_exe_args exe_args, char **first, char *second);
 
 /*
 ** parser_utils.c
 */
 void		set_default_new_lst(t_exe_info **lst);
-char		*get_str_to_compare(char **args, int *i);
+char		*get_str_to_compare(char **args, t_exe_args exe_args, int *i);
 void		init_arg(t_exe_info **tmp_lst, char *str);
 int			is_word_to_cont(char *str, char sep, int i);
+void		dollar_sign(char **arg, t_exe_args exe_args);
 
 /*
 ** split.c
 */
 char		**split(char const *s);
+char		**init_arr_2d(char *str, t_list *copy_dw);
 
 /*
 ** parser.c

@@ -42,7 +42,7 @@ static	int		init_data_word_count(char *sep, int **info_arr, t_list **head)
 ** start_index -> len -> start_index -> len -> ...
 */
 
-static	int		word_count(char **str, t_list **head)
+static	int		word_count(char *str, t_list **head)
 {
 	int			i;
 	char		sep;
@@ -50,27 +50,27 @@ static	int		word_count(char **str, t_list **head)
 
 	i = 0;
 	init_data_word_count(&sep, &info_arr, head);
-	while ((*str)[i])
+	while (str[i])
 	{
 		info_arr[1]++;
-		if (sep == 'f' && ((*str)[i] == '"' || (*str)[i] == '\''))
-			sep = (*str)[i];
-		else if (sep == 'f' && (*str)[i] == '>' && (*str)[i + 1] == '>')
+		if (sep == 'f' && (str[i] == '"' || str[i] == '\''))
+			sep = str[i];
+		else if (sep == 'f' && str[i] == '>' && str[i + 1] == '>')
 		{
 			info_arr[1]++;
 			i++;
 			init_data_word_count(&sep, &info_arr, head);
 		}
-		else if (is_word_to_cont(*str, sep, i))
+		else if (is_word_to_cont(str, sep, i))
 			init_data_word_count(&sep, &info_arr, head);
-		i = skip_spaces((*str), sep, i);
+		i = skip_spaces(str, sep, i);
 		if (info_arr[1] == 0)
 			info_arr[0] = i;
 	}
 	return (1);
 }
 
-static	char	**init_arr_2d(char *str, t_list *copy_dw)
+char		**init_arr_2d(char *str, t_list *copy_dw)
 {
 	int			i;
 	int			len_arr;
@@ -101,8 +101,7 @@ char			**split(char const *s)
 
 	str = protect_malloc(ft_strtrim(s, " "));
 	data_words = NULL;
-	if (!(word_count(&str, &data_words)))
-		error_malloc();
+	word_count(str, &data_words);
 	copy_data_words = data_words;
 	arr_2d = init_arr_2d(str, copy_data_words);
 	ft_lstclear(&data_words, &del_item_libft_lst);
