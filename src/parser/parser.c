@@ -12,28 +12,30 @@
 
 #include "minishell.h"
 
-static	int		init_redirection(t_exe_info **tmp_lst, t_support_parsing_data support, int *decrement, char *str)
+static	int		init_redirection(t_exe_info **exe_info_lst, t_support_parsing_data support, int *decrement, char *str)
 {
-	if ((*tmp_lst)->operator_exe_function != NULL
-		 && (*tmp_lst)->operator_exe_function != support.operators_exe_func_arr[0]
-		 && (*tmp_lst)->operator_exe_function != support.operators_exe_func_arr[1])
+	if ((*exe_info_lst)->operator_exe_function != NULL
+		 && (*exe_info_lst)->operator_exe_function != support.operators_exe_func_arr[0]
+		 && (*exe_info_lst)->operator_exe_function != support.operators_exe_func_arr[1])
 	{
-		(*tmp_lst)->exe_function = NULL;
+		(*exe_info_lst)->exe_function = NULL;
 		return (1);
 	}
-	else if (!(*tmp_lst)->exe_function)
+	else if (!(*exe_info_lst)->exe_function)
 		return (1);
 	return (0);
 }
 
-static	void	init_exec_func(t_exe_info **exe_info,
-								t_store *store, char **args, int *i)
+static	void	init_exec_func(t_list **lst,
+								 t_store *store, char **args, int *i)
 {
 	int				j;
-	t_exe_info		*tmp_lst;
+	t_list			*tmp_lst;
+	t_exe_info		*exe_info;
 	char			*str_to_compare;
 
-	tmp_lst = *exe_info;
+	tmp_lst = *lst;
+	exe_info = tmp_lst->content;
 	if (args[*i] && !ft_strcmp(args[*i], " "))
 		*i += 1;
 	str_to_compare = get_str_to_compare(args, store->exe_args, i);
@@ -41,33 +43,35 @@ static	void	init_exec_func(t_exe_info **exe_info,
 	while (j < sizeof(store->support.exe_str_arr) / sizeof(char *))
 	{
 		if (!ft_strcmp(str_to_compare, store->support.exe_str_arr[j]))
-			tmp_lst->exe_function = store->support.exe_func_arr[j];
+			exe_info->exe_function = store->support.exe_func_arr[j];
 		j++;
 	}
-	if (init_redirection(&tmp_lst, store->support, i, str_to_compare))
-		init_arg(&tmp_lst, str_to_compare);
+	if (init_redirection(&exe_info, store->support, i, str_to_compare))
+		init_arg(&exe_info, str_to_compare);
 	else if (args[*i] && !ft_strcmp(args[*i], " "))
 		*i += 1;
 	free(str_to_compare);
 }
 
-static	int	init_operator(t_exe_info **tmp_lst, int i,
+static	int	init_operator(t_list **tmp_lst, int i,
 								t_support_parsing_data support, char **args)
 {
-	int		j;
+	t_exe_info	*exe_info;
+	int			j;
 
+	exe_info = (*tmp_lst)->content;
 	j = 0;
 	while (j < sizeof(support.operators_arr) / sizeof(char *))
 	{
 		if (!ft_strcmp(args[i], support.operators_arr[j]))
 		{
-			(*tmp_lst)->operator_exe_function = support.operators_exe_func_arr[j];
+			exe_info->operator_exe_function = support.operators_exe_func_arr[j];
 			if (!args[i + 1])
 				return (0);
-			if (!((*tmp_lst)->next = (t_exe_info *)malloc(sizeof(t_exe_info))))
-				error_malloc();
-			(*tmp_lst) = (*tmp_lst)->next;
+//			if (!((*tmp_lst)->next = (t_exe_info *)malloc(sizeof(t_exe_info))))
+//				error_malloc();
 			set_default_new_lst(tmp_lst);
+			(*tmp_lst) = (*tmp_lst)->next;
 			return (0);
 		}
 		j++;
@@ -75,16 +79,16 @@ static	int	init_operator(t_exe_info **tmp_lst, int i,
 	return (1);
 }
 
-int	get_exe_info(char **args, t_store *store)
+t_list	*get_exe_info(char **args, t_store *store)
 {
-	t_exe_info	*tmp_lst;
+	t_list		*head;
+	t_list		*tmp_lst;
 	int			i;
 
 	i = 0;
-	if (!(store->exe_info = (t_exe_info *)malloc(sizeof(t_exe_info))))
-		error_malloc();
-	set_default_new_lst(&store->exe_info);
-	tmp_lst = store->exe_info;
+	head = NULL;
+	set_default_new_lst(&head);
+	tmp_lst = head;
 	while (args[i])
 	{
 		init_exec_func(&tmp_lst, store, args, &i);
@@ -97,17 +101,43 @@ int	get_exe_info(char **args, t_store *store)
 			break ;
 		i++;
 	}
-	return (1);
+	return (head);
 }
+
+//t_list	*get_exe_info(char **args, t_store *store)
+//{
+//	t_list		*head;
+//	t_exe_info	*tmp_lst;
+//	int			i;
+//
+//	i = 0;
+//	head = NULL;
+//	set_default_new_lst(&head);
+//	tmp_lst = store->exe_info;
+//	while (args[i])
+//	{
+//		init_exec_func(&tmp_lst, store, args, &i);
+//		while (args[i] && init_operator(&tmp_lst, i, store->support, args))
+//		{
+//			concat_arg(&tmp_lst, store->exe_args, args[i]);
+//			i++;
+//		}
+//		if (!args[i])
+//			break ;
+//		i++;
+//	}
+//	return (head);
+//}
 
 //int main()
 //{
 ////	char *str = "echo ch'l'en;bin;ls ;'e'c'h'o pam> ty't'y ;e'ch'o 111'111'| cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ";
-//	char *str = "echo fasdf\"$HOMEdsa\"fasdf ; echo fasdf\"$HOME \"fasdf ; echo fasdf$HOMEfasdf ; echo fasdf$HOME\"\"fasdf ; echo '$HOME' ; echo \"fadsf$\"fasd ; echo $";
-//	t_exe_info *test;
-//	t_exe_info *fucking_test;
+////	char *str = "echo fasdf\"$HOMEdsa\"fasdf ; echo fasdf\"$HOME \"fasdf ; echo fasdf$HOMEfasdf ; echo fasdf$HOME\"\"fasdf ; echo '$HOME' ; echo \"fadsf$\"fasd ; echo $";
+//	char *str = "echo fasdf$HOMEdsafasdf ; echo fasdf$HOME fasdf ; echo fasdf$HOMEfasdf ; echo fasdf$HOMEfasdf ; echo '$HOME' ; echo fadsf$fasd ; echo $";
 //	char **splited_str;
 //	t_store *store;
+//	t_list	*test;
+//	t_exe_info	*exe_info;
 //	int i;
 //
 //	i = 0;
@@ -115,23 +145,24 @@ int	get_exe_info(char **args, t_store *store)
 //		return (0);
 //	init_support_parsing_arr(&store->support);
 //	splited_str = split(str);
-//	if (!(get_exe_info(splited_str, store)))
-//		return (0);
+//	printf("0\n");
+//	test = get_exe_info(splited_str, store);
 //
 ////      while (1)
 ////      {
 ////
 ////      }
-//	while (store->exe_info)
+//	while (test)
 //	{
+//		exe_info = test->content;
 //		printf("\n====$$$$====\n");
-//		printf("store->exe_info->arg: %s\n", store->exe_info->args);
-//		printf("store->exe_info->exe_function: %p\n",
-//			   store->exe_info->exe_function);
-//		printf("store->exe_info->operator_exe_function: %p\n",
-//			   store->exe_info->operator_exe_function);
+//		printf("store->exe_info->arg: %s\n", exe_info->args);
+//		printf("exe_info->exe_function: %p\n",
+//			   exe_info->exe_function);
+//		printf("exe_info->operator_exe_function: %p\n",
+//			   exe_info->operator_exe_function);
 //		printf("\n");
-//		store->exe_info = store->exe_info->next;
+//		test = test->next;
 //	}
 //	return (0);
 //}

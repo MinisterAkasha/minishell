@@ -30,18 +30,22 @@ char			*get_str_to_compare(char **args, t_exe_args exe_args, int *i)
 	return (str_to_compare);
 }
 
-void			set_default_new_lst(t_exe_info **lst)
+void			set_default_new_lst(t_list **lst)
 {
-	(*lst)->next = NULL;
-	(*lst)->exe_function = NULL;
-	(*lst)->operator_exe_function = NULL;
-	(*lst)->args = protect_malloc(ft_strdup(""));
+	t_exe_info	*exe_info;
+
+	exe_info = protect_malloc(ft_calloc(1, sizeof(t_exe_info)));
+	exe_info->exe_function = NULL;
+	exe_info->operator_exe_function = NULL;
+	exe_info->args = protect_malloc(ft_strdup(""));
+	ft_lstadd_back(lst, ft_lstnew(exe_info));
+
 }
 
-void			init_arg(t_exe_info **tmp_lst, char *str)
+void			init_arg(t_exe_info **exe_info_lst, char *str)
 {
-	free((*tmp_lst)->args);
-	(*tmp_lst)->args = protect_malloc(ft_strdup(str));
+	free((*exe_info_lst)->args);
+	(*exe_info_lst)->args = protect_malloc(ft_strdup(str));
 }
 
 int				is_word_to_cont(char *str, char sep, int i)

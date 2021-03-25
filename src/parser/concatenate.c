@@ -12,25 +12,25 @@
 
 #include "minishell.h"
 
-void	concat_arg(t_exe_info **exe_info, t_exe_args exe_args, char *arg)
+void	concat_arg(t_list **tmp_lst, t_exe_args exe_args, char *arg)
 {
 	char		separator;
 	char		*copy_exe_arg;
-	t_exe_info	*tmp_lst;
+	t_exe_info	*exe_info;
 
-	tmp_lst = *exe_info;
+	exe_info = (*tmp_lst)->content;
 	separator = get_separator(arg);
-	copy_exe_arg = protect_malloc(ft_strdup(tmp_lst->args));
-	free(tmp_lst->args);
+	copy_exe_arg = protect_malloc(ft_strdup(exe_info->args));
+	free(exe_info->args);
 	if (separator == 'f')
 	{
 		dollar_sign(&arg, exe_args);
-		tmp_lst->args = protect_malloc(ft_strjoin(copy_exe_arg, arg));
+		exe_info->args = protect_malloc(ft_strjoin(copy_exe_arg, arg));
 	}
 	else
 	{
 		cut_separator(exe_args, &arg, separator);
-		tmp_lst->args = protect_malloc(ft_strjoin(copy_exe_arg, arg));
+		exe_info->args = protect_malloc(ft_strjoin(copy_exe_arg, arg));
 	}
 	free(copy_exe_arg);
 }

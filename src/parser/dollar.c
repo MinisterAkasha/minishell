@@ -114,13 +114,17 @@ void			dollar_sign(char **arg, t_exe_args exe_args)
 {
 	t_list	*head;
 	t_list	*copy_head;
+	char	*copy_arg;
 	char	**double_arr;
 
 	dollar_count(*arg, &head);
 	copy_head = head;
 	double_arr = init_arr_2d(*arg, copy_head);
 	change_dollar_to_env(&double_arr, exe_args);
-	*arg = multiply_strjoin(double_arr);
+	copy_arg = multiply_strjoin(double_arr);
+	free(*arg);
+	(*arg) = protect_malloc(ft_strdup(copy_arg));
 	free_2d_arr(double_arr);
 	ft_lstclear(&head, &del_item_libft_lst);
+	free(copy_arg);
 }

@@ -18,18 +18,12 @@ void			del_item_libft_lst(void *value)
 	value = NULL;
 }
 
-void	exe_info_lstclear(t_exe_info **lst)
+void	exe_info_lstclear(void *value)
 {
-	t_exe_info	*cur;
+	t_exe_info	*exe_info;
 
-	if (!lst)
-		return ;
-	while (*lst)
-	{
-		cur = *lst;
-		*lst = (*lst)->next;
-		free(cur->args);
-		cur->args = NULL;
-		free(cur);
-	}
+	exe_info = value;
+	free(exe_info->args);
+	free(exe_info);
+	exe_info = NULL;
 }

@@ -70,7 +70,7 @@ char	*multiply_strjoin(char **args);
 ** support_lst.c
 */
 void	del_item_libft_lst(void *value);
-void	exe_info_lstclear(t_exe_info **lst);
+void	exe_info_lstclear(void *value);
 
 /*
 ** env.c
