@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/24 14:41:31 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/24 15:18:32 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,28 +57,21 @@ int	execute(t_store *store)
 	char		*bin_exe_path;
 	int			i = 0;
 	int			*operators_flags;
-	int 		operators_flag;
 
 	info = store->exe_info;
 	operators_flags = fill_operators_flag_arr(info);
-	// printf("%s\n", operators_flags);
-	operators_flag = 0;
 	while (info)
 	{
-		// store->exe_args.operator_flag = operators_flags[i];
-		operators_flag = operators_flags[i];
+		store->exe_args.operator_flag = operators_flags[i];
 		store->exe_args.args = ft_split(info->args, ' ');//TODO переделать для echo
 		bin_exe_path = search(store->exe_args.args[0], get_env_param("PATH", store->exe_args.env));
 		if (info->operator_exe_function)
-			info->operator_exe_function(store->exe_args.args, info->next->args, info->exe_function, store->exe_args, operators_flag);
+			info->operator_exe_function(store->exe_args.args, info->next->args, info->exe_function, store->exe_args);
 		else if (info->exe_function)
-		{
 			info->exe_function(&store->exe_args);
-			printf("%d\n", i);
-		}
 		else if (bin_exe_path)
 			launch_shell(store->exe_args, bin_exe_path);
-		else if (!info->operator_exe_function && !info->exe_function);
+		// else if (!info->operator_exe_function && !info->exe_function);
 		else
 			unknown_command(&store->exe_args);
 		free(bin_exe_path);

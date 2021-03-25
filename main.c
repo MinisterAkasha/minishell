@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/23 18:43:04 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/24 16:37:56 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,12 @@ int main(int argc, char **argv, char **env)
 {
 	t_store *store;
 
-	if (!(store = (t_store*)malloc(sizeof(t_store))))
+	if (!(store = (t_store*)ft_calloc(sizeof(t_store), 1)))
 		return (0); //TODO обработать ошибку
 	store->exe_args.args = argv;
 	store->exe_args.env = copy_2d_arr(env);
 	store->exe_args.env_init = copy_2d_arr(store->exe_args.env);
+	store->exe_args.operator_flag = 0;
 	store->exe_args.variables = NULL;
 	loop_shell(store);
 	free_2d_arr(store->exe_args.env);
