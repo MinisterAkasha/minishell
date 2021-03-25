@@ -110,21 +110,24 @@ static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 /*
 ** Change $str to str from the env variable
 */
-void			dollar_sign(char **arg, t_exe_args exe_args)
+char *dollar_sign(char *arg, t_exe_args exe_args, char sep)
 {
 	t_list	*head;
 	t_list	*copy_head;
-	char	*copy_arg;
+	char	*changed_arg;
 	char	**double_arr;
 
-	dollar_count(*arg, &head);
-	copy_head = head;
-	double_arr = init_arr_2d(*arg, copy_head);
-	change_dollar_to_env(&double_arr, exe_args);
-	copy_arg = multiply_strjoin(double_arr);
-	free(*arg);
-	(*arg) = protect_malloc(ft_strdup(copy_arg));
-	free_2d_arr(double_arr);
-	ft_lstclear(&head, &del_item_libft_lst);
-	free(copy_arg);
+	if (sep != '\'')
+	{
+		dollar_count(arg, &head);
+		copy_head = head;
+		double_arr = init_arr_2d(arg, copy_head);
+		change_dollar_to_env(&double_arr, exe_args);
+		changed_arg = multiply_strjoin(double_arr);
+		free_2d_arr(double_arr);
+		ft_lstclear(&head, &del_item_libft_lst);
+	}
+	else
+		changed_arg = protect_malloc(arg);
+	return (changed_arg);
 }

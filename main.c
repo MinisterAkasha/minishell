@@ -44,7 +44,6 @@ int loop_shell(t_store *store)
 	char			*line;
 	char			**args;
 	int				status;
-	t_list			*lst_exe_info;
 
 	status = 1;//TODO начального OLDPWD нет
 	init_support_parsing_arr(&store->support);
@@ -55,9 +54,9 @@ int loop_shell(t_store *store)
 		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 		get_next_line(0, &line);
 		args = split(line);
-		lst_exe_info = get_exe_info(args, store);
+		store->exe_info = get_exe_info(args, store);
 		status = execute(store);//TODO Убрать лик (лик аргумента)
-		ft_lstclear(&lst_exe_info, &exe_info_lstclear);
+		ft_lstclear(&store->exe_info, &exe_info_lstclear);
 		free_2d_arr(args);
 		free(line);
 	}

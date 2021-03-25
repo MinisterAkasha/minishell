@@ -21,14 +21,16 @@ int			unknown_command(t_exe_args *exe_arg)
 
 int	execute(t_store *store)
 {
-	t_exe_info	*info;
+	t_list		*info;
+	t_exe_info 	*exe_info;
 	char		*bin_exe_path;
 
 	info = store->exe_info;
-	store->exe_args.args = ft_split(info->args, ' ');
-	if (info->exe_function)
-		info->exe_function(&store->exe_args);
-	else if ((bin_exe_path = search(store->exe_args.args[0], get_env_param("PATH", store->exe_args.env)))) 
+	exe_info = info->content;
+	store->exe_args.args = ft_split(exe_info->args, ' ');
+	if (exe_info->exe_function)
+		exe_info->exe_function(&store->exe_args);
+	else if ((bin_exe_path = search(store->exe_args.args[0], get_env_param("PATH", store->exe_args.env))))
 	{
 		launch_shell(store, bin_exe_path);
 		free(bin_exe_path);

@@ -49,8 +49,8 @@ typedef struct	s_variable
 typedef struct	s_store
 {
 	t_support_parsing_data	support;
-	t_exe_info				*exe_info;
 	t_exe_args				exe_args;
+	t_list					*exe_info;
 }				t_store;
 
 #endif

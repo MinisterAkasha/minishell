@@ -51,7 +51,7 @@ char		**init_arr_2d(char *str, t_list *copy_dw);
 /*
 ** dollar.c
 */
-void		dollar_sign(char **arg, t_exe_args exe_args);
+char *dollar_sign(char *arg, t_exe_args exe_args, char sep);
 
 /*
 ** parser.c

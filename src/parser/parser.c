@@ -68,8 +68,6 @@ static	int	init_operator(t_list **tmp_lst, int i,
 			exe_info->operator_exe_function = support.operators_exe_func_arr[j];
 			if (!args[i + 1])
 				return (0);
-//			if (!((*tmp_lst)->next = (t_exe_info *)malloc(sizeof(t_exe_info))))
-//				error_malloc();
 			set_default_new_lst(tmp_lst);
 			(*tmp_lst) = (*tmp_lst)->next;
 			return (0);
