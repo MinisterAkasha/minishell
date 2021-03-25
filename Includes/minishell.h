@@ -63,6 +63,7 @@ int		get_arr_length(char **arr);
 char	**copy_2d_arr(char **arr);
 void	print_2d_arr(char **arr);
 char	**remove_param_from_2d_arr(char **arr, char *param);
+char	*multiply_strjoin(char **args);
 
 
 /*

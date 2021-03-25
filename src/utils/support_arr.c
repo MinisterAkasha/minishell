@@ -108,3 +108,30 @@ char	**remove_param_from_2d_arr(char **arr, char *param)
 	new_arr[j] = NULL;
 	return (new_arr);
 }
+
+char		*multiply_strjoin(char **args)
+{
+	int		i;
+	char	*tmp_str;
+	char	*tmp_arg;
+	char	*str;
+
+	if (!args)
+		return (NULL);
+	i = 0;
+	str = protect_malloc(ft_strdup(""));
+	tmp_str = protect_malloc(ft_strdup(""));
+	while (args[i])
+	{
+		free(str);
+		tmp_arg = protect_malloc(ft_strdup(args[i]));
+		str = protect_malloc(ft_strjoin(tmp_str, tmp_arg));
+		free(tmp_str);
+		free(tmp_arg);
+		tmp_str = protect_malloc(ft_strdup(str));
+		i++;
+	}
+	if (tmp_str)
+		free(tmp_str);
+	return (str);
+}

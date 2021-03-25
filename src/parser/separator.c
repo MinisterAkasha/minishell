@@ -88,8 +88,6 @@ void			cut_separator(t_exe_args exe_args, char **arg, char sep)
 
 	if (!(verify_sep((*arg), sep)))
 		return ;
-	if (get_separator(*arg) == '"')
-		dollar_sign(arg, exe_args);
 	index = 0;
 	i = get_next_separators(*arg, sep, &index);
 	first = protect_malloc(ft_substr(*arg, 0, index));
@@ -101,6 +99,8 @@ void			cut_separator(t_exe_args exe_args, char **arg, char sep)
 	second = protect_malloc(ft_substr(*arg, index + 1, (get_len((*arg), &i, sep))));
 	free((*arg));
 	(*arg) = protect_malloc(ft_strjoin(tmp, second));
+	if (get_separator(*arg) == '"')
+		dollar_sign(arg, exe_args);
 	free(second);
 	free(first);
 	free(tmp);

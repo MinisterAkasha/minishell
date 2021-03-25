@@ -40,13 +40,18 @@ void		set_default_new_lst(t_exe_info **lst);
 char		*get_str_to_compare(char **args, t_exe_args exe_args, int *i);
 void		init_arg(t_exe_info **tmp_lst, char *str);
 int			is_word_to_cont(char *str, char sep, int i);
-void		dollar_sign(char **arg, t_exe_args exe_args);
+int			init_data_dollar_count(int **info_arr, t_list **head);
 
 /*
 ** split.c
 */
 char		**split(char const *s);
 char		**init_arr_2d(char *str, t_list *copy_dw);
+
+/*
+** dollar.c
+*/
+void		dollar_sign(char **arg, t_exe_args exe_args);
 
 /*
 ** parser.c
