@@ -54,8 +54,7 @@ int loop_shell(t_store *store)
 	add_variable_to_list(&store->exe_args.variables, "?", "0", 0, 0);
 	while (status) //TODO пофиксить пустой инпут
 	{
-//		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
-//		get_next_line(0, &line);
+		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 		if (!gnl(&line, NULL))
 		{
 			printf("\nCtrl-D\n");
