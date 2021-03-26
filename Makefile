@@ -34,6 +34,7 @@ SRC_PATHS = ./src \
 			./src/utils \
 			./src/operators \
 			./src/errors \
+			./src/history \
 			./src/utils/GNL
 
 vpath %.c $(SRC_PATHS)
