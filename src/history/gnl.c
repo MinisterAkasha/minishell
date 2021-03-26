@@ -31,13 +31,13 @@ static void		exe_key(char **str_stat, char *buff, char ***history)
 	char	*joined_str;
 
 	if (!(ft_strcmp(buff, "\e[A")))
-		get_next_hist_str();
+		get_next_hist_str(NULL, NULL);
 	else if (!(ft_strcmp(buff, "\e[B")))
-		get_previos_hist_str();
+		get_previos_hist_str(NULL, NULL);
 	else if (!(ft_strcmp(buff, "\177")))
 	{
-		delete_char(str_stat);//TODO если переместить коретку а потом удалить
-		return ;
+		delete_char(str_stat);	//TODO если переместить коретку а потом удалить
+		return ;				//TODO пофиксить удалеие значка минишела и т.д
 	}
 	else
 		write(1, buff, ft_strlen(buff));

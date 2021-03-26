@@ -20,8 +20,8 @@
 
 int		gnl(char **line, char ***history);
 int		ft_putchar(int c);
-int		get_next_hist_str();
-int		get_previos_hist_str();
+int get_next_hist_str(char **str_stat, char ***history);
+int get_previos_hist_str(char **str_stat, char ***history);
 int		delete_char(char **str);
 
 #endif

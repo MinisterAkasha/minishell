@@ -18,7 +18,7 @@ int		ft_putchar(int c)
 }
 
 
-int		get_next_hist_str()
+int get_next_hist_str(char **str_stat, char ***history)
 {
 	tputs(restore_cursor, 1, ft_putchar);
 	tputs(delete_line, 1, ft_putchar);
@@ -28,7 +28,7 @@ int		get_next_hist_str()
 	return (1);
 }
 
-int		get_previos_hist_str()
+int get_previos_hist_str(char **str_stat, char ***history)
 {
 	tputs(restore_cursor, 1, ft_putchar);
 	tputs(delete_line, 1, ft_putchar);
