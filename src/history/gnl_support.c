@@ -51,15 +51,13 @@ int		get_previos_hist_str()
 	return (1);
 }
 
-int		delete_char(char **str_stat)
+int		delete_char(char **buff)
 {
 	int		len;
 
-//	write(1, cursor_left, strlen(cursor_left));
-//	write(1, delete_character, strlen(delete_character));
 	tputs(cursor_left, 1, ft_putchar);
 	tputs(delete_character, 1, ft_putchar);
-	len = ft_strlen(*str_stat);
-	*str_stat[len] = 0;
+	len = ft_strlen((*buff));
+	(*buff)[len - 1] = 0;
 	return (1);
 }

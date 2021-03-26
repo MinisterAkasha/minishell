@@ -18,7 +18,7 @@
 # include <term.h>
 # include <curses.h>
 
-int		gnl(char **line);
+int gnl(char **line, char ***history);
 int		ft_putchar(int c);
 int		find_nl(char **str_stat, char **line, char *tmp);
 int		get_next_hist_str();

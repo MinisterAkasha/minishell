@@ -44,7 +44,10 @@ int loop_shell(t_store *store)
 	char			*line;
 	char			**args;
 	int				status;
+	char			**history;
 
+	history = protect_malloc((char **)ft_calloc(sizeof(char *), 2));
+	*history = protect_malloc(ft_strdup(""));
 	status = 1;//TODO начального OLDPWD нет
 	init_support_parsing_arr(&store->support);
 	shlvl(store->exe_args.env_init);
@@ -53,7 +56,11 @@ int loop_shell(t_store *store)
 	{
 //		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 //		get_next_line(0, &line);
-		gnl(&line);
+		if (!gnl(&line, NULL))
+		{
+			printf("\nCtrl-D\n");
+			return (1);
+		}
 		args = split(line);
 		store->exe_info = get_exe_info(args, store);
 		status = execute(store);//TODO Убрать лик (лик аргумента)
