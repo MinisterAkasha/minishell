@@ -26,52 +26,63 @@ struct	termios		init_term()
 	return	(term);
 }
 
-static int		return_line(char **str_stat, char **line)
+static	void	exe_key(char **str_stat, char *buff, ssize_t bsize)
 {
-	char		*tmp;
+	char	*joined_str;
+
+	if (!(ft_strcmp(buff, "\e[A")))
+		get_next_hist_str();
+	else if (!(ft_strcmp(buff, "\e[B")))
+		get_previos_hist_str();
+	else if (!(ft_strcmp(buff, "\177")))
+	{
+		delete_char(str_stat);
+		return ;
+	}
+	else
+		write(1, buff, bsize);
+	joined_str = protect_malloc(ft_strjoin(*str_stat, buff));
+	free(*str_stat);
+	*str_stat = protect_malloc(ft_strdup(joined_str));
+	free(joined_str);
+}
+
+static int		find_nl(char **str_stat, char **line)
+{
+	char	*tmp;
 
 	if ((tmp = ft_strchr(*str_stat, '\n')))
-		return (find_nl(str_stat, line, tmp));
-	return (2);
+	{
+		*line = protect_malloc(ft_substr(*str_stat, 0, tmp - *str_stat));
+		tmp = protect_malloc(ft_strdup(tmp + 1));
+		free(*str_stat);
+		*str_stat = protect_malloc(ft_strdup(tmp));
+		free(tmp);
+		return (1);
+	}
+	return (0);
 }
 
 static int		read_or_ending(char **str_stat, char **line)
 {
 	char		*buff;
-	char		*joined_str;
 	int			buffer_size;
 	ssize_t		bsize;
 
 	buffer_size = 2048;
-	if (!(buff = (char *)malloc(buffer_size + 1 * sizeof(char))))
-		return (-1);
+	buff = protect_malloc((char *)malloc(buffer_size + 1 * sizeof(char)));
 	if ((bsize = read(0, buff, buffer_size)) == -1)
-		return (-1);
+		return (-1);//TODO сделать ошибку не считанного файла
 	buff[bsize] = 0;
-	if (bsize == 0 && !(ft_strchr(*str_stat, '\n')))
+	if (!ft_strcmp(buff, "\4") || (bsize == 0 && !(ft_strchr(*str_stat, '\n'))))
 	{
-		if (!(*line = ft_strdup(*str_stat)))
-			return (-1);
+		protect_malloc(*line = ft_strdup(*str_stat));
 		free(buff);
-		return (0);
+		return (1);
 	}
-	if (!(ft_strcmp(buff, "\e[A")))
-		get_next_hist_str();
-	else if (!(ft_strcmp(buff, "\e[B")))
-		get_previos_hist_str();
-	if (!(ft_strcmp(buff, "\177")))
-		delete_char(str_stat);
-	else if (!ft_strcmp(buff, "\4"))
-		return (0);
-	else
-		write(1, buff, bsize);
-	joined_str = ft_strjoin(*str_stat, buff);//TODO Защити это дерьмо
-	free(*str_stat);
-	if (!(*str_stat = ft_strdup(joined_str)))
-		return (-1);
-	free(joined_str);
+	exe_key(str_stat, buff, bsize);
 	free(buff);
-	return (2);
+	return (0);
 }
 
 int gnl(char **line, char ***history)
@@ -89,15 +100,15 @@ int gnl(char **line, char ***history)
 		str_stat = ft_strdup("");
 	while (1)
 	{
-		state = return_line(&str_stat, line);
-		if (state != 2)
+		state = find_nl(&str_stat, line);
+		if (state)
 			break ;
 		state = read_or_ending(&str_stat, line);
-		if (state != 2)
+		if (state)
 		{
 			free(str_stat);
 			str_stat = 0;
-			break;//return (state);
+			break ;
 		}
 	}
 	term.c_lflag |= ECHO;

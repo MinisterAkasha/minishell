@@ -14,23 +14,9 @@
 
 int		ft_putchar(int c)
 {
-//	write(1, &c, 1);
-//	return (c);
 	 return (write(1, &c, 1));
 }
 
-int find_nl(char **str_stat, char **line, char *tmp)
-{
-	if (!(*line = ft_substr(*str_stat, 0, tmp - *str_stat)))
-		return (-1);
-	if (!(tmp = ft_strdup(tmp + 1)))
-		return (-1);
-	free(*str_stat);
-	if (!(*str_stat = ft_strdup(tmp)))
-		return (-1);
-	free(tmp);
-	return (1);
-}
 
 int		get_next_hist_str()
 {
