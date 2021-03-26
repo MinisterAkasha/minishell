@@ -21,7 +21,9 @@ struct	termios		init_term()
 	term.c_lflag &= ~(ICANON);
 	tcsetattr(0, TCSANOW, &term);
 	tgetent(0, getenv("TERM"));//TODO брать у Илюхи с ENV
-	write(1, save_cursor, strlen(save_cursor));
+	tputs(save_cursor, 1, ft_putchar);
+//	write(1, save_cursor, strlen(save_cursor));
+//	write(1, tgetstr("cr", 0), ft_strlen(tgetstr("cr", 0)));
 
 	return	(term);
 }
@@ -32,19 +34,18 @@ static int		return_line(char **str_stat, char **line)
 
 	if ((tmp = ft_strchr(*str_stat, '\n')))
 		return (find_nl(str_stat, line, tmp));
-	else if (!(ft_strcmp(*str_stat, "\e[A")))
-		get_next_hist_str();
-	else if (!(ft_strcmp(*str_stat, "\e[A")))
-		get_previos_hist_str();
-	else if (!(ft_strcmp(*str_stat, "\177")))
-		delete_char(str_stat);
-	else if (!ft_strcmp(*str_stat, ""))
-	{
-		//TODO Записывать строку в буффер(или блять она на read записывается) и выводить ее
-//		result = ft_strjoin(buf_tmp, str);
-//		write(1, str, len);
-	}
+//	else if (!(ft_strcmp(*str_stat, "\e[A")))//tgetstr("ku", 0))))
+//		get_next_hist_str();
+//	else if (!(ft_strcmp(*str_stat, "\e[B")))
+//		get_previos_hist_str();
+//	else if (!(ft_strcmp(*str_stat, "\177")))
+//		delete_char(str_stat);
 	return (2);
+	//	else if (ft_strcmp(*str_stat, "\4"))
+//	{
+//		printf("Ctrl-D\n");
+//		return (1);
+//	}
 }
 
 static int		read_or_ending(char **str_stat, char **line)
@@ -54,7 +55,7 @@ static int		read_or_ending(char **str_stat, char **line)
 	int			buffer_size;
 	ssize_t		bsize;
 
-	buffer_size = 1;
+	buffer_size = 2048;
 	if (!(buff = (char *)malloc(buffer_size + 1 * sizeof(char))))
 		return (-1);
 	if ((bsize = read(0, buff, buffer_size)) == -1)
@@ -68,11 +69,24 @@ static int		read_or_ending(char **str_stat, char **line)
 		return (0);
 	}
 	joined_str = ft_strjoin(*str_stat, buff);//TODO Защити это дерьмо
+//		//TODO записывать в файл и двумерный массив
 	free(*str_stat);
-	free(buff);
 	if (!(*str_stat = ft_strdup(joined_str)))
 		return (-1);
+	else if (!(ft_strcmp(buff, "\e[A")))
+		get_next_hist_str();
+	else if (!(ft_strcmp(buff, "\e[B")))
+		get_previos_hist_str();
+	else if (!(ft_strcmp(buff, "\177")))
+		delete_char(&buff);
+//	else if (ft_strcmp(buff, "\4"))
+//	{
+//		return (0);
+//	}
+	else
+		write(1, buff, bsize);
 	free(joined_str);
+	free(buff);
 	return (2);
 }
 
@@ -83,6 +97,7 @@ int		gnl(char **line)
 	struct	termios	term;
 
 	term = init_term();
+	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 	if (!line)
 		return (-1);
 	if (!str_stat)
@@ -102,7 +117,7 @@ int		gnl(char **line)
 	}
 //	add_param_to_2d_arr();
 //	add_to_history_file();
-	term.c_lflag |= ~(ECHO);
-	term.c_lflag |= ~(ICANON);
+	term.c_lflag |= ECHO;
+	term.c_lflag |= ICANON;
 	return (state);
 }

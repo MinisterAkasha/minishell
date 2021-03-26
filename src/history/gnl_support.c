@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+int		ft_putchar(int c)
+{
+//	write(1, &c, 1);
+//	return (c);
+	 return (write(1, &c, 1));
+}
+
 int find_nl(char **str_stat, char **line, char *tmp)
 {
 	if (!(*line = ft_substr(*str_stat, 0, tmp - *str_stat)))
@@ -23,22 +30,23 @@ int find_nl(char **str_stat, char **line, char *tmp)
 		return (-1);
 	free(tmp);
 	return (1);
-
-	//TODO записывать в файл и двумерный массив
 }
 
 int		get_next_hist_str()
 {
-	write(1, restore_cursor, strlen(restore_cursor));
-	write(1, delete_line, strlen(delete_line));
+	tputs(restore_cursor, 1, ft_putchar);
+	tputs(delete_line, 1, ft_putchar);
+
+	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 	write(1, "up", 2);
 	return (1);
 }
 
 int		get_previos_hist_str()
 {
-	write(1, restore_cursor, strlen(restore_cursor));
-	write(1, delete_line, strlen(delete_line));
+	tputs(restore_cursor, 1, ft_putchar);
+	tputs(delete_line, 1, ft_putchar);
+	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 	write(1, "down", 4);
 	return (1);
 }
@@ -47,8 +55,10 @@ int		delete_char(char **str_stat)
 {
 	int		len;
 
-	write(1, cursor_left, strlen(cursor_left));
-	write(1, delete_character, strlen(delete_character));
+//	write(1, cursor_left, strlen(cursor_left));
+//	write(1, delete_character, strlen(delete_character));
+	tputs(cursor_left, 1, ft_putchar);
+	tputs(delete_character, 1, ft_putchar);
 	len = ft_strlen(*str_stat);
 	*str_stat[len] = 0;
 	return (1);

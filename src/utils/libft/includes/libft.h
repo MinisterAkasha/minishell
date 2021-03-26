@@ -23,8 +23,6 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
-void				ft_putchar(char c);
-
 int					ft_toupper(int c);
 int					ft_tolower(int c);
 

@@ -15,7 +15,7 @@ CC = gcc
 INCLUDE = ./Includes
 LIBFT_PATH = ./src/utils/libft/
 LIBFT = ./src/utils/libft/libft.a
-
+TERMCAP = -ltermcap
 C_FILES = $(shell find . -name "*.c" $(IGNORE_PATHS) -execdir echo {} ';')
 OBJDIR = ./src/obj
 OBJ = $(C_FILES:%.c=%.o)
@@ -65,7 +65,7 @@ libft:
 	@echo "$(UNDERLINE)$(BLUE)$(NAME):"
 
 $(NAME): $(OBJ)
-	@$(CC) -I$(INCLUDE) $(LIBFT) $(O_FILES) -o $@
+	@$(CC) -I$(INCLUDE) $(LIBFT) $(TERMCAP) $(O_FILES) -o $@
 	@echo "$(GREEN)Success!"
 
 $(OBJDIR):
