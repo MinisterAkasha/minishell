@@ -26,25 +26,27 @@ struct	termios		init_term()
 	return	(term);
 }
 
-static void		exe_key(char **str_stat, char *buff, char ***history)
+static void		exe_key(char **str_stat, char *buff, t_history *history)
 {
 	char	*joined_str;
 
-	if (!(ft_strcmp(buff, "\e[A")))
-		get_next_hist_str(NULL, NULL);
-	else if (!(ft_strcmp(buff, "\e[B")))
-		get_previos_hist_str(NULL, NULL);
-	else if (!(ft_strcmp(buff, "\177")))
+	if (!(ft_strcmp(buff, "\177")))
 	{
 		delete_char(str_stat);	//TODO если переместить коретку а потом удалить
 		return ;				//TODO пофиксить удалеие значка минишела и т.д
 	}
+	if (!(ft_strcmp(buff, "\e[A")))
+		get_str_key_up(history, str_stat);
+	else if (!(ft_strcmp(buff, "\e[B")))
+		get_str_key_down(history, str_stat);
 	else
+	{
 		write(1, buff, ft_strlen(buff));
-	joined_str = protect_malloc(ft_strjoin(*str_stat, buff));
-	free(*str_stat);
-	*str_stat = protect_malloc(ft_strdup(joined_str));
-	free(joined_str);
+		joined_str = protect_malloc(ft_strjoin((*str_stat), buff));
+		free((*str_stat));
+		(*str_stat) = protect_malloc(ft_strdup(joined_str));
+		free(joined_str);
+	}
 }
 
 static int		find_nl(char **str_stat, char **line)
@@ -85,7 +87,7 @@ static char		*get_buff(char **str_stat, char **line)
 	return (buff);
 }
 
-int		gnl(char **line, char ***history)
+int		gnl(char **line, t_history *history)
 {
 	static char		*str_stat = NULL;
 	char			*buff;
@@ -100,7 +102,17 @@ int		gnl(char **line, char ***history)
 	while (1)
 	{
 		if (find_nl(&str_stat, line))
+		{
+			if (history->is_new_str)
+			{
+				free(history->arr[history->total]);
+				history->arr[history->total] = 0;
+			}
+			add_param_to_2d_arr(history->arr, *line);
+			history->total++;
+			history->cur = history->total;
 			break ;
+		}
 		buff = get_buff(&str_stat, line);
 		if (!buff)
 			return (0);//Ctrl-D

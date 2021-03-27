@@ -44,18 +44,22 @@ int loop_shell(t_store *store)
 	char			*line;
 	char			**args;
 	int				status;
-	char			**history;
+	t_history		*history;
 
-	history = protect_malloc((char **)ft_calloc(sizeof(char *), 2));
-	*history = protect_malloc(ft_strdup(""));
+	history = protect_malloc((t_history *)ft_calloc(sizeof(t_history), 1));
+	history->arr = protect_malloc((char **)ft_calloc(sizeof(char *), 2));
+	history->arr[0] = protect_malloc(ft_strdup(""));
+	history->total = 0;
+	history->cur = history->total;
 	status = 1;//TODO начального OLDPWD нет
 	init_support_parsing_arr(&store->support);
 	shlvl(store->exe_args.env_init);
 	add_variable_to_list(&store->exe_args.variables, "?", "0", 0, 0);
 	while (status) //TODO пофиксить пустой инпут
 	{
+		history->is_new_str = 0;
 		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
-		if (!gnl(&line, NULL))
+		if (!gnl(&line, history))
 		{
 			printf("\nCtrl-D\n");
 			return (1);
@@ -67,6 +71,8 @@ int loop_shell(t_store *store)
 		free_2d_arr(args);
 		free(line);
 	}
+	free_2d_arr(history->arr);
+	free(history);
 	return (1);
 }
 

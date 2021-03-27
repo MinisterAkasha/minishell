@@ -18,23 +18,43 @@ int		ft_putchar(int c)
 }
 
 
-int get_next_hist_str(char **str_stat, char ***history)
+void get_str_key_up(t_history *history, char **str_stat)
 {
-	tputs(restore_cursor, 1, ft_putchar);
-	tputs(delete_line, 1, ft_putchar);
-
-	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
-	write(1, "up", 2);
-	return (1);
+	if (history->cur > 0 && history->arr[history->cur - 1])
+	{
+		free(history->arr[history->cur]);
+		history->arr[history->cur] = protect_malloc(ft_strdup(*str_stat));
+		free(*str_stat);
+		(*str_stat) = protect_malloc(ft_strdup(history->arr[history->cur - 1]));
+		history->cur--;
+		tputs(restore_cursor, 1, ft_putchar);
+		tputs(delete_line, 1, ft_putchar);
+		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
+	}
+//	write(1, "up", 2);
 }
 
-int get_previos_hist_str(char **str_stat, char ***history)
+void get_str_key_down(t_history *history, char **str_stat)
 {
-	tputs(restore_cursor, 1, ft_putchar);
-	tputs(delete_line, 1, ft_putchar);
-	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
-	write(1, "down", 4);
-	return (1);
+	if (history->cur == history->total && !history->is_new_str)
+	{
+		history->is_new_str = 1;
+		add_param_to_2d_arr(history->arr, *str_stat);
+		history->total++;
+		history->cur = history->total;
+	}
+	else if (history->arr[history->cur] && history->arr[history->cur + 1] && history->total > history->cur)
+	{
+		free(history->arr[history->cur]);
+		history->arr[history->cur] = protect_malloc(ft_strdup(*str_stat));
+		free(*str_stat);
+		(*str_stat) = protect_malloc(ft_strdup(history->arr[history->cur + 1]));
+		history->cur++;
+		tputs(restore_cursor, 1, ft_putchar);
+		tputs(delete_line, 1, ft_putchar);
+		ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
+	}
+//	write(1, "down", 4);
 }
 
 int		delete_char(char **buff)

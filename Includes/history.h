@@ -18,10 +18,10 @@
 # include <term.h>
 # include <curses.h>
 
-int		gnl(char **line, char ***history);
+int		gnl(char **line, t_history *history);
 int		ft_putchar(int c);
-int get_next_hist_str(char **str_stat, char ***history);
-int get_previos_hist_str(char **str_stat, char ***history);
+void get_str_key_up(t_history *history, char **str_stat);
+void get_str_key_down(t_history *history, char **str_stat);
 int		delete_char(char **str);
 
 #endif

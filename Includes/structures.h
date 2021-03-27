@@ -46,6 +46,14 @@ typedef struct	s_variable
 	int		is_env;
 }				t_variable;
 
+typedef struct	s_history
+{
+	char	**arr;
+	int		cur;
+	int		total;
+	int		is_new_str;
+}				t_history;
+
 typedef struct	s_store
 {
 	t_support_parsing_data	support;
