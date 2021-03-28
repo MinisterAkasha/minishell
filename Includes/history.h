@@ -23,5 +23,6 @@ int		ft_putchar(int c);
 void get_str_key_up(t_history *history, char **str_stat);
 void get_str_key_down(t_history *history, char **str_stat);
 int		delete_char(char **str);
+void	create_new_history(t_history *history, char *line);
 
 #endif

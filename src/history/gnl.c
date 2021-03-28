@@ -80,11 +80,27 @@ static char		*get_buff(char **str_stat, char **line)
 	{
 		protect_malloc(*line = ft_strdup(*str_stat));
 		free(buff);
-		free(str_stat);
+		free(*str_stat);
 		str_stat = 0;
 		return (0);
 	}
 	return (buff);
+}
+
+void	create_new_history(t_history *history, char *line)
+{
+	char	**copy_history_arr;
+
+	if (history->is_new_str)
+	{
+		free(history->arr[history->total]);
+		history->arr[history->total] = 0;
+	}
+	copy_history_arr = copy_2d_arr(history->arr);
+	free_2d_arr(history->arr);
+	history->arr = add_param_to_2d_arr(copy_history_arr, line);
+	history->total++;
+	history->cur = history->total;
 }
 
 int		gnl(char **line, t_history *history)
@@ -93,7 +109,6 @@ int		gnl(char **line, t_history *history)
 	char			*buff;
 	struct	termios	term;
 
-	history = 0;
 	term = init_term();
 	if (!line)
 		return (-1);
@@ -103,14 +118,7 @@ int		gnl(char **line, t_history *history)
 	{
 		if (find_nl(&str_stat, line))
 		{
-			if (history->is_new_str)
-			{
-				free(history->arr[history->total]);
-				history->arr[history->total] = 0;
-			}
-			add_param_to_2d_arr(history->arr, *line);
-			history->total++;
-			history->cur = history->total;
+			create_new_history(history, *line);
 			break ;
 		}
 		buff = get_buff(&str_stat, line);

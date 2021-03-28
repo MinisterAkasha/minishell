@@ -48,8 +48,8 @@ int loop_shell(t_store *store)
 
 	history = protect_malloc((t_history *)ft_calloc(sizeof(t_history), 1));
 	history->arr = protect_malloc((char **)ft_calloc(sizeof(char *), 2));
-	history->arr[0] = protect_malloc(ft_strdup(""));
-	history->total = 0;
+//	history->arr[0] = protect_malloc(ft_strdup(""));
+	history->total = -1;
 	history->cur = history->total;
 	status = 1;//TODO начального OLDPWD нет
 	init_support_parsing_arr(&store->support);
