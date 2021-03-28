@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:46:31 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/25 17:30:03 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/28 22:04:25 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		exe_oper_pipe(char **argv, char *next_arg, int (*exe_function)(t_exe_args *), t_exe_args fun_args)
+int		exe_oper_pipe(t_exe_args *exec_args, t_list *info)
 {
     pid_t	pid;
 	char	*bin_path;
@@ -31,7 +31,7 @@ int		exe_oper_pipe(char **argv, char *next_arg, int (*exe_function)(t_exe_args *
 		printf("Can\'t create pipe\n");
         exit(-1); 
 	}
-	bin_path = search(fun_args.args[0], get_env_param("PATH", fun_args.env));
+	bin_path = search(exec_args->args[0], get_env_param("PATH", exec_args->env));
 	pid = fork();
 	if (!pid)
 	{
@@ -39,7 +39,7 @@ int		exe_oper_pipe(char **argv, char *next_arg, int (*exe_function)(t_exe_args *
 		old_stdout = dup(1);
 		dup2(fd_1[1], 1);
 		if (bin_path)
-			execve(bin_path, fun_args.args, fun_args.env);
+			execve(bin_path, exec_args->args, exec_args->env);
 		dup2(old_stdout, 1);
 		close(fd_1[1]);
 	}
