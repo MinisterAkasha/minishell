@@ -113,6 +113,8 @@ char		*search(char *arg, const char *$_path)
 {
 	char *current_path;
 
+	if (!arg)
+		return (NULL);
 	current_path = get_bin_path_command(arg, $_path);
 	if (!current_path)
 		current_path = get_relative_path(arg);

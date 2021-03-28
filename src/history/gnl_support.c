@@ -20,23 +20,17 @@ int		ft_putchar(int c)
 
 void get_str_key_up(t_history *history, char **str_stat)
 {
-	if (history->cur > 0 && history->cur == history->total && !history->is_new_str)
+	if (history->arr[history->cur] && history->cur > 0 && history->cur == history->total && !history->is_new_str)
 	{
-//		printf("1\n");
 		free(*str_stat);
 		(*str_stat) = protect_malloc(ft_strdup(history->arr[history->cur]));
-//		printf("2\n");
-		create_new_history(history, *str_stat);
 		history->is_new_str = 1;
-		history->cur--;
 	}
 	else if (history->cur > 0 && history->arr[history->cur - 1])
 	{
-//		printf("2\n");
 		free(history->arr[history->cur]);
 		history->arr[history->cur] = protect_malloc(ft_strdup(*str_stat));
 		free(*str_stat);
-//		printf("3\n");
 		(*str_stat) = protect_malloc(ft_strdup(history->arr[history->cur - 1]));
 		history->cur--;
 	}

@@ -90,16 +90,13 @@ static char		*get_buff(char **str_stat, char **line)
 void	create_new_history(t_history *history, char *line)
 {
 	char	**copy_history_arr;
+	int		arr_len;
 
-	if (history->is_new_str)
-	{
-		free(history->arr[history->total]);
-		history->arr[history->total] = 0;
-	}
+	arr_len = get_arr_length(history->arr);
 	copy_history_arr = copy_2d_arr(history->arr);
 	free_2d_arr(history->arr);
 	history->arr = add_param_to_2d_arr(copy_history_arr, line);
-	history->total++;
+	history->total = arr_len;
 	history->cur = history->total;
 }
 
