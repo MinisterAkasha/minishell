@@ -81,6 +81,7 @@ t_list	*get_exe_info(char **args, t_store *store)
 {
 	t_list		*head;
 	t_list		*tmp_lst;
+	t_exe_info	*exe_info;
 	int			i;
 
 	i = 0;
@@ -92,7 +93,8 @@ t_list	*get_exe_info(char **args, t_store *store)
 		init_exec_func(&tmp_lst, store, args, &i);
 		while (args[i] && init_operator(&tmp_lst, i, store->support, args))
 		{
-			concat_arg(&tmp_lst, store->exe_args, args[i]);
+			exe_info = tmp_lst->content;
+			concat_args(store->exe_args, &exe_info->args, args[i]);
 			i++;
 		}
 		if (!args[i])
@@ -101,31 +103,6 @@ t_list	*get_exe_info(char **args, t_store *store)
 	}
 	return (head);
 }
-
-//t_list	*get_exe_info(char **args, t_store *store)
-//{
-//	t_list		*head;
-//	t_exe_info	*tmp_lst;
-//	int			i;
-//
-//	i = 0;
-//	head = NULL;
-//	set_default_new_lst(&head);
-//	tmp_lst = store->exe_info;
-//	while (args[i])
-//	{
-//		init_exec_func(&tmp_lst, store, args, &i);
-//		while (args[i] && init_operator(&tmp_lst, i, store->support, args))
-//		{
-//			concat_arg(&tmp_lst, store->exe_args, args[i]);
-//			i++;
-//		}
-//		if (!args[i])
-//			break ;
-//		i++;
-//	}
-//	return (head);
-//}
 
 //int main()
 //{

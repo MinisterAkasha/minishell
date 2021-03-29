@@ -24,7 +24,7 @@ char			*get_str_to_compare(char **args, t_exe_args exe_args, int *i)
 			&& ft_strcmp(args[*i], "<")
 			&& ft_strcmp(args[*i], ">>"))
 	{
-		concat_exe_arg(exe_args, &str_to_compare, args[*i]);
+		concat_args(exe_args, &str_to_compare, args[*i]);
 		*i += 1;
 	}
 	return (str_to_compare);
@@ -75,8 +75,8 @@ int				is_word_to_cont(char *str, char sep, int i)
 
 int		init_data_dollar_count(int **info_arr, t_list **head)
 {
-	if (!(*info_arr = (int *)ft_calloc(2, sizeof(int))))
+	if (!((*info_arr) = (int *)ft_calloc(2, sizeof(int))))
 		error_malloc();
-	ft_lstadd_back(head, protect_malloc(ft_lstnew(*info_arr)));
+	ft_lstadd_back(head, protect_malloc(ft_lstnew((*info_arr))));
 	return (1);
 }

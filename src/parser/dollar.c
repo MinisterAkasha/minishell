@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-
-
 /*
 ** Create a linked list 'head'
 ** Which has data to cut the 'str' by $ and spaces
@@ -31,7 +29,6 @@ static	int		dollar_count(char *str, t_list **head)
 	info_arr[0] = 0;
 	while (str[i])
 	{
-
 		if (str[i] && (str[i] == '$'))
 		{
 			init_data_dollar_count(&info_arr, head);
@@ -117,6 +114,7 @@ char *dollar_sign(char *arg, t_exe_args exe_args, char sep)
 	char	*changed_arg;
 	char	**double_arr;
 
+	head = NULL;
 	if (sep != '\'')
 	{
 		dollar_count(arg, &head);
@@ -128,6 +126,6 @@ char *dollar_sign(char *arg, t_exe_args exe_args, char sep)
 		ft_lstclear(&head, &del_item_libft_lst);
 	}
 	else
-		changed_arg = protect_malloc(arg);
+		changed_arg = protect_malloc(ft_strdup(arg));
 	return (changed_arg);
 }
