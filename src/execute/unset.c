@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 17:56:27 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/29 15:37:22 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/29 15:40:30 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int exe_unset(t_exe_args *exe_arg)
 			}
 		}
 		else
-			write_error_message("minishell: unset: '", exe_arg->args[i], "'not a valid identifier");
+			write_error_message("minishell: unset: '", exe_arg->args[i], "': not a valid identifier");
 		i++;
 	}
 	set_unset_status_var(exe_arg);
