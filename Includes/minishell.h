@@ -50,6 +50,7 @@ int		launch_shell(t_store *store, char *bin_path);
 ** init.c
 */
 void	init_support_parsing_arr(t_support_parsing_data *data);
+void	init_history_data(t_history **history);
 
 /*
 ** support.c

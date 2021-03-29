@@ -46,10 +46,7 @@ int loop_shell(t_store *store)
 	int				status;
 	t_history		*history;
 
-	history = protect_malloc((t_history *)ft_calloc(sizeof(t_history), 1));
-	history->arr = protect_malloc((char **)ft_calloc(sizeof(char *), 2));
-	history->total = 0;
-	history->cur = history->total;
+	init_history_data(&history);
 	status = 1;//TODO начального OLDPWD нет
 	init_support_parsing_arr(&store->support);
 	shlvl(store->exe_args.env_init);
