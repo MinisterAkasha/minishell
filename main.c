@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/29 17:20:43 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/29 17:30:46 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void wait_child_process_end(pid_t id, t_list *var)
 	while (!WIFEXITED(status) && !WEXITSTATUS(status) && !WIFSIGNALED(status))
 		waitpid(id, &status, WUNTRACED);
 	str_status = ft_itoa(status / 256);
-	add_variable_to_list(&var, "?", str_status, 0, 0);//TODO itoa leak
+	add_variable_to_list(&var, "?", str_status, 0, 0);
 	free(str_status);
 }
 
@@ -33,10 +33,10 @@ int launch_shell(t_exe_args exe_args, char *bin_path)
 	if (!child_process_id)
 	{
 		if (execve(bin_path, exe_args.args, exe_args.env) == -1)
-			printf("EXECVE ERROR. CODE: %s\n", strerror(errno)); //TODO обработать ошибку
+			printf("EXECVE ERROR. CODE: %s\n", strerror(errno));//TODO обработать ошибку
 	}
 	else if (child_process_id < 0)
-		printf("FORK ERROR: CODE: %d\n", errno); //TODO обработать ошибку
+		printf("FORK ERROR: CODE: %d\n", errno);//TODO обработать ошибку
 	else
 		wait_child_process_end(child_process_id, exe_args.variables);
 	return (1);
@@ -54,7 +54,7 @@ int loop_shell(t_store *store)
 	init_support_parsing_arr(&store->support);
 	shlvl(store->exe_args.env_init);
 	add_variable_to_list(&store->exe_args.variables, "?", "0", 0, 0);
-	while (status) //TODO пофиксить пустой инпут
+	while (status)
 	{
 		if (!gnl(&line, history, store->exe_args.env))
 		{
@@ -63,7 +63,7 @@ int loop_shell(t_store *store)
 		}
 		args = split(line);
 		store->exe_info = get_exe_info(args, store);
-		status = execute(store);//TODO Убрать лик (лик аргумента)
+		status = execute(store);
 		ft_lstclear(&store->exe_info, &exe_info_lstclear);
 		free_2d_arr(args);
 		free(line);

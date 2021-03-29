@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/29 15:37:08 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/29 17:29:49 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@ int	execute(t_store *store)
 	t_list		*info;
 	t_exe_info 	*exe_info;
 	char		*bin_exe_path;
-	int			i = 0;//TODO
-	int			*operators_flags;
-
-
+	int			i;
 
 	info = store->exe_info;
+	i = 0;
 	while (info)
 	{
 		exe_info = info->content;
@@ -45,6 +43,8 @@ int	execute(t_store *store)
 			exe_info->exe_function(&store->exe_args);
 		else if (bin_exe_path)
 			launch_shell(store->exe_args, bin_exe_path);
+		else if (!ft_strlen(exe_info->args))
+			return (1);
 		else
 			unknown_command(&store->exe_args);
 		free(bin_exe_path);
