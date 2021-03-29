@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-int		ft_putchar(int c)
+int				ft_putchar(int c)
 {
 	 return (write(1, &c, 1));
 }
 
-void	create_new_history(t_history *history, char *line)
+void			create_new_history(t_history *history, char *line)
 {
 	char	**copy_history_arr;
 	int		arr_len;
@@ -34,23 +34,30 @@ void	create_new_history(t_history *history, char *line)
 	}
 }
 
-struct	termios		init_term_history(t_history *history)
+struct termios	init_term_history(t_history *history, char **env)
 {
 	struct	termios term;
+	char	*term_env;
 
+	term_env = ft_strchr(get_env_param("TERM", env), '=') + 1;
+	if (!term_env)
+	{
+		ft_putendl_fd("Could't get a TERM", 1);
+		exit(0);
+	}
 	history->first_str = protect_malloc(ft_strdup(""));
 	history->is_new_str = 0;
 	tcgetattr(0, &term);
 	term.c_lflag &= ~(ECHO);
 	term.c_lflag &= ~(ICANON);
 	tcsetattr(0, TCSANOW, &term);
-	tgetent(0, getenv("TERM"));//TODO брать у Илюхи с ENV
+	tgetent(0, term_env);
 	tputs(save_cursor, 1, ft_putchar);
 	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 	return	(term);
 }
 
-int		exit_gnl(t_history *history, struct	termios term, int state)
+int				exit_gnl(t_history *history, struct	termios term, int state)
 {
 	free(history->first_str);
 	term.c_lflag |= ECHO;

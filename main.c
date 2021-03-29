@@ -56,7 +56,7 @@ int loop_shell(t_store *store)
 	add_variable_to_list(&store->exe_args.variables, "?", "0", 0, 0);
 	while (status) //TODO пофиксить пустой инпут
 	{
-		if (!gnl(&line, history))
+		if (!gnl(&line, history, store->exe_args.env))
 		{
 			printf("\nCtrl-D\n");
 			return (1);

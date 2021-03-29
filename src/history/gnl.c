@@ -63,13 +63,13 @@ static char		*get_buff(char **str_stat, char **line)
 	return (buff);
 }
 
-int		gnl(char **line, t_history *history)
+int		gnl(char **line, t_history *history, char **env)
 {
 	static char		*str_stat = NULL;
 	char			*buff;
 	struct	termios	term;
 
-	term = init_term_history(history);
+	term = init_term_history(history, env);
 	if (!str_stat)
 		str_stat = ft_strdup("");
 	while (1)
