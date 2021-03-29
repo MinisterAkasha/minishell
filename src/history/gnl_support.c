@@ -17,82 +17,43 @@ int		ft_putchar(int c)
 	 return (write(1, &c, 1));
 }
 
-
-void	set_str_key_up(char **str_stat, t_history *history)
+void	create_new_history(t_history *history, char *line)
 {
-	if (history->cur == history->total && history->is_new_str != 1)
+	char	**copy_history_arr;
+	int		arr_len;
+
+	if (ft_strcmp(line, ""))
 	{
-		free(*str_stat);
-		(*str_stat) = protect_malloc(ft_strdup(history->arr[history->cur]));
-		history->is_new_str = 1;
+		arr_len = get_arr_length(history->arr);
+		copy_history_arr = copy_2d_arr(history->arr);
+		free_2d_arr(history->arr);
+		history->arr = add_param_to_2d_arr(copy_history_arr, line);
+		history->total = arr_len;
+		history->cur = history->total;
+		free_2d_arr(copy_history_arr);
 	}
-	else if (history->cur > 0 && history->arr[history->cur - 1])
-	{
-		free(history->arr[history->cur]);
-		history->arr[history->cur] = protect_malloc(ft_strdup(*str_stat));
-		free(*str_stat);
-		(*str_stat) = protect_malloc(ft_strdup(history->arr[history->cur - 1]));
-		history->cur--;
-	}
-	tputs(restore_cursor, 1, ft_putchar);
-	tputs(delete_line, 1, ft_putchar);
+}
+
+struct	termios		init_term_history(t_history *history)
+{
+	struct	termios term;
+
+	history->first_str = protect_malloc(ft_strdup(""));
+	history->is_new_str = 0;
+	tcgetattr(0, &term);
+	term.c_lflag &= ~(ECHO);
+	term.c_lflag &= ~(ICANON);
+	tcsetattr(0, TCSANOW, &term);
+	tgetent(0, getenv("TERM"));//TODO брать у Илюхи с ENV
+	tputs(save_cursor, 1, ft_putchar);
 	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
-	ft_putstr_fd(*str_stat, 1);
+	return	(term);
 }
 
-void	set_str_key_down(char **str_stat, t_history *history)
+int		exit_gnl(t_history *history, struct	termios term, int state)
 {
-	if (history->cur == history->total)
-	{
-		if (!history->is_new_str)
-			create_new_history(history, *str_stat);
-		else
-		{
-			free(*str_stat);
-			(*str_stat) = protect_malloc(ft_strdup(history->first_str));
-		}
-		history->is_new_str = 2;
-	}
-	else if (history->arr[history->cur] && history->arr[history->cur + 1])
-	{
-		free(history->arr[history->cur]);
-		history->arr[history->cur] = protect_malloc(ft_strdup(*str_stat));
-		free(*str_stat);
-		(*str_stat) = protect_malloc(ft_strdup(history->arr[history->cur + 1]));
-		history->cur++;
-	}
-	tputs(restore_cursor, 1, ft_putchar);
-	tputs(delete_line, 1, ft_putchar);
-	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
-	ft_putstr_fd(*str_stat, 1);
-}
-
-void	set_alpha(char **str_stat, char *buff, t_history *history)
-{
-	char	*joined_str;
-	char	*copy_str_stat;
-
-	write(1, buff, ft_strlen(buff));
-	copy_str_stat = protect_malloc(ft_strdup((*str_stat)));
-	joined_str = protect_malloc(ft_strjoin(copy_str_stat, buff));
-	free((*str_stat));
-	(*str_stat) = protect_malloc(ft_strdup(joined_str));
-	if (history->total == history->cur)
-	{
-		free(history->first_str);
-		history->first_str = protect_malloc(ft_strdup((*str_stat)));
-	}
-	free(copy_str_stat);
-	free(joined_str);
-}
-
-void	delete_char(char **buff)
-{
-	int		len;
-
-	tputs(cursor_left, 1, ft_putchar);
-	tputs(delete_character, 1, ft_putchar);
-	len = ft_strlen((*buff));
-	if (len > 0)
-		(*buff)[len - 1] = 0;
+	free(history->first_str);
+	term.c_lflag |= ECHO;
+	term.c_lflag |= ICANON;
+	return (state);
 }

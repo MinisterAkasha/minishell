@@ -12,27 +12,10 @@
 
 #include "minishell.h"
 
-struct	termios		init_term()
-{
-	struct	termios term;
-
-	tcgetattr(0, &term);
-	term.c_lflag &= ~(ECHO);
-	term.c_lflag &= ~(ICANON);
-	tcsetattr(0, TCSANOW, &term);
-	tgetent(0, getenv("TERM"));//TODO брать у Илюхи с ENV
-	tputs(save_cursor, 1, ft_putchar);
-
-	return	(term);
-}
-
 static void		exe_key(char **str_stat, char *buff, t_history *history)
 {
 	if (!(ft_strcmp(buff, "\177")))
-	{
-		delete_char(str_stat);	//TODO если переместить коретку а потом удалить
-//		return ;				//TODO пофиксить удалеие значка минишела и т.д
-	}
+		delete_char(str_stat);	//TODO пофиксить удалеие значка минишела и т.д
 	else if (!(ft_strcmp(buff, "\e[A")))
 		set_str_key_up(str_stat, history);
 	else if (!(ft_strcmp(buff, "\e[B")))
@@ -41,7 +24,7 @@ static void		exe_key(char **str_stat, char *buff, t_history *history)
 		set_alpha(str_stat, buff, history);
 }
 
-static int		find_nl(char **str_stat, char **line)
+static int find_nl(char **str_stat, char **line, t_history *history)
 {
 	char	*tmp;
 
@@ -52,6 +35,7 @@ static int		find_nl(char **str_stat, char **line)
 		free(*str_stat);
 		*str_stat = protect_malloc(ft_strdup(tmp));
 		free(tmp);
+		create_new_history(history, *line);
 		return (1);
 	}
 	return (0);
@@ -79,58 +63,29 @@ static char		*get_buff(char **str_stat, char **line)
 	return (buff);
 }
 
-void	create_new_history(t_history *history, char *line)
-{
-	char	**copy_history_arr;
-	int		arr_len;
-
-	if (ft_strcmp(line, ""))
-	{
-		arr_len = get_arr_length(history->arr);
-		copy_history_arr = copy_2d_arr(history->arr);
-		free_2d_arr(history->arr);
-		history->arr = add_param_to_2d_arr(copy_history_arr, line);
-		history->total = arr_len;
-		history->cur = history->total;
-		free_2d_arr(copy_history_arr);
-	}
-}
-
 int		gnl(char **line, t_history *history)
 {
 	static char		*str_stat = NULL;
 	char			*buff;
 	struct	termios	term;
-	int				exit;
 
-	exit = 1;
-	history->first_str = protect_malloc(ft_strdup(""));
-	history->is_new_str = 0;
-	term = init_term();
-	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
-	if (!line)
-		return (-1);
+	term = init_term_history(history);
 	if (!str_stat)
 		str_stat = ft_strdup("");
 	while (1)
 	{
-		if (find_nl(&str_stat, line))
+		if (find_nl(&str_stat, line, history))
 		{
-			create_new_history(history, *line);
-			exit = 1;
-			break ;
+			return (exit_gnl(history, term, 1));
+
 		}
 		buff = get_buff(&str_stat, line);
 		if (!buff)
 		{
-			exit = 0;
-			break ;//Ctrl-D
+			return (exit_gnl(history, term, 0));
+
 		}
 		exe_key(&str_stat, buff, history);
 		free(buff);
 	}
-	free(history->first_str);
-	term.c_lflag |= ECHO;
-	term.c_lflag |= ICANON;
-	return (exit);
 }
