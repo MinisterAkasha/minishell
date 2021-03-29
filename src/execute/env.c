@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:15:38 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/21 17:48:47 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/29 16:57:51 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ char	*get_env_param(char *key, char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (!(ft_strncmp(env[i], key, ft_strlen(key))))
+		if (!(ft_strncmp(env[i], key, ft_strlen(key)))
+			&& ft_strlen(key) == ft_strlen(env[i]) - ft_strlen(ft_strchr(env[i], '=')))
 		{
 			return env[i];
 		}

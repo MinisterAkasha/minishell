@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 20:27:58 by tilda             #+#    #+#             */
-/*   Updated: 2021/03/28 21:32:13 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/29 16:52:14 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void print_2d_arr(char **arr)
 	i = 0;
 	while (arr[i])
 	{
-		ft_putnbr_fd(i, 1);
-		ft_putchar_fd(')', 1);
 		ft_putendl_fd(arr[i], 1);
 		i++;
 	}
