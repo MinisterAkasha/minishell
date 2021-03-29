@@ -85,9 +85,11 @@ void	delete_char(char **buff)
 {
 	int		len;
 
-	tputs(cursor_left, 1, ft_putchar);
-	tputs(delete_character, 1, ft_putchar);
 	len = ft_strlen((*buff));
 	if (len > 0)
+	{
 		(*buff)[len - 1] = 0;
+		tputs(cursor_left, 1, ft_putchar);
+		tputs(delete_character, 1, ft_putchar);
+	}
 }

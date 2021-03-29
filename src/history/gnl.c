@@ -15,7 +15,7 @@
 static void		exe_key(char **str_stat, char *buff, t_history *history)
 {
 	if (!(ft_strcmp(buff, "\177")))
-		delete_char(str_stat);	//TODO пофиксить удалеие значка минишела и т.д
+		delete_char(str_stat);
 	else if (!(ft_strcmp(buff, "\e[A")))
 		set_str_key_up(str_stat, history);
 	else if (!(ft_strcmp(buff, "\e[B")))
