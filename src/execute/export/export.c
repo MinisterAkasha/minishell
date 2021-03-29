@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/21 18:01:12 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/29 15:55:38 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ void		set_export_status_var(t_exe_args *exe_arg)
 		if (!validate_var_name(variable[0]))
 		{
 			add_variable_to_list(&exe_arg->variables, "?", "1", 0, 0);
+			free_2d_arr(variable);
 			return ;
 		}
 		free_2d_arr(variable);
