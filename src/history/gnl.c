@@ -28,30 +28,17 @@ struct	termios		init_term()
 
 static void		exe_key(char **str_stat, char *buff, t_history *history)
 {
-	char	*joined_str;
-
 	if (!(ft_strcmp(buff, "\177")))
 	{
 		delete_char(str_stat);	//TODO если переместить коретку а потом удалить
-		return ;				//TODO пофиксить удалеие значка минишела и т.д
+//		return ;				//TODO пофиксить удалеие значка минишела и т.д
 	}
-	if (!(ft_strcmp(buff, "\e[A")))
-		get_str_key_up(history, str_stat);
+	else if (!(ft_strcmp(buff, "\e[A")))
+		set_str_key_up(str_stat, history);
 	else if (!(ft_strcmp(buff, "\e[B")))
-		get_str_key_down(history, str_stat);
+		set_str_key_down(str_stat, history);
 	else
-	{
-		write(1, buff, ft_strlen(buff));
-		joined_str = protect_malloc(ft_strjoin((*str_stat), buff));
-		free((*str_stat));
-		(*str_stat) = protect_malloc(ft_strdup(joined_str));
-		free(joined_str);
-		if (history->total == history->cur)
-		{
-			free(history->first_str);
-			history->first_str = protect_malloc(ft_strdup((*str_stat)));
-		}
-	}
+		set_alpha(str_stat, buff, history);
 }
 
 static int		find_nl(char **str_stat, char **line)
@@ -81,7 +68,7 @@ static char		*get_buff(char **str_stat, char **line)
 	if ((bsize = read(0, buff, buffer_size)) == -1)
 		return (0);//TODO сделать ошибку не считанного файла
 	buff[bsize] = 0;
-	if (!ft_strcmp(buff, "\4") || (bsize == 0 && !(ft_strchr(*str_stat, '\n'))))
+	if (!ft_strcmp(buff, "\4"))
 	{
 		protect_malloc(*line = ft_strdup(*str_stat));
 		free(buff);
@@ -97,12 +84,16 @@ void	create_new_history(t_history *history, char *line)
 	char	**copy_history_arr;
 	int		arr_len;
 
-	arr_len = get_arr_length(history->arr);
-	copy_history_arr = copy_2d_arr(history->arr);
-	free_2d_arr(history->arr);
-	history->arr = add_param_to_2d_arr(copy_history_arr, line);
-	history->total = arr_len;
-	history->cur = history->total;
+	if (ft_strcmp(line, ""))
+	{
+		arr_len = get_arr_length(history->arr);
+		copy_history_arr = copy_2d_arr(history->arr);
+		free_2d_arr(history->arr);
+		history->arr = add_param_to_2d_arr(copy_history_arr, line);
+		history->total = arr_len;
+		history->cur = history->total;
+		free_2d_arr(copy_history_arr);
+	}
 }
 
 int		gnl(char **line, t_history *history)
@@ -138,7 +129,7 @@ int		gnl(char **line, t_history *history)
 		exe_key(&str_stat, buff, history);
 		free(buff);
 	}
-	printf("%d - %d\n", history->cur, history->total);
+	free(history->first_str);
 	term.c_lflag |= ECHO;
 	term.c_lflag |= ICANON;
 	return (exit);

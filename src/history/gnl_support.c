@@ -18,9 +18,9 @@ int		ft_putchar(int c)
 }
 
 
-void get_str_key_up(t_history *history, char **str_stat)
+void	set_str_key_up(char **str_stat, t_history *history)
 {
-	if (history->arr[history->cur] && history->cur >= 0 && history->cur == history->total && history->is_new_str != 1)
+	if (history->cur == history->total && history->is_new_str != 1)
 	{
 		free(*str_stat);
 		(*str_stat) = protect_malloc(ft_strdup(history->arr[history->cur]));
@@ -40,14 +40,12 @@ void get_str_key_up(t_history *history, char **str_stat)
 	ft_putstr_fd(*str_stat, 1);
 }
 
-void get_str_key_down(t_history *history, char **str_stat)
+void	set_str_key_down(char **str_stat, t_history *history)
 {
 	if (history->cur == history->total)
 	{
 		if (!history->is_new_str)
-		{
 			create_new_history(history, *str_stat);
-		}
 		else
 		{
 			free(*str_stat);
@@ -69,13 +67,32 @@ void get_str_key_down(t_history *history, char **str_stat)
 	ft_putstr_fd(*str_stat, 1);
 }
 
-int		delete_char(char **buff)
+void	set_alpha(char **str_stat, char *buff, t_history *history)
+{
+	char	*joined_str;
+	char	*copy_str_stat;
+
+	write(1, buff, ft_strlen(buff));
+	copy_str_stat = protect_malloc(ft_strdup((*str_stat)));
+	joined_str = protect_malloc(ft_strjoin(copy_str_stat, buff));
+	free((*str_stat));
+	(*str_stat) = protect_malloc(ft_strdup(joined_str));
+	if (history->total == history->cur)
+	{
+		free(history->first_str);
+		history->first_str = protect_malloc(ft_strdup((*str_stat)));
+	}
+	free(copy_str_stat);
+	free(joined_str);
+}
+
+void	delete_char(char **buff)
 {
 	int		len;
 
 	tputs(cursor_left, 1, ft_putchar);
 	tputs(delete_character, 1, ft_putchar);
 	len = ft_strlen((*buff));
-	(*buff)[len - 1] = 0;
-	return (1);
+	if (len > 0)
+		(*buff)[len - 1] = 0;
 }
