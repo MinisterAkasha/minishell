@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/29 14:33:14 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/29 15:36:09 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ void	open_and_write_to_file(t_exe_info *next, t_exe_info *original, t_exe_args *
 		file = open(next_arg_arr[0], O_CREAT | O_RDWR | O_APPEND, S_IREAD | S_IWRITE | S_IRGRP | S_IROTH);//TODO обработать ошибку
 	else
 		return ;
+	if (file == -1)
+		write_error_message("minishell: ", next_arg_arr[0], strerror(errno));
 	if (next->operator_exe_function != exe_oper_redirect && next->operator_exe_function != exe_oper_double_redirect)
 	{
-		if (file)
+		if (file && file != -1)
 		{
 			bin_exe_path = search(exec_args->args[0], get_env_param("PATH", exec_args->env));
 			oldstdout = dup(1);

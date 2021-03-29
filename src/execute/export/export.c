@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/23 18:06:53 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/29 15:37:26 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void		fill_variable_list(t_exe_args *exe_arg)
 			}
 		}
 		else
-			write_error_message("minishell: export: '", exe_arg->args[i], "': not a valid identifier");
+			write_error_message("minishell: export: '", exe_arg->args[i], "'not a valid identifier");
 		free_2d_arr(variable);
 		i++;
 	}
