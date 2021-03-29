@@ -75,8 +75,8 @@ int				is_word_to_cont(char *str, char sep, int i)
 
 int		init_data_dollar_count(int **info_arr, t_list **head)
 {
-	if (!(*info_arr = (int *)ft_calloc(2, sizeof(int))))
+	if (!((*info_arr) = (int *)ft_calloc(2, sizeof(int))))
 		error_malloc();
-	ft_lstadd_back(head, protect_malloc(ft_lstnew(*info_arr)));
+	ft_lstadd_back(head, protect_malloc(ft_lstnew((*info_arr))));
 	return (1);
 }

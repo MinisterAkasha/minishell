@@ -102,31 +102,6 @@ t_list	*get_exe_info(char **args, t_store *store)
 	return (head);
 }
 
-//t_list	*get_exe_info(char **args, t_store *store)
-//{
-//	t_list		*head;
-//	t_exe_info	*tmp_lst;
-//	int			i;
-//
-//	i = 0;
-//	head = NULL;
-//	set_default_new_lst(&head);
-//	tmp_lst = store->exe_info;
-//	while (args[i])
-//	{
-//		init_exec_func(&tmp_lst, store, args, &i);
-//		while (args[i] && init_operator(&tmp_lst, i, store->support, args))
-//		{
-//			concat_arg(&tmp_lst, store->exe_args, args[i]);
-//			i++;
-//		}
-//		if (!args[i])
-//			break ;
-//		i++;
-//	}
-//	return (head);
-//}
-
 //int main()
 //{
 ////	char *str = "echo ch'l'en;bin;ls ;'e'c'h'o pam> ty't'y ;e'ch'o 111'111'| cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ";

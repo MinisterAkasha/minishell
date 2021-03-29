@@ -41,7 +41,7 @@ void	concat_exe_arg(t_exe_args exe_args, char **first, char *second)
 	free(*first);
 	cut_separator(exe_args, &second, separator);
 	modified_arg = dollar_sign(second, exe_args, separator);
-	(*first) = protect_malloc(ft_strjoin(copy_first, second));
+	(*first) = protect_malloc(ft_strjoin(copy_first, second));//TODO where i should put modified_arg
 	free(copy_first);
 	free(modified_arg);
 }
