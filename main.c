@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/28 21:44:14 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/29 17:20:43 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 void wait_child_process_end(pid_t id, t_list *var)
 {
-	int status;
+	int		status;
+	char	*str_status;
 
 	waitpid(id, &status, WUNTRACED);
 	while (!WIFEXITED(status) && !WEXITSTATUS(status) && !WIFSIGNALED(status))
 		waitpid(id, &status, WUNTRACED);
-	add_variable_to_list(&var, "?", ft_itoa(status / 256), 0, 0);//TODO itoa leak
+	str_status = ft_itoa(status / 256);
+	add_variable_to_list(&var, "?", str_status, 0, 0);//TODO itoa leak
+	free(str_status);
 }
 
 int launch_shell(t_exe_args exe_args, char *bin_path)
