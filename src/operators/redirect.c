@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/29 13:46:05 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/29 14:33:14 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,14 @@ void	open_and_write_to_file(t_exe_info *next, t_exe_info *original, t_exe_args *
 	}
 	close(file);
 	free_2d_arr(next_arg_arr);
+}
+
+int		exe_oper_double_redirect(t_exe_args *exec_args, t_list *info)
+{
+	int i;
+	
+	i = exe_oper_redirect(exec_args, info);
+	return i;
 }
 
 int		exe_oper_redirect(t_exe_args *exec_args, t_list *info)
