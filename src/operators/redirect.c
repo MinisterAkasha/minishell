@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/29 15:36:09 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/29 16:27:02 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,19 @@ void	open_and_write_to_file(t_exe_info *next, t_exe_info *original, t_exe_args *
 	int			oldstdout;
 	char		*bin_exe_path;
 	char		**next_arg_arr;
+	int			fd;
 
 	next_arg_arr = ft_split(next->args, ' ');
+	fd = 1;
 	if (current->operator_exe_function == exe_oper_redirect)
 		file = open(next_arg_arr[0], O_CREAT | O_TRUNC | O_RDWR | O_APPEND, S_IREAD | S_IWRITE | S_IRGRP | S_IROTH);//TODO обработать ошибку
 	else if (current->operator_exe_function == exe_oper_double_redirect)
 		file = open(next_arg_arr[0], O_CREAT | O_RDWR | O_APPEND, S_IREAD | S_IWRITE | S_IRGRP | S_IROTH);//TODO обработать ошибку
+	else if (current->operator_exe_function == exe_oper_reverse_redirect)
+	{
+		file = open(next_arg_arr[0], O_RDWR);
+		fd = 0;
+	}
 	else
 		return ;
 	if (file == -1)
@@ -52,13 +59,13 @@ void	open_and_write_to_file(t_exe_info *next, t_exe_info *original, t_exe_args *
 		if (file && file != -1)
 		{
 			bin_exe_path = search(exec_args->args[0], get_env_param("PATH", exec_args->env));
-			oldstdout = dup(1);
-			dup2(file, 1);
+			oldstdout = dup(fd);
+			dup2(file, fd);
 			if (original->exe_function)
 				original->exe_function(exec_args);
 			else if (bin_exe_path)
 				launch_shell(*exec_args, bin_exe_path);
-			dup2(oldstdout, 1);
+			dup2(oldstdout, fd);
 			free(bin_exe_path);
 		}
 	}
@@ -72,6 +79,14 @@ int		exe_oper_double_redirect(t_exe_args *exec_args, t_list *info)
 	
 	i = exe_oper_redirect(exec_args, info);
 	return i;
+}
+
+int		exe_oper_reverse_redirect(t_exe_args *exec_args, t_list *info)
+{
+	int			i;
+	
+	i = exe_oper_redirect(exec_args, info);
+	return (i);
 }
 
 int		exe_oper_redirect(t_exe_args *exec_args, t_list *info)
@@ -88,7 +103,8 @@ int		exe_oper_redirect(t_exe_args *exec_args, t_list *info)
 	current = tmp->content;
 	while (tmp->next)
 	{
-		if (current->operator_exe_function != exe_oper_redirect && current->operator_exe_function != exe_oper_double_redirect)
+		if (current->operator_exe_function != exe_oper_redirect && current->operator_exe_function != exe_oper_double_redirect
+			&& current->operator_exe_function != exe_oper_reverse_redirect)
 			break ;
 		exe_info_next = tmp->next->content;
 		add_args(&exec_args->args, exe_info_next);
