@@ -30,8 +30,7 @@ void		cut_separator(t_exe_args exe_args, char **arg, char separator);
 /*
 ** concatenate.c
 */
-void		concat_arg(t_list **tmp_lst, t_exe_args exe_args, char *arg);
-void		concat_exe_arg(t_exe_args exe_args, char **first, char *second);
+void		concat_args(t_exe_args exe_args, char **first, char *second);
 
 /*
 ** parser_utils.c

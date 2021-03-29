@@ -24,7 +24,7 @@ char			*get_str_to_compare(char **args, t_exe_args exe_args, int *i)
 			&& ft_strcmp(args[*i], "<")
 			&& ft_strcmp(args[*i], ">>"))
 	{
-		concat_exe_arg(exe_args, &str_to_compare, args[*i]);
+		concat_args(exe_args, &str_to_compare, args[*i]);
 		*i += 1;
 	}
 	return (str_to_compare);
