@@ -49,6 +49,7 @@ typedef struct	s_variable
 typedef struct	s_history
 {
 	char	**arr;
+	char	*first_str;
 	int		cur;
 	int		total;
 	int		is_new_str;

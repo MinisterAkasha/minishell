@@ -20,7 +20,7 @@ int		ft_putchar(int c)
 
 void get_str_key_up(t_history *history, char **str_stat)
 {
-	if (history->arr[history->cur] && history->cur > 0 && history->cur == history->total && !history->is_new_str)
+	if (history->arr[history->cur] && history->cur >= 0 && history->cur == history->total && history->is_new_str != 1)
 	{
 		free(*str_stat);
 		(*str_stat) = protect_malloc(ft_strdup(history->arr[history->cur]));
@@ -42,10 +42,18 @@ void get_str_key_up(t_history *history, char **str_stat)
 
 void get_str_key_down(t_history *history, char **str_stat)
 {
-	if (history->cur == history->total && !history->is_new_str)
+	if (history->cur == history->total)
 	{
-		create_new_history(history, *str_stat);
-		history->is_new_str = 1;
+		if (!history->is_new_str)
+		{
+			create_new_history(history, *str_stat);
+		}
+		else
+		{
+			free(*str_stat);
+			(*str_stat) = protect_malloc(ft_strdup(history->first_str));
+		}
+		history->is_new_str = 2;
 	}
 	else if (history->arr[history->cur] && history->arr[history->cur + 1])
 	{

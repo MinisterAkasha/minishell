@@ -46,6 +46,11 @@ static void		exe_key(char **str_stat, char *buff, t_history *history)
 		free((*str_stat));
 		(*str_stat) = protect_malloc(ft_strdup(joined_str));
 		free(joined_str);
+		if (history->total == history->cur)
+		{
+			free(history->first_str);
+			history->first_str = protect_malloc(ft_strdup((*str_stat)));
+		}
 	}
 }
 
@@ -105,8 +110,13 @@ int		gnl(char **line, t_history *history)
 	static char		*str_stat = NULL;
 	char			*buff;
 	struct	termios	term;
+	int				exit;
 
+	exit = 1;
+	history->first_str = protect_malloc(ft_strdup(""));
+	history->is_new_str = 0;
 	term = init_term();
+	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 	if (!line)
 		return (-1);
 	if (!str_stat)
@@ -116,15 +126,20 @@ int		gnl(char **line, t_history *history)
 		if (find_nl(&str_stat, line))
 		{
 			create_new_history(history, *line);
+			exit = 1;
 			break ;
 		}
 		buff = get_buff(&str_stat, line);
 		if (!buff)
-			return (0);//Ctrl-D
+		{
+			exit = 0;
+			break ;//Ctrl-D
+		}
 		exe_key(&str_stat, buff, history);
 		free(buff);
 	}
+	printf("%d - %d\n", history->cur, history->total);
 	term.c_lflag |= ECHO;
 	term.c_lflag |= ICANON;
-	return (1);
+	return (exit);
 }
