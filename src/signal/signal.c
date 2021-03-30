@@ -19,6 +19,7 @@ void	ctrl_d(int signum)
 
 void	ctrl_c(int signum)
 {
+	ft_putendl_fd("Ctrl-C", 1);
 	add_variable_to_list(&general->variables, "?", "130", 0, 0);
 	ft_putstr_fd("\n", 1);
 }

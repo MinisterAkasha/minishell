@@ -54,11 +54,22 @@ static char		*get_buff(char **str_stat, char **line)
 	buff[bsize] = 0;
 	if (bsize == 0 || buff[0] == 4)
 	{
-		protect_malloc(*line = ft_strdup(*str_stat));
-		free(buff);
-		free(*str_stat);
-		str_stat = 0;
-		return (0);
+		if (!ft_strcmp(*str_stat, ""))
+		{
+//			protect_malloc(*line = ft_strdup(*str_stat));
+//			write(1, "exit\n", 5);
+//			exit(0);//WARNING This shit breks termonal after first call
+			free(*str_stat);
+			*str_stat = protect_malloc(ft_strdup("exit"));//TODO сделать чтобы не было с новой строки
+			free(buff);
+			buff = protect_malloc(ft_strdup("\n"));
+//			return (0);
+		}
+		else
+		{
+			free(buff);
+			buff = protect_malloc(ft_strdup(""));
+		}
 	}
 	else if (buff[0] == 3)
 	{
