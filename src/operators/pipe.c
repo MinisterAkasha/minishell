@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:46:31 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/30 18:02:17 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/30 18:13:25 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@ void	run_exe_function(t_exe_info	*exe_info, t_exe_args *exec_args)
 	exit(ft_atoi(var->value));
 }
 
-void	handle_pipe_childe_process(int fd[2], t_exe_args *exec_args, t_exe_info	*exe_info)
+void	handle_pipe_childe_process(int fd[2], t_exe_args *exec_args, t_exe_info	*exe_info, int dup_fd)
 {
 	int			old_stdout;
 	char		*bin_path;
 
-	close(fd[0]);
+	close(fd[!dup_fd]);
 	bin_path = search(exec_args->args[0], get_env_param("PATH", exec_args->env));
-	old_stdout = dup(1);
-	dup2(fd[1], 1);
+	old_stdout = dup(dup_fd);
+	dup2(fd[dup_fd], dup_fd);
 	if (bin_path)
 		execve(bin_path, exec_args->args, exec_args->env);
 	else if (exe_info->exe_function)
 		run_exe_function(exe_info, exec_args);
-	dup2(old_stdout, 1);
-	close(fd[1]);
+	dup2(old_stdout, dup_fd);
+	close(fd[dup_fd]);
 	free(bin_path);
 }
 
@@ -47,19 +47,9 @@ void	handle_pipe_parent_process(int fd[2], t_exe_args *exec_args, t_exe_info	*ex
 	int		pid_2;
 	
 	close(fd[1]);
-	
 	pid_2 = fork();
 	if (!pid_2)
-	{
-		old_stdout = dup(0);
-		dup2(fd[0], 0);
-		bin_path = search(exec_args->args[0], get_env_param("PATH", exec_args->env));
-		if (bin_path)
-			execve(bin_path, exec_args->args, exec_args->env);
-		else if (exe_info->exe_function)
-			run_exe_function(exe_info, exec_args);
-		dup2(old_stdout, 0);
-	}
+		handle_pipe_childe_process(fd, exec_args, exe_info, 0);
 	else if (pid_2 > 0)
 		wait_child_process_end(pid_2, exec_args->variables);
 	close(fd[0]);
@@ -96,7 +86,7 @@ int		exe_oper_pipe(t_exe_args *exec_args, t_list *info)
 		}
 		pid = fork();
 		if (!pid)
-			handle_pipe_childe_process(fd_1, exec_args, exe_info);
+			handle_pipe_childe_process(fd_1, exec_args, exe_info, 1);
 		else if (pid > 0)
 		{
 			exe_info = tmp->next->content;
