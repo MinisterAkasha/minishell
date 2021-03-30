@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:46:31 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/30 15:56:34 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/30 18:02:17 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void	run_exe_function(t_exe_info	*exe_info, t_exe_args *exec_args)
 
 	exe_info->exe_function(exec_args);
 	var = find_variable(exec_args->variables, "?");
-	printf("%p\n", var);
-	printf("%s\n", (var->key));
-	// exit(ft_atoi(var->value));
-	exit(100);
+	exit(ft_atoi(var->value));
 }
 
 void	handle_pipe_childe_process(int fd[2], t_exe_args *exec_args, t_exe_info	*exe_info)
@@ -64,12 +61,7 @@ void	handle_pipe_parent_process(int fd[2], t_exe_args *exec_args, t_exe_info	*ex
 		dup2(old_stdout, 0);
 	}
 	else if (pid_2 > 0)
-	{
 		wait_child_process_end(pid_2, exec_args->variables);
-		// waitpid(pid_2, &status, WUNTRACED);
-		// while (!WIFEXITED(status) && !WEXITSTATUS(status) && !WIFSIGNALED(status))
-		// 	waitpid(pid_2, &status, WUNTRACED);
-	}
 	close(fd[0]);
 }
 
