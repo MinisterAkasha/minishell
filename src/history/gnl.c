@@ -76,8 +76,9 @@ int		gnl(char **line, t_history *history, char **env)
 	static char		*str_stat = NULL;
 	char			*buff;
 	struct	termios	term_default;
+	struct	termios	term;
 
-	term_default = init_term_history(history, env);
+	term = init_term_history(history, env, &term_default);
 	if (!str_stat)
 		str_stat = ft_strdup("");
 	while (1)

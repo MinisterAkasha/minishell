@@ -58,7 +58,7 @@ int loop_shell(t_store *store)
 	general->variables = store->exe_args.variables;
 	general->pid = 0;
 	signal(2, ctrl_c);
-	signal(3, ctrl_slash);
+//	signal(3, ctrl_slash);
 	while (status)
 	{
 		if (!gnl(&line, history, store->exe_args.env))
