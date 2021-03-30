@@ -34,10 +34,11 @@ void			set_alpha(char **str_stat, char *buff, t_history *history);
 /*
 ** gnl_support.c
 */
-struct termios	init_term_history(t_history *history, char **env);
+struct termios
+init_term_history(t_history *history, char **env);
 int				ft_putchar(int c);
 void			create_new_history(t_history *history, char *line);
-int				exit_gnl(t_history *history, struct	termios term, int state);
+int				exit_gnl(t_history *history, struct	termios term_default, int state);
 
 
 

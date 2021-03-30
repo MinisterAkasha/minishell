@@ -34,12 +34,18 @@
 # include "operators.h"
 # include "errors.h"
 # include "history.h"
+# include "signal.h"
 
 # include "get_next_line.h"
 # include "../src/utils/libft/includes/libft.h"
 
+typedef struct	s_general
+{
+	pid_t		pid;
+	t_list		*variables;
+}				t_general;
 
-
+t_general *general;
 
 /*
 ** loop_shell

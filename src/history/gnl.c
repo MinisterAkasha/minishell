@@ -52,13 +52,21 @@ static char		*get_buff(char **str_stat, char **line)
 	if ((bsize = read(0, buff, buffer_size)) == -1)
 		return (0);//TODO сделать ошибку не считанного файла
 	buff[bsize] = 0;
-	if (!ft_strcmp(buff, "\4"))
+	if (bsize == 0 || buff[0] == 4)
 	{
 		protect_malloc(*line = ft_strdup(*str_stat));
 		free(buff);
 		free(*str_stat);
 		str_stat = 0;
 		return (0);
+	}
+	else if (buff[0] == 3)
+	{
+		free(*str_stat);
+		*str_stat = protect_malloc(ft_strdup(""));
+		free(buff);
+		buff = protect_malloc(ft_strdup("\n"));
+		add_variable_to_list(&general->variables, "?", "1", 0, 0);
 	}
 	return (buff);
 }
@@ -67,24 +75,18 @@ int		gnl(char **line, t_history *history, char **env)
 {
 	static char		*str_stat = NULL;
 	char			*buff;
-	struct	termios	term;
+	struct	termios	term_default;
 
-	term = init_term_history(history, env);
+	term_default = init_term_history(history, env);
 	if (!str_stat)
 		str_stat = ft_strdup("");
 	while (1)
 	{
 		if (find_nl(&str_stat, line, history))
-		{
-			return (exit_gnl(history, term, 1));
-
-		}
+			return (exit_gnl(history, term_default, 1));
 		buff = get_buff(&str_stat, line);
 		if (!buff)
-		{
-			return (exit_gnl(history, term, 0));
-
-		}
+			return (exit_gnl(history, term_default, 0));
 		exe_key(&str_stat, buff, history);
 		free(buff);
 	}
