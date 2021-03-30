@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:40:03 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/28 22:03:28 by akasha           ###   ########.fr       */
+/*   Updated: 2021/03/30 14:10:08 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef struct	s_exe_args
 	char		**env;
 	char		**env_init;
 	char		**args;
-	int			operator_flag;
 	t_list		*variables;
 }				t_exe_args;
 
