@@ -22,11 +22,10 @@ static void exe_key(char **str_stat, t_history *history)
 	ssize_t		bsize;
 
 	buffer_size = 2048;
-	buff = protect_malloc((char *)malloc(buffer_size + 1 * sizeof(char)));
+	buff = protect_malloc((char *)ft_calloc(buffer_size + 1, sizeof(char)));
 	bsize = read(0, buff, buffer_size);
 	if (bsize <= 0)
 		return ;//TODO сделать ошибку не считанного файла
-	buff[bsize] = 0;
 	if (buff[0] == 4)
 		ctrl_d(&buff, str_stat);
 	else if (buff[0] == 3)
