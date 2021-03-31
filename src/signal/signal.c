@@ -26,5 +26,6 @@ void	ctrl_c(int signum)
 
 void	ctrl_slash(int signum)
 {
-	ft_putendl_fd("Ctrl-slash", 1);
+	ft_putendl_fd("Quit: 3", 1);
+	add_variable_to_list(&general->variables, "?", "131", 0, 0);
 }

@@ -52,6 +52,7 @@ static char		*get_buff(char **str_stat, char **line)
 	if ((bsize = read(0, buff, buffer_size)) == -1)
 		return (0);//TODO сделать ошибку не считанного файла
 	buff[bsize] = 0;
+//	printf("buff[0] - %d\n", buff[0]);
 	if (bsize == 0 || buff[0] == 4)
 	{
 		if (!ft_strcmp(*str_stat, ""))
@@ -78,6 +79,11 @@ static char		*get_buff(char **str_stat, char **line)
 		free(buff);
 		buff = protect_malloc(ft_strdup("\n"));
 		add_variable_to_list(&general->variables, "?", "1", 0, 0);
+	}
+	else if (buff[0] == 28)
+	{
+		free(buff);
+		buff = protect_malloc(ft_strdup(""));
 	}
 	return (buff);
 }
