@@ -54,11 +54,7 @@ int loop_shell(t_store *store)
 	init_support_parsing_arr(&store->support);
 	shlvl(store->exe_args.env_init);
 	add_variable_to_list(&store->exe_args.variables, "?", "0", 0, 0);
-	general = protect_malloc(ft_calloc(1, sizeof(t_general)));
-	general->variables = store->exe_args.variables;
-	general->pid = 0;
-	signal(2, signal_ctrl_c);
-	signal(3, signal_ctrl_slash);
+	init_general_signal(store);
 	while (status)
 	{
 		gnl(&line, history, store->exe_args.env);

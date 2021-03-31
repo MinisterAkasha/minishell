@@ -50,3 +50,12 @@ void	init_history_data(t_history **history)
 	(*history)->total = 0;
 	(*history)->cur = (*history)->total;
 }
+
+void	init_general_signal(t_store *store)
+{
+	general = protect_malloc(ft_calloc(1, sizeof(t_general)));
+	general->variables = store->exe_args.variables;
+	general->pid = 0;
+	signal(2, signal_ctrl_c);
+	signal(3, signal_ctrl_slash);
+}

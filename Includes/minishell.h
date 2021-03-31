@@ -58,6 +58,8 @@ int		launch_shell(t_exe_args exe_args, char *bin_path);
 */
 void	init_support_parsing_arr(t_support_parsing_data *data);
 void	init_history_data(t_history **history);
+void	init_general_signal(t_store *store);
+
 
 /*
 ** support.c
