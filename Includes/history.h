@@ -21,7 +21,7 @@
 /*
 ** gnl.c
 */
-int				gnl(char **line, t_history *history, char **env);
+void gnl(char **line, t_history *history, char **env);
 
 /*
 ** keys.c
@@ -35,10 +35,19 @@ void			set_alpha(char **str_stat, char *buff, t_history *history);
 ** gnl_support.c
 */
 struct termios
-init_term_history(t_history *history, char **env, struct termios *term_default);
+init_term_history(t_history *history, char **env);
 int				ft_putchar(int c);
 void			create_new_history(t_history *history, char *line);
 int				exit_gnl(t_history *history, struct termios term_default, int state);
+
+/*
+** signal_keys.c
+*/
+void	ctrl_d(char **buff, char **str_stat);
+void	ctrl_c(char **buff, char **str_stat);
+void	ctrl_slash(char **buff);
+
+
 
 
 

@@ -66,10 +66,12 @@ void	set_alpha(char **str_stat, char *buff, t_history *history)
 {
 	char	*joined_str;
 	char	*copy_str_stat;
+	char	*copy_buff;
 
 	write(1, buff, ft_strlen(buff));
 	copy_str_stat = protect_malloc(ft_strdup((*str_stat)));
-	joined_str = protect_malloc(ft_strjoin(copy_str_stat, buff));
+	copy_buff = protect_malloc(ft_strdup((buff)));
+	joined_str = protect_malloc(ft_strjoin(copy_str_stat, copy_buff));
 	free((*str_stat));
 	(*str_stat) = protect_malloc(ft_strdup(joined_str));
 	if (history->total == history->cur)
@@ -78,6 +80,7 @@ void	set_alpha(char **str_stat, char *buff, t_history *history)
 		history->first_str = protect_malloc(ft_strdup((*str_stat)));
 	}
 	free(copy_str_stat);
+	free(copy_buff);
 	free(joined_str);
 }
 

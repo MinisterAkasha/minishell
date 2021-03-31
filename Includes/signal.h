@@ -15,10 +15,7 @@
 
 # include <signal.h>
 
-void	ctrl_slash(int signum);
-void	ctrl_c(int signum);
-void	ctrl_d(int signum);
-
-
+void	signal_ctrl_slash(int signum);
+void	signal_ctrl_c(int signum);
 
 #endif

@@ -35,9 +35,10 @@ void			create_new_history(t_history *history, char *line)
 }
 
 struct termios
-init_term_history(t_history *history, char **env, struct termios *term_default)
+init_term_history(t_history *history, char **env)
 {
 	struct	termios term;
+	struct	termios term_def;
 	char	*term_env;
 
 	term_env = ft_strchr(get_env_param("TERM", env), '=') + 1;
@@ -49,7 +50,7 @@ init_term_history(t_history *history, char **env, struct termios *term_default)
 	history->first_str = protect_malloc(ft_strdup(""));
 	history->is_new_str = 0;
 	tcgetattr(0, &term);
-	*term_default = term;
+	term_def = term;
 	term.c_lflag &= ~(ECHO);
 	term.c_lflag &= ~(ICANON);
 	term.c_lflag &= ~(ISIG);
@@ -57,12 +58,5 @@ init_term_history(t_history *history, char **env, struct termios *term_default)
 	tgetent(0, term_env);
 	tputs(save_cursor, 1, ft_putchar);
 	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
-	return	(term);
-}
-
-int				exit_gnl(t_history *history, struct	termios term_default, int state)
-{
-	free(history->first_str);
-	tcsetattr(0, TCSANOW, &term_default);
-	return (state);
+	return	(term_def);
 }

@@ -12,8 +12,27 @@
 
 #include "minishell.h"
 
-static void		exe_key(char **str_stat, char *buff, t_history *history)
+/*
+** Function with &buff it is signals
+*/
+static void exe_key(char **str_stat, t_history *history)
 {
+	char		*buff;
+	int			buffer_size;
+	ssize_t		bsize;
+
+	buffer_size = 2048;
+	buff = protect_malloc((char *)malloc(buffer_size + 1 * sizeof(char)));
+	bsize = read(0, buff, buffer_size);
+	if (bsize <= 0)
+		return ;//TODO сделать ошибку не считанного файла
+	buff[bsize] = 0;
+	if (buff[0] == 4)
+		ctrl_d(&buff, str_stat);
+	else if (buff[0] == 3)
+		ctrl_c(&buff, str_stat);
+	else if (buff[0] == 28)
+		ctrl_slash(&buff);
 	if (!(ft_strcmp(buff, "\177")))
 		delete_char(str_stat);
 	else if (!(ft_strcmp(buff, "\e[A")))
@@ -22,6 +41,7 @@ static void		exe_key(char **str_stat, char *buff, t_history *history)
 		set_str_key_down(str_stat, history);
 	else
 		set_alpha(str_stat, buff, history);
+	free(buff);
 }
 
 static int find_nl(char **str_stat, char **line, t_history *history)
@@ -41,66 +61,22 @@ static int find_nl(char **str_stat, char **line, t_history *history)
 	return (0);
 }
 
-static char		*get_buff(char **str_stat, char **line)
-{
-	char		*buff;
-	int			buffer_size;
-	ssize_t		bsize;
-
-	buffer_size = 2048;
-	buff = protect_malloc((char *)malloc(buffer_size + 1 * sizeof(char)));
-	if ((bsize = read(0, buff, buffer_size)) == -1)
-		return (0);//TODO сделать ошибку не считанного файла
-	buff[bsize] = 0;
-	if (bsize == 0 || buff[0] == 4)
-	{
-		if (!ft_strcmp(*str_stat, ""))
-		{
-			free(*str_stat);
-			*str_stat = protect_malloc(ft_strdup("exit\n"));//TODO сделать чтобы не было с новой строки
-			free(buff);
-			buff = protect_malloc(ft_strdup(""));
-		}
-		else
-		{
-			free(buff);
-			buff = protect_malloc(ft_strdup(""));
-		}
-	}
-	else if (buff[0] == 3)
-	{
-		free(*str_stat);
-		*str_stat = protect_malloc(ft_strdup(""));
-		free(buff);
-		buff = protect_malloc(ft_strdup("\n"));
-		add_variable_to_list(&general->variables, "?", "1", 0, 0);
-	}
-	else if (buff[0] == 28)
-	{
-		free(buff);
-		buff = protect_malloc(ft_strdup(""));
-	}
-	return (buff);
-}
-
-int		gnl(char **line, t_history *history, char **env)
+void	gnl(char **line, t_history *history, char **env)
 {
 	static char		*str_stat = NULL;
-	char			*buff;
 	struct	termios	term_default;
-	struct	termios	term;
 
-	term = init_term_history(history, env, &term_default);
+	term_default = init_term_history(history, env);
 	if (!str_stat)
 		str_stat = ft_strdup("");
 	while (1)
 	{
 		if (find_nl(&str_stat, line, history))
-			return (exit_gnl(history, term_default, 1));
-		buff = get_buff(&str_stat, line);
-		if (!buff)
-			return (exit_gnl(history, term_default, 0));
-		exe_key(&str_stat, buff, history);
-		free(buff);
+		{
+			free(history->first_str);
+			tcsetattr(0, TCSANOW, &term_default);
+			break ;
+		}
+		exe_key(&str_stat, history);
 	}
 }
