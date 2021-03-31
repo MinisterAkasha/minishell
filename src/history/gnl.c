@@ -52,19 +52,14 @@ static char		*get_buff(char **str_stat, char **line)
 	if ((bsize = read(0, buff, buffer_size)) == -1)
 		return (0);//TODO сделать ошибку не считанного файла
 	buff[bsize] = 0;
-//	printf("buff[0] - %d\n", buff[0]);
 	if (bsize == 0 || buff[0] == 4)
 	{
 		if (!ft_strcmp(*str_stat, ""))
 		{
-//			protect_malloc(*line = ft_strdup(*str_stat));
-//			write(1, "exit\n", 5);
-//			exit(0);//WARNING This shit breks termonal after first call
 			free(*str_stat);
-			*str_stat = protect_malloc(ft_strdup("exit"));//TODO сделать чтобы не было с новой строки
+			*str_stat = protect_malloc(ft_strdup("exit\n"));//TODO сделать чтобы не было с новой строки
 			free(buff);
-			buff = protect_malloc(ft_strdup("\n"));
-//			return (0);
+			buff = protect_malloc(ft_strdup(""));
 		}
 		else
 		{
