@@ -50,7 +50,7 @@ char		**init_arr_2d(char *str, t_list *copy_dw);
 /*
 ** dollar.c
 */
-char *dollar_sign(char *arg, t_exe_args exe_args, char sep);
+char		*dollar_sign(char *arg, t_exe_args exe_args, char sep);
 
 /*
 ** parser.c

@@ -17,7 +17,7 @@ void	ctrl_d(char **buff, char **str_stat)
 	if (!ft_strcmp(*str_stat, ""))
 	{
 		free(*str_stat);
-		*str_stat = protect_malloc(ft_strdup("exit\n"));//TODO сделать чтобы не было с новой строки
+		*str_stat = protect_malloc(ft_strdup("exit\n"));
 		free((*buff));
 		(*buff) = protect_malloc(ft_strdup(""));
 	}

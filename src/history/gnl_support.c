@@ -14,7 +14,7 @@
 
 int				ft_putchar(int c)
 {
-	 return (write(1, &c, 1));
+	return (write(1, &c, 1));
 }
 
 void			create_new_history(t_history *history, char *line)
@@ -34,12 +34,11 @@ void			create_new_history(t_history *history, char *line)
 	}
 }
 
-struct termios
-init_term_history(t_history *history, char **env)
+struct termios	init_term_history(t_history *history, char **env)
 {
-	struct	termios term;
-	struct	termios term_def;
-	char	*term_env;
+	struct termios	term;
+	struct termios	term_def;
+	char			*term_env;
 
 	term_env = ft_strchr(get_env_param("TERM", env), '=') + 1;
 	if (!term_env)
@@ -58,5 +57,5 @@ init_term_history(t_history *history, char **env)
 	tgetent(0, term_env);
 	tputs(save_cursor, 1, ft_putchar);
 	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
-	return	(term_def);
+	return (term_def);
 }

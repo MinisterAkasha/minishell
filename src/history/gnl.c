@@ -15,7 +15,8 @@
 /*
 ** Function with &buff it is signals
 */
-static void exe_key(char **str_stat, t_history *history)
+
+static void		exe_key(char **str_stat, t_history *history)
 {
 	char		*buff;
 	int			buffer_size;
@@ -43,7 +44,7 @@ static void exe_key(char **str_stat, t_history *history)
 	free(buff);
 }
 
-static int find_nl(char **str_stat, char **line, t_history *history)
+static int		find_nl(char **str_stat, char **line, t_history *history)
 {
 	char	*tmp;
 
@@ -60,10 +61,10 @@ static int find_nl(char **str_stat, char **line, t_history *history)
 	return (0);
 }
 
-void	gnl(char **line, t_history *history, char **env)
+void			gnl(char **line, t_history *history, char **env)
 {
 	static char		*str_stat = NULL;
-	struct	termios	term_default;
+	struct termios	term_default;
 
 	term_default = init_term_history(history, env);
 	if (!str_stat)
