@@ -27,5 +27,3 @@ void	concat_args(t_exe_args exe_args, char **first, char *second)
 	free(copy_first);
 	free(modified_arg);
 }
-
-

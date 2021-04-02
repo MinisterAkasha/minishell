@@ -45,17 +45,17 @@ static	int		dollar_count(char *str, t_list **head)
 	return (1);
 }
 
-static char		*find_env(t_exe_args exe_args, char *str_dollar)
+static char		*find_env(t_exe_args exe_args, char *s_dol)
 {
 	t_variable	*tmp_variable;
 	char		*env;
 
 	env = 0;
-	if ((ft_strcmp(str_dollar, "")) && (env = get_env_param(str_dollar, exe_args.env)))
-		env = protect_malloc(ft_strdup(ft_strchr(env, '=') + 1));//TODO May be leak
+	if ((ft_strcmp(s_dol, "")) && (env = get_env_param(s_dol, exe_args.env)))
+		env = protect_malloc(ft_strdup(ft_strchr(env, '=') + 1));
 	else
 	{
-		tmp_variable = find_variable(exe_args.variables, str_dollar);
+		tmp_variable = find_variable(exe_args.variables, s_dol);
 		if (tmp_variable)
 			env = protect_malloc(ft_strdup(tmp_variable->value));
 	}
@@ -89,9 +89,10 @@ static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 	char		*env;
 
 	i = 0;
-	while((*arr)[i])
+	while ((*arr)[i])
 	{
-		if ((*arr)[i][0] && (*arr)[i][1] && (*arr)[i][0] == '$' && (*arr)[i][1] != ' ')
+		if ((*arr)[i][0] && (*arr)[i][1] && (*arr)[i][0] == '$'
+											&& (*arr)[i][1] != ' ')
 		{
 			str_dollar = get_str_dollar(arr, &tmp_str, i);
 			env = find_env(exe_args, str_dollar);
@@ -107,7 +108,8 @@ static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 /*
 ** Change $str to str from the env variable
 */
-char *dollar_sign(char *arg, t_exe_args exe_args, char sep)
+
+char			*dollar_sign(char *arg, t_exe_args exe_args, char sep)
 {
 	t_list	*head;
 	t_list	*copy_head;

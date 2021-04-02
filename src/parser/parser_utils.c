@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char			*get_str_to_compare(char **args, t_exe_args exe_args, int *i)
+char	*get_str_to_compare(char **args, t_exe_args exe_args, int *i)
 {
 	char			*str_to_compare;
 
@@ -30,25 +30,24 @@ char			*get_str_to_compare(char **args, t_exe_args exe_args, int *i)
 	return (str_to_compare);
 }
 
-void			set_default_new_lst(t_list **lst)
+void	set_default_new_lst(t_list **lst)
 {
 	t_exe_info	*exe_info;
 
 	exe_info = protect_malloc(ft_calloc(1, sizeof(t_exe_info)));
 	exe_info->exe_function = NULL;
-	exe_info->operator_exe_function = NULL;
+	exe_info->oper_exe_func = NULL;
 	exe_info->args = protect_malloc(ft_strdup(""));
 	ft_lstadd_back(lst, ft_lstnew(exe_info));
-
 }
 
-void			init_arg(t_exe_info **exe_info_lst, char *str)
+void	init_arg(t_exe_info **exe_info_lst, char *str)
 {
 	free((*exe_info_lst)->args);
 	(*exe_info_lst)->args = protect_malloc(ft_strdup(str));
 }
 
-int				is_word_to_cont(char *str, char sep, int i)
+int		is_word_to_cont(char *str, char sep, int i)
 {
 	int		cur_operands;
 	int		next_operands;
@@ -62,7 +61,6 @@ int				is_word_to_cont(char *str, char sep, int i)
 						str[i] == '>' || str[i] == '<');
 	is_space = ((str[i] == ' ' && sep == 'f') ||
 				(str[i + 1] == ' ' && sep == 'f'));
-
 	if (str[i + 1] == '\0' || is_space
 		|| (sep == str[i] && is_separator)
 		|| (sep == 'f' && next_operands)

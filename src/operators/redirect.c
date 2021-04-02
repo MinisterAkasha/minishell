@@ -41,11 +41,11 @@ void	open_and_write_to_file(t_exe_info *next, t_exe_info *original, t_exe_args *
 
 	next_arg_arr = ft_split(next->args, ' ');
 	fd = 1;
-	if (current->operator_exe_function == exe_oper_redirect)
+	if (current->oper_exe_func == exe_oper_redirect)
 		file = open(next_arg_arr[0], O_CREAT | O_TRUNC | O_RDWR | O_APPEND, S_IREAD | S_IWRITE | S_IRGRP | S_IROTH);//TODO обработать ошибку
-	else if (current->operator_exe_function == exe_oper_double_redirect)
+	else if (current->oper_exe_func == exe_oper_double_redirect)
 		file = open(next_arg_arr[0], O_CREAT | O_RDWR | O_APPEND, S_IREAD | S_IWRITE | S_IRGRP | S_IROTH);//TODO обработать ошибку
-	else if (current->operator_exe_function == exe_oper_reverse_redirect)
+	else if (current->oper_exe_func == exe_oper_reverse_redirect)
 	{
 		file = open(next_arg_arr[0], O_RDWR);
 		fd = 0;
@@ -54,7 +54,8 @@ void	open_and_write_to_file(t_exe_info *next, t_exe_info *original, t_exe_args *
 		return ;
 	if (file == -1)
 		write_error_message("minishell: ", next_arg_arr[0], strerror(errno));
-	if (next->operator_exe_function != exe_oper_redirect && next->operator_exe_function != exe_oper_double_redirect)
+	if (next->oper_exe_func != exe_oper_redirect &&
+			next->oper_exe_func != exe_oper_double_redirect)
 	{
 		if (file && file != -1)
 		{
@@ -103,8 +104,9 @@ int		exe_oper_redirect(t_exe_args *exec_args, t_list *info)
 	current = tmp->content;
 	while (tmp->next)
 	{
-		if (current->operator_exe_function != exe_oper_redirect && current->operator_exe_function != exe_oper_double_redirect
-			&& current->operator_exe_function != exe_oper_reverse_redirect)
+		if (current->oper_exe_func != exe_oper_redirect &&
+				current->oper_exe_func != exe_oper_double_redirect
+			&& current->oper_exe_func != exe_oper_reverse_redirect)
 			break ;
 		exe_info_next = tmp->next->content;
 		add_args(&exec_args->args, exe_info_next);

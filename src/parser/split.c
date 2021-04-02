@@ -70,7 +70,7 @@ static	int		word_count(char *str, t_list **head)
 	return (1);
 }
 
-char		**init_arr_2d(char *str, t_list *copy_dw)
+char			**init_arr_2d(char *str, t_list *copy_dw)
 {
 	int			i;
 	int			len_arr;
@@ -90,7 +90,6 @@ char		**init_arr_2d(char *str, t_list *copy_dw)
 	}
 	return (arr_2d);
 }
-
 
 char			**split(char const *s)
 {

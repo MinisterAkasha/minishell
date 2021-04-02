@@ -33,9 +33,10 @@ int	execute(t_store *store)
 		exe_info = info->content;
 		store->exe_args.args = ft_split(exe_info->args, ' ');//TODO переделать для echo
 		bin_exe_path = search(store->exe_args.args[0], get_env_param("PATH", store->exe_args.env));
-		if (exe_info->operator_exe_function && exe_info->operator_exe_function != exe_oper_semicolon)
+		if (exe_info->oper_exe_func &&
+			exe_info->oper_exe_func != exe_oper_semicolon)
 		{
-			i = exe_info->operator_exe_function(&store->exe_args, info);
+			i = exe_info->oper_exe_func(&store->exe_args, info);
 			while (i--)
 				info = info->next;
 		}

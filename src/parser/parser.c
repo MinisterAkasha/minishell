@@ -12,11 +12,12 @@
 
 #include "minishell.h"
 
-static	int		init_redirection(t_exe_info **exe_info_lst, t_support_parsing_data support, int *decrement, char *str)
+static int		init_redirection(t_exe_info **exe_info_lst,
+				t_support_parsing_data support, int *decrement, char *str)
 {
-	if ((*exe_info_lst)->operator_exe_function != NULL
-		 && (*exe_info_lst)->operator_exe_function != support.operators_exe_func_arr[0]
-		 && (*exe_info_lst)->operator_exe_function != support.operators_exe_func_arr[1])
+	if ((*exe_info_lst)->oper_exe_func != NULL
+		&& (*exe_info_lst)->oper_exe_func != support.operators_exe_func_arr[0]
+		&& (*exe_info_lst)->oper_exe_func != support.operators_exe_func_arr[1])
 	{
 		(*exe_info_lst)->exe_function = NULL;
 		return (1);
@@ -26,8 +27,8 @@ static	int		init_redirection(t_exe_info **exe_info_lst, t_support_parsing_data s
 	return (0);
 }
 
-static	void	init_exec_func(t_list **lst,
-								 t_store *store, char **args, int *i)
+static void		init_exec_func(t_list **lst,
+								t_store *store, char **args, int *i)
 {
 	int				j;
 	t_list			*tmp_lst;
@@ -53,7 +54,7 @@ static	void	init_exec_func(t_list **lst,
 	free(str_to_compare);
 }
 
-static	int	init_operator(t_list **tmp_lst, int i,
+static int		init_operator(t_list **tmp_lst, int i,
 								t_support_parsing_data support, char **args)
 {
 	t_exe_info	*exe_info;
@@ -65,7 +66,7 @@ static	int	init_operator(t_list **tmp_lst, int i,
 	{
 		if (!ft_strcmp(args[i], support.operators_arr[j]))
 		{
-			exe_info->operator_exe_function = support.operators_exe_func_arr[j];
+			exe_info->oper_exe_func = support.operators_exe_func_arr[j];
 			if (!args[i + 1])
 				return (0);
 			set_default_new_lst(tmp_lst);
@@ -77,7 +78,7 @@ static	int	init_operator(t_list **tmp_lst, int i,
 	return (1);
 }
 
-t_list	*get_exe_info(char **args, t_store *store)
+t_list			*get_exe_info(char **args, t_store *store)
 {
 	t_list		*head;
 	t_list		*tmp_lst;
@@ -134,8 +135,8 @@ t_list	*get_exe_info(char **args, t_store *store)
 //		printf("store->exe_info->arg: %s\n", exe_info->args);
 //		printf("exe_info->exe_function: %p\n",
 //			   exe_info->exe_function);
-//		printf("exe_info->operator_exe_function: %p\n",
-//			   exe_info->operator_exe_function);
+//		printf("exe_info->oper_exe_func: %p\n",
+//			   exe_info->oper_exe_func);
 //		printf("\n");
 //		test = test->next;
 //	}
