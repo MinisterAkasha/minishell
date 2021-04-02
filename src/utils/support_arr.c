@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 20:27:58 by tilda             #+#    #+#             */
-/*   Updated: 2021/03/29 16:52:14 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/02 15:37:16 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,4 +134,29 @@ char		*multiply_strjoin(char **args)
 	if (tmp_str)
 		free(tmp_str);
 	return (str);
+}
+
+int		get_int_arr_length(int **arr)
+{
+	int len;
+
+	len = 0;
+	while(arr[len])
+		len++;
+	return (len);
+}
+
+void	free_2d_arr_int(int **arr)
+{
+	int	i;
+	int len;
+
+	i = 0;
+	len = get_int_arr_length(arr);
+	while(i < len)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }
