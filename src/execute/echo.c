@@ -18,10 +18,13 @@ int			exe_echo(t_exe_args *exe_args)
 	int	flag_n;
 	
 	i = 0;
-	flag_n = !ft_strcmp(exe_args->args[i], "-n");
+	if (exe_args->args[i] != NULL)
+		flag_n = !ft_strcmp(exe_args->args[i], "-n");
+	else
+		flag_n = 0;
 	if (flag_n)
 		i = 1;
-	while (exe_args->args[i])
+	while (exe_args->args[i] != NULL && exe_args->args[i])
 	{
 		ft_putstr_fd(exe_args->args[i++], 1);
 		if (exe_args->args[i + 1])
