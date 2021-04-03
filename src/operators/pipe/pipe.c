@@ -6,102 +6,11 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:46:31 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/03 15:09:22 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/03 15:43:25 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int		get_pipe_number(t_list *info)
-{
-	int			num;
-	t_list		*tmp;
-	t_exe_info	*exe_info;
-
-	num = 0;
-	tmp = info;
-	exe_info = tmp->content;
-	while (exe_info && exe_info->operator_exe_function == exe_oper_pipe)
-	{
-		tmp = tmp->next;
-		exe_info = tmp->content;
-		num++;
-	}
-	return (num);
-}
-
-int		**create_pipe_fd(int num)
-{
-	int		**fd;
-	int		i;
-
-	i = 0;
-	fd = (int**)malloc(sizeof(int*) * (num + 1));
-	while (i < num)
-	{
-		fd[i] = (int *)malloc(sizeof(int) * 2);
-		pipe(fd[i]);
-		i++;
-	}
-	fd[i] = NULL;
-	return (fd);
-}
-
-void	run_exe_function(t_exe_info	*exe_info, t_exe_args *exec_args)
-{
-	t_variable	*var;
-
-	exe_info->exe_function(exec_args);
-	var = find_variable(exec_args->variables, "?");
-	exit(ft_atoi(var->value));
-}
-
-// void	handle_pipe_command(int **fd, t_exe_info *exe_info, t_exe_args *exec_args, int i)
-// {
-// 	int			old_stdout;
-// 	int			old_stdin;
-// 	char		*bin_path;
-// 	int			index[2];
-
-// 	old_stdout = dup(1);
-// 	old_stdin = dup(0);
-// 	bin_path = search(exec_args->args[0], get_env_param("PATH", exec_args->env));
-// 	if (i == 0)
-// 	{
-// 		index[0] = fd[i][1];
-// 		index[1] = -1;
-// 		close_unused_fd(fd, index);
-// 		dup2(fd[i][1], 1);
-// 		close(fd[i][1]);
-// 	}
-// 	else if (i == get_int_arr_length(fd))
-// 	{
-// 		i--;
-// 		index[0] = fd[i][0];
-// 		index[1] = -1;
-// 		close_unused_fd(fd, index);
-// 		dup2(fd[i][0], 0);
-// 		close(fd[i][0]);
-// 	}
-// 	else
-// 	{
-// 		index[0] = fd[i - 1][0];
-// 		index[1] = fd[i][1];
-// 		close_unused_fd(fd, index);
-// 		dup2(fd[i - 1][0], 0);
-// 		dup2(fd[i][1], 1);
-// 		close(fd[i - 1][0]);
-// 		close(fd[i][1]);
-// 	}
-
-// 	if (exe_info->exe_function)
-// 		run_exe_function(exe_info, exec_args);
-// 	else if (bin_path)
-// 		execve(bin_path, exec_args->args, exec_args->env);
-// 	dup2(old_stdout, 1);
-// 	dup2(old_stdin, 0);
-// 	free(bin_path);
-// }
 
 int		*create_child_processes(int pipe_num, t_list *info, t_exe_args *exec_args, int **fd)
 {
@@ -119,11 +28,8 @@ int		*create_child_processes(int pipe_num, t_list *info, t_exe_args *exec_args, 
 		pid[i] = fork();
 		if (pid[i] == 0)
 			handle_pipe_command(fd, exe_info, exec_args, i);
-		else if (pid[i] == -1)
-		{
-			// kill(pid[i], 0);
+		else if (pid[i] == -1) {}
 			//TODO kill pid[i] -> pid[0]
-		}
 		exe_info = tmp->next->content;
 		free_2d_arr(exec_args->args);
 		exec_args->args = ft_split(exe_info->args, ' ');
