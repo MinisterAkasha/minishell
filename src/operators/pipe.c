@@ -6,11 +6,53 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:46:31 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/30 18:13:25 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/03 14:55:26 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		get_pipe_number(t_list *info)
+{
+	int			num;
+	t_list		*tmp;
+	t_exe_info	*exe_info;
+
+	num = 0;
+	tmp = info;
+	exe_info = tmp->content;
+	while (exe_info && exe_info->operator_exe_function == exe_oper_pipe)
+	{
+		tmp = tmp->next;
+		exe_info = tmp->content;
+		num++;
+	}
+	return (num);
+}
+
+int		**create_pipe_fd(int num)
+{
+	int		**fd;
+	int		i;
+
+	i = 0;
+	fd = (int**)malloc(sizeof(int*) * (num + 1));
+	while (i < num)
+	{
+		fd[i] = (int *)malloc(sizeof(int) * 2);
+		pipe(fd[i]);
+		i++;
+	}
+	fd[i] = NULL;
+	return (fd);
+}
+
+// int		**create_2d_int_arr()
+// {
+// 	int	*arr;
+
+// 	return (arr);
+// }
 
 void	run_exe_function(t_exe_info	*exe_info, t_exe_args *exec_args)
 {
@@ -21,83 +63,161 @@ void	run_exe_function(t_exe_info	*exe_info, t_exe_args *exec_args)
 	exit(ft_atoi(var->value));
 }
 
-void	handle_pipe_childe_process(int fd[2], t_exe_args *exec_args, t_exe_info	*exe_info, int dup_fd)
+void	close_unused_fd(int **fd, int index[2])
+{
+	int	i;
+	int	j;
+	int	k;
+
+	i = 0;
+	// printf("index[0] :>> %d\n", index[0]);
+	// printf("index[1] :>> %d\n", index[1]);
+	while (fd[i])
+	{
+		j = 0;
+		while (fd[i][j])
+		{
+			if (fd[i][j] != index[0] && fd[i][j] != index[1])
+			{
+				// printf("%d\n", fd[i][j]);
+				close(fd[i][j]);
+			}
+			k++;
+			j++;
+		}
+		i++;
+	}
+}
+
+void	handle_pipe_command(int **fd, t_exe_info *exe_info, t_exe_args *exec_args, int i)
 {
 	int			old_stdout;
+	int			old_stdin;
 	char		*bin_path;
+	int			index[2];
 
-	close(fd[!dup_fd]);
+	old_stdout = dup(1);
+	old_stdin = dup(0);
 	bin_path = search(exec_args->args[0], get_env_param("PATH", exec_args->env));
-	old_stdout = dup(dup_fd);
-	dup2(fd[dup_fd], dup_fd);
-	if (bin_path)
-		execve(bin_path, exec_args->args, exec_args->env);
-	else if (exe_info->exe_function)
+	if (i == 0)
+	{
+		index[0] = fd[i][1];
+		index[1] = -1;
+		close_unused_fd(fd, index);
+		dup2(fd[i][1], 1);
+		close(fd[i][1]);
+	}
+	else if (i == get_int_arr_length(fd))
+	{
+		i--;
+		index[0] = fd[i][0];
+		index[1] = -1;
+		close_unused_fd(fd, index);
+		dup2(fd[i][0], 0);
+		close(fd[i][0]);
+	}
+	else
+	{
+		index[0] = fd[i - 1][0];
+		index[1] = fd[i][1];
+		close_unused_fd(fd, index);
+		dup2(fd[i - 1][0], 0);
+		dup2(fd[i][1], 1);
+		close(fd[i - 1][0]);
+		close(fd[i][1]);
+	}
+
+	if (exe_info->exe_function)
 		run_exe_function(exe_info, exec_args);
-	dup2(old_stdout, dup_fd);
-	close(fd[dup_fd]);
+	else if (bin_path)
+		execve(bin_path, exec_args->args, exec_args->env);
+	dup2(old_stdout, 1);
+	dup2(old_stdin, 0);
 	free(bin_path);
 }
 
-void	handle_pipe_parent_process(int fd[2], t_exe_args *exec_args, t_exe_info	*exe_info, int pid)
+int		*create_child_processes(int pipe_num, t_list *info, t_exe_args *exec_args, int **fd)
 {
-	int		old_stdout;
-	int		status;
-	char	*bin_path;
-	int		pid_2;
-	
-	close(fd[1]);
-	pid_2 = fork();
-	if (!pid_2)
-		handle_pipe_childe_process(fd, exec_args, exe_info, 0);
-	else if (pid_2 > 0)
-		wait_child_process_end(pid_2, exec_args->variables);
-	close(fd[0]);
+	int	*pid;
+	t_list		*tmp;
+	t_exe_info	*exe_info;
+	int			i;
+
+	pid = (int *)malloc(sizeof(int) * (pipe_num + 1));
+	i = 0;
+	tmp = info;
+	while (tmp->next && i <= pipe_num)
+	{
+		exe_info = tmp->content;
+		pid[i] = fork();
+		if (pid[i] == 0)
+			handle_pipe_command(fd, exe_info, exec_args, i);
+		else if (pid[i] == -1)
+		{
+			// kill(pid[i], 0);
+			//TODO kill pid[i] -> pid[0]
+		}
+		exe_info = tmp->next->content;
+		free_2d_arr(exec_args->args);
+		exec_args->args = ft_split(exe_info->args, ' ');
+		i++;
+		tmp = tmp->next;
+	}
+	pid[i] = fork();
+	if (pid[i] == 0)
+		handle_pipe_command(fd, exe_info, exec_args, i);
+	return (pid);
 }
 
 int		exe_oper_pipe(t_exe_args *exec_args, t_list *info)
 {
-	t_list		*tmp;
-	t_exe_info	*exe_info;
-    pid_t		pid;
-	int			i;
-	char		*bin_path;
-	int			old_stdout;
-	int			fd_1[2];// C -> P 
-	int			fd_2[2];// P -> C
+	int			**fd;
+	int			*pid;
 	int			status;
-	/* 
-	** fd[0] - read
-	** fd[1] - write
-	*/
+	int			pipe_num;
 
-	i = 0;
-	tmp = info;
-	while (tmp->next)
+	pipe_num = get_pipe_number(info);
+	fd = create_pipe_fd(pipe_num);
+	pid = create_child_processes(pipe_num, info, exec_args, fd);
+	
+
+	// while (tmp->next && i <= pipe_num)
+	// {
+	// 	exe_info = tmp->content;
+	// 	pid[i] = fork();
+	// 	if (pid[i] == 0)
+	// 		handle_pipe_command(fd, exe_info, exec_args, i);
+	// 	else if (pid[i] == -1)
+	// 	{
+	// 		// kill(pid[i], 0);
+	// 		//TODO kill pid[i] -> pid[0]
+	// 	}
+	// 	exe_info = tmp->next->content;
+	// 	free_2d_arr(exec_args->args);
+	// 	exec_args->args = ft_split(exe_info->args, ' ');
+	// 	i++;
+	// 	tmp = tmp->next;
+	// }
+	
+	// pid[i] = fork();
+	// if (pid[i] == 0)
+	// 	handle_pipe_command(fd, exe_info, exec_args, i);
+	int j = 0;
+	while (j <= get_int_arr_length(fd))
 	{
-		exe_info = tmp->content;
-		if (exe_info->operator_exe_function != exe_oper_pipe)
-			break ;
-
-		if (pipe(fd_1) == -1)// || pipe(fd_2) == -1)//TODO
-		{
-			printf("Can\'t create pipe\n");
-			exit(-1);
-		}
-		pid = fork();
-		if (!pid)
-			handle_pipe_childe_process(fd_1, exec_args, exe_info, 1);
-		else if (pid > 0)
-		{
-			exe_info = tmp->next->content;
-			free_2d_arr(exec_args->args);
-			exec_args->args = ft_split(exe_info->args, ' ');
-			handle_pipe_parent_process(fd_1, exec_args, exe_info, pid);
-		}
+		waitpid(pid[j], &status, WUNTRACED);
+		if (j == 0)
+			close(fd[j][1]);
+		else if (j == get_int_arr_length(fd))
+			close(fd[j - 1][0]);
 		else
-			printf("FORK ERROR: CODE: %d\n", errno);//TODO обработать ошибку
-		i++;
-		tmp = tmp->next;
+		{
+			close(fd[j - 1][0]);
+			close(fd[j][1]);
+		}
+		j++;
 	}
-	return (i);
+	free(pid);
+	free_2d_arr_int(fd);
+	return (j - 1);
 }

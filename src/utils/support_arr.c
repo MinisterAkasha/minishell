@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 20:27:58 by tilda             #+#    #+#             */
-/*   Updated: 2021/04/02 15:37:16 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/02 15:50:30 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,6 @@ void	free_2d_arr_int(int **arr)
 	i = 0;
 	len = get_int_arr_length(arr);
 	while(i < len)
-	{
-		free(arr[i]);
-		i++;
-	}
+		free(arr[i++]);
 	free(arr);
 }
