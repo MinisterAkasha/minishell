@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:46:31 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/03 14:55:26 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/03 14:59:37 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,6 @@ int		**create_pipe_fd(int num)
 	return (fd);
 }
 
-// int		**create_2d_int_arr()
-// {
-// 	int	*arr;
-
-// 	return (arr);
-// }
-
 void	run_exe_function(t_exe_info	*exe_info, t_exe_args *exec_args)
 {
 	t_variable	*var;
@@ -67,22 +60,15 @@ void	close_unused_fd(int **fd, int index[2])
 {
 	int	i;
 	int	j;
-	int	k;
 
 	i = 0;
-	// printf("index[0] :>> %d\n", index[0]);
-	// printf("index[1] :>> %d\n", index[1]);
 	while (fd[i])
 	{
 		j = 0;
 		while (fd[i][j])
 		{
 			if (fd[i][j] != index[0] && fd[i][j] != index[1])
-			{
-				// printf("%d\n", fd[i][j]);
 				close(fd[i][j]);
-			}
-			k++;
 			j++;
 		}
 		i++;
@@ -169,55 +155,41 @@ int		*create_child_processes(int pipe_num, t_list *info, t_exe_args *exec_args, 
 	return (pid);
 }
 
+int		handle_parent_process(int *pid, int **fd)
+{
+	int i;
+	int	status;
+
+	i = 0;
+	while (i <= get_int_arr_length(fd))
+	{
+		waitpid(pid[i], &status, WUNTRACED);
+		if (i == 0)
+			close(fd[i][1]);
+		else if (i == get_int_arr_length(fd))
+			close(fd[i - 1][0]);
+		else
+		{
+			close(fd[i - 1][0]);
+			close(fd[i][1]);
+		}
+		i++;
+	}
+	return (i);
+}
+
 int		exe_oper_pipe(t_exe_args *exec_args, t_list *info)
 {
 	int			**fd;
 	int			*pid;
-	int			status;
 	int			pipe_num;
+	int			i;
 
 	pipe_num = get_pipe_number(info);
 	fd = create_pipe_fd(pipe_num);
 	pid = create_child_processes(pipe_num, info, exec_args, fd);
-	
-
-	// while (tmp->next && i <= pipe_num)
-	// {
-	// 	exe_info = tmp->content;
-	// 	pid[i] = fork();
-	// 	if (pid[i] == 0)
-	// 		handle_pipe_command(fd, exe_info, exec_args, i);
-	// 	else if (pid[i] == -1)
-	// 	{
-	// 		// kill(pid[i], 0);
-	// 		//TODO kill pid[i] -> pid[0]
-	// 	}
-	// 	exe_info = tmp->next->content;
-	// 	free_2d_arr(exec_args->args);
-	// 	exec_args->args = ft_split(exe_info->args, ' ');
-	// 	i++;
-	// 	tmp = tmp->next;
-	// }
-	
-	// pid[i] = fork();
-	// if (pid[i] == 0)
-	// 	handle_pipe_command(fd, exe_info, exec_args, i);
-	int j = 0;
-	while (j <= get_int_arr_length(fd))
-	{
-		waitpid(pid[j], &status, WUNTRACED);
-		if (j == 0)
-			close(fd[j][1]);
-		else if (j == get_int_arr_length(fd))
-			close(fd[j - 1][0]);
-		else
-		{
-			close(fd[j - 1][0]);
-			close(fd[j][1]);
-		}
-		j++;
-	}
+	i = handle_parent_process(pid, fd);
 	free(pid);
 	free_2d_arr_int(fd);
-	return (j - 1);
+	return (i - 1);
 }
