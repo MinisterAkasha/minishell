@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 15:01:20 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/03 15:42:35 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/03 15:45:53 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	handle_end_pipe_command(int **fd, int i)
 	dup2(fd[i][0], 0);
 	close(fd[i][0]);
 }
-
 
 void	handle_pipe_command(int **fd, t_exe_info *exe_info,
 	t_exe_args *exec_args, int i)

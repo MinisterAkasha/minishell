@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 17:52:44 by tilda             #+#    #+#             */
-/*   Updated: 2021/04/03 15:30:41 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/03 15:53:09 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ int		get_pipe_number(t_list *info);
 int		**create_pipe_fd(int num);
 void	run_exe_function(t_exe_info	*exe_info, t_exe_args *exec_args);
 void	run_command(char *bin_path, t_exe_info *exe_info, t_exe_args *exec_args);
+void	kill_all_processes(int *pid, int index);
 
 #endif
