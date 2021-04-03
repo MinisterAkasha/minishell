@@ -13,7 +13,7 @@
 #ifndef SIGNAL_H
 # define SIGNAL_H
 
-# include <signal.h>
+# include <signals.h>
 
 void	signal_ctrl_slash(int signum);
 void	signal_ctrl_c(int signum);
