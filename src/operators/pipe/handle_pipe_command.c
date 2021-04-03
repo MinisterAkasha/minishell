@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 15:01:20 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/03 15:45:53 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/03 19:08:21 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,15 @@ void	handle_end_pipe_command(int **fd, int i)
 	close(fd[i][0]);
 }
 
+void	check_command(char *path, t_exe_info *exe_info, t_exe_args *exec_args)
+{
+	if (!exe_info->exe_function && !path)
+	{
+		unknown_command(exec_args);
+		exit(127);
+	}
+}
+
 void	handle_pipe_command(int **fd, t_exe_info *exe_info,
 	t_exe_args *exec_args, int i)
 {
@@ -78,6 +87,7 @@ void	handle_pipe_command(int **fd, t_exe_info *exe_info,
 	old_stdin = dup(0);
 	bin_path = search(exec_args->args[0],
 			get_env_param("PATH", exec_args->env));
+	check_command(bin_path, exe_info, exec_args);
 	if (i == 0)
 		handle_start_pipe_command(fd, i);
 	else if (i == get_int_arr_length(fd))
