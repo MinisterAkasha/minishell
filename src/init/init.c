@@ -45,8 +45,8 @@ void init_support_parsing_arr(t_support_parsing_data *data)
 
 void	init_history_data(t_history **history)
 {
-	(*history) = protect_malloc((t_history *)ft_calloc(sizeof(t_history), 1));
-	(*history)->arr = protect_malloc((char **)ft_calloc(sizeof(char *), 2));
+	(*history) = (t_history *)protect_malloc(ft_calloc(sizeof(t_history), 1));
+	(*history)->arr = (char **)protect_malloc(ft_calloc(sizeof(char *), 2));
 	(*history)->total = 0;
 	(*history)->cur = (*history)->total;
 }

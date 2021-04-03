@@ -17,7 +17,7 @@ int		cd_home(char *home)
 	int		res;
 	char	**home_arr;
 
-	home_arr = ft_split(home, '=');
+	home_arr = protect_ft_split(ft_split(home, '='));
 	res = chdir(home_arr[1]);
 	free_2d_arr(home_arr);
 	return (res);

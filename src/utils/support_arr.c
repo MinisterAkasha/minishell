@@ -94,12 +94,14 @@ char	**remove_param_from_2d_arr(char **arr, char *param)
 	i = 0;
 	j = 0;
 	new_arr = (char **)malloc(sizeof(char *) * (get_arr_length(arr)));
+	if (!new_arr)
+		error_malloc();
 	while (arr[i])
 	{
-		str = ft_split(arr[i], '=');
+		str = protect_ft_split(ft_split(arr[i], '='));
 		if (ft_strcmp(str[0], param))
 		{
-			new_arr[j] = ft_strdup(arr[i]);
+			new_arr[j] = protect_malloc(ft_strdup(arr[i]));
 			j++;
 		}
 		i++;

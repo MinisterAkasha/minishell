@@ -38,7 +38,7 @@ void	set_default_new_lst(t_list **lst)
 	exe_info->exe_function = NULL;
 	exe_info->oper_exe_func = NULL;
 	exe_info->args = protect_malloc(ft_strdup(""));
-	ft_lstadd_back(lst, ft_lstnew(exe_info));
+	ft_lstadd_back(lst, protect_malloc(ft_lstnew(exe_info)));
 }
 
 void	init_arg(t_exe_info **exe_info_lst, char *str)
@@ -73,8 +73,7 @@ int		is_word_to_cont(char *str, char sep, int i)
 
 int		init_data_dollar_count(int **info_arr, t_list **head)
 {
-	if (!((*info_arr) = (int *)ft_calloc(2, sizeof(int))))
-		error_malloc();
+	(*info_arr) = (int *)protect_malloc(ft_calloc(2, sizeof(int)));
 	ft_lstadd_back(head, protect_malloc(ft_lstnew((*info_arr))));
 	return (1);
 }

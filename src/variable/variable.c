@@ -38,8 +38,10 @@ t_variable *create_variable(char *key, char *value, int is_exported, int is_env)
 	t_variable *variable;
 
 	variable = (t_variable*)malloc(sizeof(t_variable));
-	variable->key = ft_strdup(key);
-	variable->value = ft_strdup(value);
+	if (!variable)
+		error_malloc();
+	variable->key = protect_malloc(ft_strdup(key));
+	variable->value = protect_malloc(ft_strdup(value));
 	variable->is_exported = is_exported;
 	variable->is_env = is_env;
 	return (variable);
@@ -59,7 +61,7 @@ void	add_variable_to_list(t_list **variable_list, char *key, char *value, int is
 		if ((variable->is_env && is_env) || (!variable->is_env && !is_env))
 		{
 			free(variable->value);
-			variable->value = ft_strdup(value);
+			variable->value = protect_malloc(ft_strdup(value));
 			variable->is_exported = is_exported;
 			variable->is_env = is_env;
 		}

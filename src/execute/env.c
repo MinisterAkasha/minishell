@@ -25,11 +25,11 @@ void	change_env_value(char *value, char *key, char ***env)
 		if (!(ft_strncmp(tmp[i], key, ft_strlen(key))))
 		{
 			free(tmp[i]);
-			key_pattern = ft_strjoin(key, "=");
+			key_pattern = protect_malloc(ft_strjoin(key, "="));
 			if (value)
-				tmp[i] = ft_strjoin(key_pattern, value);
+				tmp[i] = protect_malloc(ft_strjoin(key_pattern, value));
 			else
-				tmp[i] = ft_strjoin(key_pattern, "");
+				tmp[i] = protect_malloc(ft_strjoin(key_pattern, ""));
 			free(key_pattern);
 			return ;
 		}

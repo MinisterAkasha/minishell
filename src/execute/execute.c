@@ -31,7 +31,7 @@ int	execute(t_store *store)
 	while (info)
 	{
 		exe_info = info->content;
-		store->exe_args.args = ft_split(exe_info->args, ' ');//TODO переделать для echo
+		store->exe_args.args = protect_ft_split(ft_split(exe_info->args, ' '));//TODO переделать для echo
 		bin_exe_path = search(store->exe_args.args[0], get_env_param("PATH", store->exe_args.env));
 		if (exe_info->oper_exe_func &&
 			exe_info->oper_exe_func != exe_oper_semicolon)

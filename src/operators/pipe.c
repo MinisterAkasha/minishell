@@ -48,6 +48,8 @@ int		exe_oper_pipe(t_exe_args *exec_args, t_list *info)
 		// int status;
 		// waitpid(pid, &status, WUNTRACED);
 		buf = (char *)malloc(sizeof(char) * 1000);
+		if (!buf)
+			error_malloc();
 		close(fd_1[1]);
 		if ((res = read(fd_1[0], buf, 1000)) == -1)
 			printf("ERROR\n");

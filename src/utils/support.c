@@ -17,9 +17,9 @@ void	write_error_message(char *message_title, char *message_body, char *message_
 	char	*error;
 
 	if (message_error[0] != '\'')
-		error = ft_strjoin(": ", message_error);
+		error = protect_malloc(ft_strjoin(": ", message_error));
 	else
-		error = ft_strdup(message_error);
+		error = protect_malloc(ft_strdup(message_error));
 	ft_putstr_fd(message_title, 1);
 	ft_putstr_fd(message_body, 1);
 	ft_putendl_fd(error, 1);

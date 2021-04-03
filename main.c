@@ -20,7 +20,7 @@ void wait_child_process_end(pid_t id, t_list *var)
 	waitpid(id, &status, WUNTRACED);
 	while (!WIFEXITED(status) && !WEXITSTATUS(status) && !WIFSIGNALED(status))
 		waitpid(id, &status, WUNTRACED);
-	str_status = ft_itoa(status / 256);
+	str_status = protect_malloc(ft_itoa(status / 256));
 	add_variable_to_list(&var, "?", str_status, 0, 0);
 	free(str_status);
 }
@@ -74,7 +74,7 @@ int main(int argc, char **argv, char **env)
 {
 	t_store *store;
 
-	if (!(store = (t_store*)ft_calloc(sizeof(t_store), 1)))
+	if (!(store = (t_store*)protect_malloc(ft_calloc(sizeof(t_store), 1))))
 		return (0); //TODO обработать ошибку
 	store->exe_args.args = argv;
 	store->exe_args.env = copy_2d_arr(env);

@@ -39,8 +39,8 @@ static char	*get_command_from_path(char *path)
 	char **splited_path;
 	char *command;
 
-	splited_path = ft_split(path, '/');
-	command = ft_strdup(splited_path[get_arr_length(splited_path) - 1]);
+	splited_path = protect_ft_split(ft_split(path, '/'));
+	command = protect_malloc(ft_strdup(splited_path[get_arr_length(splited_path) - 1]));
 	free_2d_arr(splited_path);
 	return (command);
 }
@@ -54,14 +54,14 @@ static char	*get_bin_path_command(char *arg, const char *$_path)
 	int		i = 0;
 
 	command = get_command_from_path(arg);
-	bin_paths = ft_split(ft_strchr($_path, '=') + 1, ':');
+	bin_paths = protect_ft_split(ft_split(ft_strchr($_path, '=') + 1, ':'));
 	current_path = NULL;
 	while (bin_paths[i])
 	{
 		if (check_dir(bin_paths[i], command))
 		{
-			with_slash = ft_strjoin(bin_paths[i], "/");
-			current_path = ft_strjoin(with_slash, command);
+			with_slash = protect_malloc(ft_strjoin(bin_paths[i], "/"));
+			current_path = protect_malloc(ft_strjoin(with_slash, command));
 			free(with_slash);
 			break;
 		}
@@ -82,8 +82,8 @@ static char	*get_dir_path(char *pwd, char *arg)
 		len = ft_strlen(arg) - ft_strlen(ft_strrchr(arg, '/'));
 	else
 		len = ft_strlen(arg);
-	arg_path = ft_substr(arg, 0, len);
-	dir_path = ft_strjoin(pwd, arg_path);
+	arg_path = protect_malloc(ft_substr(arg, 0, len));
+	dir_path = protect_malloc(ft_strjoin(pwd, arg_path));
 	free(arg_path);
 	return (dir_path);
 }
@@ -99,10 +99,10 @@ static char	*get_relative_path(char *arg)
 	getcwd(pwd, 2048);
 	current_path = NULL;
 	command = get_command_from_path(arg);
-	pwd_with_slash = ft_strjoin(pwd, "/");
+	pwd_with_slash = protect_malloc(ft_strjoin(pwd, "/"));
 	dir_path = get_dir_path(pwd_with_slash, arg);
 	if (check_dir(dir_path, command))
-		current_path = ft_strjoin(pwd_with_slash, arg);
+		current_path = protect_malloc(ft_strjoin(pwd_with_slash, arg));
 	free(command);
 	free(dir_path);
 	free(pwd_with_slash);
