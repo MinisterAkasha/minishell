@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 19:20:42 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/29 15:45:53 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 18:51:53 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,3 @@ void	write_error_message(char *message_title, char *message_body, char *message_
 	ft_putendl_fd(error, 1);
 	free(error);
 }
-
-
-
-
-
