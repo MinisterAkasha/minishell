@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/29 17:45:56 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 13:50:19 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,11 @@ int	execute(t_store *store)
 		else if (bin_exe_path)
 			launch_shell(store->exe_args, bin_exe_path);
 		else if (!ft_strlen(exe_info->args))
+		{
+			free(bin_exe_path);
+			free_2d_arr(store->exe_args.args);
 			return (1);
+		}
 		else
 			unknown_command(&store->exe_args);
 		free(bin_exe_path);
