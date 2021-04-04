@@ -34,7 +34,6 @@ SRC_PATHS = ./src \
 			./src/utils \
 			./src/operators \
 			./src/operators/pipe \
-			./src/errors \
 			./src/history \
 			./src/signal \
 			./src/utils/GNL

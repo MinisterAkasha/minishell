@@ -57,7 +57,7 @@ static char		*ft_write_word(char const **str, char c, char **arr, int j)
 		while (j >= 0)
 			free(arr[j--]);
 		free(arr);
-		return (0);
+		ft_error_malloc();
 	}
 	while (**str != c && **str)
 	{
@@ -79,7 +79,7 @@ char			**ft_split(char const *s, char c)
 		return (0);
 	words = ft_wordcount(s, c);
 	if (!(arr = (char **)malloc(sizeof(char *) * (words + 1))))
-		return (0);
+		ft_error_malloc();
 	j = 0;
 	while (j < words)
 	{

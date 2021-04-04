@@ -19,7 +19,7 @@ char	**splite_var_name(char *str)
 
 	arr = (char **)malloc(sizeof(char *) * 3);
 	if (!arr)
-		error_malloc();
+		ft_error_malloc();
 	i = 0;
 	while (str[i] != '=' && str[i])
 		i++;

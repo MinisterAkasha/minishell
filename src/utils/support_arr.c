@@ -55,7 +55,7 @@ char	**copy_2d_arr(char **arr)
 	i = 0;
 	arr_copy = (char **)malloc(sizeof(char*) * (get_arr_length(arr) + 1));
 	if (!arr_copy)
-		error_malloc();
+		ft_error_malloc();
 	while (arr[i])
 	{
 		arr_copy[i] = ft_strdup(arr[i]);
@@ -73,7 +73,7 @@ char	**add_param_to_2d_arr(char **arr, char *param)
 	i = 0;
 	new_arr = (char **)malloc(sizeof(char *) * (get_arr_length(arr) + 2));
 	if (!new_arr)
-		error_malloc();
+		ft_error_malloc();
 	while (arr[i])
 	{
 		new_arr[i] = ft_strdup(arr[i]);
@@ -95,7 +95,7 @@ char	**remove_param_from_2d_arr(char **arr, char *param)
 	j = 0;
 	new_arr = (char **)malloc(sizeof(char *) * (get_arr_length(arr)));
 	if (!new_arr)
-		error_malloc();
+		ft_error_malloc();
 	while (arr[i])
 	{
 		str = ft_split(arr[i], '=');

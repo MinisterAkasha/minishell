@@ -16,12 +16,16 @@
 # include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
+# include <errno.h>
 
 typedef struct		s_list
 {
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
+void				ft_error_malloc();
 
 int					ft_toupper(int c);
 int					ft_tolower(int c);

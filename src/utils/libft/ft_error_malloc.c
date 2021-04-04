@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   protect_malloc.c                                   :+:      :+:    :+:   */
+/*   ft_error_malloc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tilda <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/19 15:04:25 by tilda             #+#    #+#             */
-/*   Updated: 2021/03/19 15:04:26 by tilda            ###   ########.fr       */
+/*   Created: 2021/04/04 15:27:51 by tilda             #+#    #+#             */
+/*   Updated: 2021/04/04 15:27:53 by tilda            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	error_malloc()
+void	ft_error_malloc()
 {
 	printf("Error: Malloc can't allocate memory \n%s\n", strerror(errno));
 	exit(1);

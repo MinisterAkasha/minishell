@@ -32,7 +32,8 @@ int	*create_child_processes(int pipe_num, t_list *info,
 	t_exe_info	*exe_info;
 	int			i;
 
-	pid = (int *)malloc(sizeof(int) * (pipe_num + 1));
+	if (!(pid = (int *)malloc(sizeof(int) * (pipe_num + 1))))
+		ft_error_malloc();
 	i = -1;
 	tmp = info;
 	while (++i <= pipe_num && tmp->next)

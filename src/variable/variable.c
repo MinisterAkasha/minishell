@@ -39,7 +39,7 @@ t_variable *create_variable(char *key, char *value, int is_exported, int is_env)
 
 	variable = (t_variable*)malloc(sizeof(t_variable));
 	if (!variable)
-		error_malloc();
+		ft_error_malloc();
 	variable->key = ft_strdup(key);
 	variable->value = ft_strdup(value);
 	variable->is_exported = is_exported;

@@ -33,7 +33,6 @@
 # include "execute.h"
 # include "parser.h"
 # include "operators.h"
-# include "errors.h"
 # include "history.h"
 # include "signals.h"
 
