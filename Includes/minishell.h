@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 21:10:55 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 21:41:18 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	init_general_signal(t_store *store);
 /*
 ** support.c
 */
-void	write_error_message(char *message_title, char *message_body, char *message_error);
+void	write_error(char *message_title, char *message_body, char *message_error);
 
 
 /*
@@ -105,10 +105,10 @@ void		shlvl(char **env);
 /*
 ** variable.c
 */
-t_variable *create_variable(char *key, char *value, int is_exported, int is_env);
+t_variable *create_var(char *key, char *value, int is_exported, int is_env);
 t_variable	*find_variable(t_list *variable_list, char *key);
-// void		add_variable_to_list(t_list **variable_list, char *key, char *value, int is_exported, int is_env, t_variable *new_var);
-void		add_variable_to_list(t_list **variable_list, t_variable *new_var);
+// void		add_variable(t_list **variable_list, char *key, char *value, int is_exported, int is_env, t_variable *new_var);
+void		add_variable(t_list **variable_list, t_variable *new_var);
 int			validate_var_name(char *name);
 int			check_var_name_chars(char *name);
 

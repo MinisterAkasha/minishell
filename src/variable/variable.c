@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 19:36:24 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 21:20:44 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 21:41:18 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			validate_var_name(char *name)
 	return (1);
 }
 
-t_variable	*create_variable(char *key, char *value,
+t_variable	*create_var(char *key, char *value,
 	int is_exported, int is_env)
 {
 	t_variable *variable;
@@ -49,7 +49,7 @@ t_variable	*create_variable(char *key, char *value,
 	return (variable);
 }
 
-void		add_variable_to_list(t_list **variable_list, t_variable *new_var)
+void		add_variable(t_list **variable_list, t_variable *new_var)
 {
 	t_variable *variable;
 

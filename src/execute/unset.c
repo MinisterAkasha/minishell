@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 17:56:27 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 21:12:24 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 21:41:18 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void delete_var(void *ptr)
+void	delete_var(void *ptr)
 {
 	t_variable *var;
 
@@ -23,14 +23,14 @@ void delete_var(void *ptr)
 	var->value = NULL;
 }
 
-void ft_lstdelone_var(t_list **lst, void (*del)(void *), t_variable *var)
+void	ft_lstdelone_var(t_list **lst, void (*del)(void *), t_variable *var)
 {
 	t_list		*cur;
 	t_list		*deleted_elem;
 	t_variable	*cur_var;
 
 	if (!lst || !del || !var)
-		return;
+		return ;
 	cur = *lst;
 	deleted_elem = *lst;
 	cur_var = deleted_elem->content;
@@ -51,7 +51,7 @@ void ft_lstdelone_var(t_list **lst, void (*del)(void *), t_variable *var)
 	free(deleted_elem);
 }
 
-void		set_unset_status_var(t_exe_args *exe_arg)
+void	set_unset_status_var(t_exe_args *exe_arg)
 {
 	int		i;
 
@@ -60,15 +60,15 @@ void		set_unset_status_var(t_exe_args *exe_arg)
 	{
 		if (!validate_var_name(exe_arg->args[i]))
 		{
-			add_variable_to_list(&exe_arg->variables, create_variable("?", "1", 0, 0));
+			add_variable(&exe_arg->variables, create_var("?", "1", 0, 0));
 			return ;
 		}
 		i++;
 	}
-	add_variable_to_list(&exe_arg->variables, create_variable("?", "0", 0, 0));
+	add_variable(&exe_arg->variables, create_var("?", "0", 0, 0));
 }
 
-int exe_unset(t_exe_args *exe_arg)
+int		exe_unset(t_exe_args *exe_arg)
 {
 	int			i;
 	char		**env_copy;
@@ -91,7 +91,7 @@ int exe_unset(t_exe_args *exe_arg)
 			}
 		}
 		else
-			write_error_message("minishell: unset: '", exe_arg->args[i], "': not a valid identifier");
+			write_error("minishell: unset: '", exe_arg->args[i], "': not a valid identifier");
 		i++;
 	}
 	set_unset_status_var(exe_arg);

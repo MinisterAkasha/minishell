@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 21:24:08 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/21 20:26:10 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 21:34:48 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	exe_exit(t_exe_args *exe_args)
 	}
 	else if (len >= 1 && !check_alpha_in_string(exe_args->args[0]))
 	{
-		write(1, "exit\nminishell: exit: asd: numeric argument required\n", 54);
+		write_error("exit\nminishell: exit: ",
+			exe_args->args[0], "numeric argument required\n");
 		exit(255);
 	}
 	else

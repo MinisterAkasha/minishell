@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 20:58:44 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 21:12:06 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 21:41:18 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int			exe_echo(t_exe_args *exe_args)
 {
 	int i;
 	int	flag_n;
-	
+
 	i = 0;
 	if (exe_args->args[i] != NULL)
 		flag_n = !ft_strcmp(exe_args->args[i], "-n");
@@ -28,10 +28,10 @@ int			exe_echo(t_exe_args *exe_args)
 	{
 		ft_putstr_fd(exe_args->args[i++], 1);
 		if (exe_args->args[i + 1])
-			ft_putstr_fd(" ", 1); 
+			ft_putstr_fd(" ", 1);
 	}
 	if (!flag_n)
 		ft_putendl_fd("", 1);
-	add_variable_to_list(&exe_args->variables, create_variable("?", "0", 0, 0));
+	add_variable(&exe_args->variables, create_var("?", "0", 0, 0));
 	return (1);
 }

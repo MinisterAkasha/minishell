@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 20:02:14 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 21:34:48 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	open_needed_fd(t_exe_info *next, t_exe_info *current,
 	else
 		return ;
 	if (exec_args->fd[0] == -1)
-		write_error_message("minishell: ", next_arg_arr[0], strerror(errno));
+		write_error("minishell: ", next_arg_arr[0], strerror(errno));
 	free_2d_arr(next_arg_arr);
 }
 
