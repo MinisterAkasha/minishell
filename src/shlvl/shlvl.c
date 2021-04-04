@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:19:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/19 16:11:49 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 19:59:31 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ void	shlvl(char **env)
 {
 	char	*lvl;
 	char	**env_copy;
-	int		current_shlvl;
+	int		cur_shlvl;
 
 	if (get_env_param("SHLVL", env))
 	{
-		current_shlvl = ft_atoi(ft_strchr(get_env_param("SHLVL", env), '=') + 1);
-		lvl = ft_itoa(current_shlvl + 1);
+		cur_shlvl = ft_atoi(ft_strchr(get_env_param("SHLVL", env), '=') + 1);
+		lvl = ft_itoa(cur_shlvl + 1);
 		change_env_value(lvl, "SHLVL", &env);
 		free(lvl);
 	}
