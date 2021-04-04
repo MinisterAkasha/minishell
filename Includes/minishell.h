@@ -36,7 +36,6 @@
 # include "history.h"
 # include "signals.h"
 
-# include "get_next_line.h"
 # include "../src/utils/libft/includes/libft.h"
 
 typedef struct	s_general
