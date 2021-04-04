@@ -6,7 +6,7 @@
 #    By: akasha <akasha@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/09 14:03:17 by tilda             #+#    #+#              #
-#    Updated: 2021/04/03 15:01:48 by akasha           ###   ########.fr        #
+#    Updated: 2021/04/04 19:20:03 by akasha           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC_PATHS = ./src \
 			./src/utils \
 			./src/operators \
 			./src/operators/pipe \
+			./src/operators/redirect \
 			./src/history \
 			./src/signal \
 			./src/utils/GNL

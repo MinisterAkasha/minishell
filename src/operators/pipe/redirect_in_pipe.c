@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 18:57:01 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 18:57:22 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 19:40:08 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	open_needed_fd(t_exe_info *exe_info, t_exe_args *exec_args,
+static void	open_needed_fd(t_exe_info *exe_info, t_exe_args *exec_args,
 	t_exe_info *exe_info_next)
 {
 	char	**arr;
