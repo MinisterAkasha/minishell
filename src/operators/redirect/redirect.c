@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 19:46:37 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 20:02:14 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 	free(bin_exe_path);
 }
 
-void	open_and_write_to_file(t_exe_info *next, t_exe_info *original,
+void		open_and_write_to_file(t_exe_info *next, t_exe_info *original,
 	t_exe_args *exec_args, t_exe_info *current)
 {
 	int			oldstdout;
@@ -77,7 +77,7 @@ void	open_and_write_to_file(t_exe_info *next, t_exe_info *original,
 	close(exec_args->fd[0]);
 }
 
-int	exe_oper_redirect(t_exe_args *exec_args, t_list *info)
+int			exe_oper_redirect(t_exe_args *exec_args, t_list *info)
 {
 	t_list		*tmp;
 	t_exe_info	*current;

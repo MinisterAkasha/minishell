@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:46:31 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 19:03:02 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 20:01:58 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	get_next_exec_argc(t_list *info, t_exe_args **exec_args)
 	(*exec_args)->args = ft_split(exe_info->args, ' ');
 }
 
-int	*create_child_processes(int pipe_num, t_list *info,
+int		*create_child_processes(int pipe_num, t_list *info,
 	t_exe_args *exec_args, int **fd)
 {
 	int			*pid;
@@ -63,7 +63,7 @@ int	*create_child_processes(int pipe_num, t_list *info,
 	return (pid);
 }
 
-int	handle_parent_process(int *pid, int **fd)
+int		handle_parent_process(int *pid, int **fd)
 {
 	int	i;
 	int	status;
@@ -86,7 +86,7 @@ int	handle_parent_process(int *pid, int **fd)
 	return (i);
 }
 
-int	exe_oper_pipe(t_exe_args *exec_args, t_list *info)
+int		exe_oper_pipe(t_exe_args *exec_args, t_list *info)
 {
 	int			**fd;
 	int			*pid;

@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 15:17:33 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 18:49:24 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 20:01:41 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_pipe_number(t_list *info)
+int		get_pipe_number(t_list *info)
 {
 	int			num;
 	t_list		*tmp;
@@ -30,7 +30,7 @@ int	get_pipe_number(t_list *info)
 	return (num);
 }
 
-int	**create_pipe_fd(int num)
+int		**create_pipe_fd(int num)
 {
 	int		**fd;
 	int		i;
@@ -51,7 +51,7 @@ int	**create_pipe_fd(int num)
 	return (fd);
 }
 
-void	run_exe_function(t_exe_info	*exe_info, t_exe_args *exec_args)
+void	run_exe_function(t_exe_info *exe_info, t_exe_args *exec_args)
 {
 	t_variable	*var;
 

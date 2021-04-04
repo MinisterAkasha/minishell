@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 19:25:52 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 19:39:45 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 20:00:17 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_args(char ***exec_args, t_exe_info	*exe_info_next)
+void	add_args(char ***exec_args, t_exe_info *exe_info_next)
 {
 	char	**args_copy;
 	char	**next_arg_arr;
