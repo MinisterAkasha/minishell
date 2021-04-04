@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 15:01:20 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 17:14:11 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 17:38:05 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,12 @@ void	handle_end_pipe_command(int **fd, int i, t_exe_args *exec_args)
 	int	index[2];
 
 	i--;
-	printf("exec_args->fd[0] :>> %d\n", exec_args->fd[0]);
-	printf("exec_args->fd[1] :>> %d\n", exec_args->fd[1]);
 	index[0] = fd[i][0];
-	index[1] = -1;
+	if (exec_args->fd[0] != -1)
+		index[1] = fd[i][1];
+	else
+		index[1] = -1;
+
 	close_unused_fd(fd, index);
 	if (exec_args->fd[1] == 0)
 	{
@@ -72,6 +74,12 @@ void	handle_end_pipe_command(int **fd, int i, t_exe_args *exec_args)
 	}
 	else
 		dup2(fd[i][0], 0);
+	if (exec_args->fd[0] != -1)
+	{
+		dup2(exec_args->fd[0], 1);
+		close(exec_args->fd[0]);
+		close(fd[i][1]);
+	}
 	close(fd[i][0]);
 }
 

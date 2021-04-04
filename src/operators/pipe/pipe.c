@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:46:31 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 17:22:40 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 17:38:10 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	*create_child_processes(int pipe_num, t_list *info,
 		ft_error_malloc();
 	i = -1;
 	tmp = info;
-	while (++i <= pipe_num && tmp->next)
+	while (++i <= pipe_num)
 	{
 		exe_info = tmp->content;
 		pid[i] = fork();
@@ -44,21 +44,13 @@ int	*create_child_processes(int pipe_num, t_list *info,
 			handle_pipe_command(fd, exe_info, exec_args, i);
 		else if (pid[i] == -1)
 			kill_all_processes(pid, i);
-		exe_info = tmp->next->content;
-		free_2d_arr(exec_args->args);
-		exec_args->args = ft_split(exe_info->args, ' ');
+		if (tmp->next)
+		{
+			exe_info = tmp->next->content;
+			free_2d_arr(exec_args->args);
+			exec_args->args = ft_split(exe_info->args, ' ');
+		}
 		tmp = tmp->next;
-	}
-	if (exe_info->oper_exe_func != exe_oper_redirect
-		&& exe_info->oper_exe_func != exe_oper_double_redirect
-		&& exe_info->oper_exe_func != exe_oper_reverse_redirect
-		&& exe_info->oper_exe_func != NULL)
-	{
-		pid[i] = fork();
-		if (pid[i] == 0)
-			handle_pipe_command(fd, exe_info, exec_args, i);
-		else if (pid[i] == -1)
-			kill_all_processes(pid, i);
 	}
 	return (pid);
 }
