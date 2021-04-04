@@ -23,7 +23,7 @@ static void		exe_key(char **str_stat, t_history *history)
 	ssize_t		bsize;
 
 	buffer_size = 2048;
-	buff = (char *)protect_malloc(ft_calloc(buffer_size + 1, sizeof(char)));
+	buff = (char *)ft_calloc(buffer_size + 1, sizeof(char));
 	bsize = read(0, buff, buffer_size);
 	if (bsize <= 0)
 		return ;//TODO сделать ошибку не считанного файла
@@ -50,10 +50,10 @@ static int		find_nl(char **str_stat, char **line, t_history *history)
 
 	if ((tmp = ft_strchr(*str_stat, '\n')))
 	{
-		*line = protect_malloc(ft_substr(*str_stat, 0, tmp - *str_stat));
-		tmp = protect_malloc(ft_strdup(tmp + 1));
+		*line = ft_substr(*str_stat, 0, tmp - *str_stat);
+		tmp = ft_strdup(tmp + 1);
 		free(*str_stat);
-		*str_stat = protect_malloc(ft_strdup(tmp));
+		*str_stat = ft_strdup(tmp);
 		free(tmp);
 		create_new_history(history, *line);
 		return (1);
@@ -68,7 +68,7 @@ void			gnl(char **line, t_history *history, char **env)
 
 	term_default = init_term_history(history, env);
 	if (!str_stat)
-		str_stat = protect_malloc(ft_strdup(""));
+		str_stat = ft_strdup("");
 	while (1)
 	{
 		if (find_nl(&str_stat, line, history))

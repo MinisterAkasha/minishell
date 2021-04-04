@@ -21,7 +21,7 @@ void	shlvl(char **env)
 	if (get_env_param("SHLVL", env))
 	{
 		current_shlvl = ft_atoi(ft_strchr(get_env_param("SHLVL", env), '=') + 1);
-		lvl = protect_malloc(ft_itoa(current_shlvl + 1));
+		lvl = ft_itoa(current_shlvl + 1);
 		change_env_value(lvl, "SHLVL", &env);
 		free(lvl);
 	}

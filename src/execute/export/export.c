@@ -23,8 +23,8 @@ char	**splite_var_name(char *str)
 	i = 0;
 	while (str[i] != '=' && str[i])
 		i++;
-	arr[0] = protect_malloc(ft_substr(str, 0, i));
-	arr[1] = protect_malloc(ft_substr(str, i + 1, ft_strlen(str) - i));
+	arr[0] = ft_substr(str, 0, i);
+	arr[1] = ft_substr(str, i + 1, ft_strlen(str) - i);
 	arr[2] = NULL;
 	return (arr);
 }
@@ -68,8 +68,8 @@ char		**fill_arr_with_variable(char **arr, t_variable *$variable)
 	char *key_pattern;
 	char **arr_copy;
 
-	key_pattern = protect_malloc(ft_strjoin($variable->key, "="));
-	variable = protect_malloc(ft_strjoin(key_pattern, $variable->value));
+	key_pattern = ft_strjoin($variable->key, "=");
+	variable = ft_strjoin(key_pattern, $variable->value);
 	arr_copy = add_param_to_2d_arr(arr, variable);
 	free(variable);
 	free(key_pattern);

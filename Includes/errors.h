@@ -17,7 +17,5 @@
 ** protect_malloc.c
 */
 void	error_malloc();
-void	*protect_malloc(void *value);
-char	**protect_ft_split(char **value);
 
 #endif

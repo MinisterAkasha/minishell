@@ -18,15 +18,15 @@ void	set_str_key_up(char **str_stat, t_history *history)
 		history->arr[history->cur])
 	{
 		free(*str_stat);
-		(*str_stat) = protect_malloc(ft_strdup(history->arr[history->cur]));
+		(*str_stat) = ft_strdup(history->arr[history->cur]);
 		history->is_new_str = 1;
 	}
 	else if (history->cur > 0 && history->arr[history->cur - 1])
 	{
 		free(history->arr[history->cur]);
-		history->arr[history->cur] = protect_malloc(ft_strdup(*str_stat));
+		history->arr[history->cur] = ft_strdup(*str_stat);
 		free(*str_stat);
-		(*str_stat) = protect_malloc(ft_strdup(history->arr[history->cur - 1]));
+		(*str_stat) = ft_strdup(history->arr[history->cur - 1]);
 		history->cur--;
 	}
 	tputs(restore_cursor, 1, ft_putchar);
@@ -44,16 +44,16 @@ void	set_str_key_down(char **str_stat, t_history *history)
 		else
 		{
 			free(*str_stat);
-			(*str_stat) = protect_malloc(ft_strdup(history->first_str));
+			(*str_stat) = ft_strdup(history->first_str);
 		}
 		history->is_new_str = 2;
 	}
 	else if (history->arr[history->cur] && history->arr[history->cur + 1])
 	{
 		free(history->arr[history->cur]);
-		history->arr[history->cur] = protect_malloc(ft_strdup(*str_stat));
+		history->arr[history->cur] = ft_strdup(*str_stat);
 		free(*str_stat);
-		(*str_stat) = protect_malloc(ft_strdup(history->arr[history->cur + 1]));
+		(*str_stat) = ft_strdup(history->arr[history->cur + 1]);
 		history->cur++;
 	}
 	tputs(restore_cursor, 1, ft_putchar);
@@ -69,15 +69,15 @@ void	set_alpha(char **str_stat, char *buff, t_history *history)
 	char	*copy_buff;
 
 	write(1, buff, ft_strlen(buff));
-	copy_str_stat = protect_malloc(ft_strdup((*str_stat)));
-	copy_buff = protect_malloc(ft_strdup((buff)));
-	joined_str = protect_malloc(ft_strjoin(copy_str_stat, copy_buff));
+	copy_str_stat = ft_strdup((*str_stat));
+	copy_buff = ft_strdup((buff));
+	joined_str = ft_strjoin(copy_str_stat, copy_buff);
 	free((*str_stat));
-	(*str_stat) = protect_malloc(ft_strdup(joined_str));
+	(*str_stat) = ft_strdup(joined_str);
 	if (history->total == history->cur)
 	{
 		free(history->first_str);
-		history->first_str = protect_malloc(ft_strdup((*str_stat)));
+		history->first_str = ft_strdup((*str_stat));
 	}
 	free(copy_str_stat);
 	free(copy_buff);

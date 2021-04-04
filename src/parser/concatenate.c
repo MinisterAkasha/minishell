@@ -19,11 +19,11 @@ void	concat_args(t_exe_args exe_args, char **first, char *second)
 	char		*modified_arg;
 
 	separator = get_separator(second);
-	copy_first = protect_malloc(ft_strdup(*first));
+	copy_first = ft_strdup(*first);
 	free(*first);
 	cut_separator(exe_args, &second, separator);
 	modified_arg = dollar_sign(second, exe_args, separator);
-	(*first) = protect_malloc(ft_strjoin(copy_first, modified_arg));
+	(*first) = ft_strjoin(copy_first, modified_arg);
 	free(copy_first);
 	free(modified_arg);
 }

@@ -24,12 +24,9 @@ char	**get_args(t_exe_info *exe_info, t_support_parsing_data support)
 	char	**args;
 
 	if (exe_info->exe_function == support.exe_func_arr[1])
-	{
-		args = (char **)protect_malloc(ft_calloc(sizeof(char *), 2));
-		args[0] = protect_malloc(ft_strdup(exe_info->args));
-	}
+		args = ft_split(exe_info->args, '\0');
 	else
-		args = protect_ft_split(ft_split(exe_info->args, ' '));
+		args = ft_split(exe_info->args, ' ');
 	return (args);
 }
 

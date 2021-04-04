@@ -52,15 +52,15 @@ static char		*find_env(t_exe_args exe_args, char *s_dol)
 
 	env = 0;
 	if ((ft_strcmp(s_dol, "")) && (env = get_env_param(s_dol, exe_args.env)))
-		env = protect_malloc(ft_strdup(ft_strchr(env, '=') + 1));
+		env = ft_strdup(ft_strchr(env, '=') + 1);
 	else
 	{
 		tmp_variable = find_variable(exe_args.variables, s_dol);
 		if (tmp_variable)
-			env = protect_malloc(ft_strdup(tmp_variable->value));
+			env = ft_strdup(tmp_variable->value);
 	}
 	if (!env)
-		env = protect_malloc(ft_strdup(""));
+		env = ft_strdup("");
 	return (env);
 }
 
@@ -71,12 +71,12 @@ static char		*get_str_dollar(char ***arr, char **tmp_str, int i)
 	if ((*arr)[i][1] && (*arr)[i][1] == '?')
 	{
 		str_dollar = "?";
-		*tmp_str = protect_malloc(ft_strdup((*arr)[i] + 2));
+		*tmp_str = ft_strdup((*arr)[i] + 2);
 	}
 	else
 	{
 		str_dollar = (*arr)[i] + 1;
-		*tmp_str = protect_malloc(ft_strdup(""));
+		*tmp_str = ft_strdup("");
 	}
 	return (str_dollar);
 }
@@ -97,7 +97,7 @@ static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 			str_dollar = get_str_dollar(arr, &tmp_str, i);
 			env = find_env(exe_args, str_dollar);
 			free((*arr)[i]);
-			(*arr)[i] = protect_malloc(ft_strjoin(env, tmp_str));
+			(*arr)[i] = ft_strjoin(env, tmp_str);
 			free(env);
 			free(tmp_str);
 		}
@@ -128,6 +128,6 @@ char			*dollar_sign(char *arg, t_exe_args exe_args, char sep)
 		ft_lstclear(&head, &del_item_libft_lst);
 	}
 	else
-		changed_arg = protect_malloc(ft_strdup(arg));
+		changed_arg = ft_strdup(arg);
 	return (changed_arg);
 }

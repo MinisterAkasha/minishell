@@ -19,7 +19,7 @@ void	add_args(char ***exec_args, t_exe_info	*exe_info_next)
 	int		i;
 
 	i = 1;
-	next_arg_arr = protect_ft_split(ft_split(exe_info_next->args, ' '));
+	next_arg_arr = ft_split(exe_info_next->args, ' ');
 	while (next_arg_arr[i])
 	{
 		args_copy = copy_2d_arr(*exec_args);
@@ -39,7 +39,7 @@ void	open_and_write_to_file(t_exe_info *next, t_exe_info *original, t_exe_args *
 	char		**next_arg_arr;
 	int			fd;
 
-	next_arg_arr = protect_ft_split(ft_split(next->args, ' '));
+	next_arg_arr = ft_split(next->args, ' ');
 	fd = 1;
 	if (current->oper_exe_func == exe_oper_redirect)
 		file = open(next_arg_arr[0], O_CREAT | O_TRUNC | O_RDWR | O_APPEND, S_IREAD | S_IWRITE | S_IRGRP | S_IROTH);//TODO обработать ошибку

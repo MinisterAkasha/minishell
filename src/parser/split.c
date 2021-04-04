@@ -28,9 +28,9 @@ static	int		skip_spaces(char *str, char separator, int i)
 
 static	int		init_data_word_count(char *sep, int **info_arr, t_list **head)
 {
-	(*info_arr) = (int *)protect_malloc(ft_calloc(2, sizeof(int)));
+	(*info_arr) = (int *)ft_calloc(2, sizeof(int));
 	*sep = 'f';
-	ft_lstadd_back(head, protect_malloc(ft_lstnew(*info_arr)));
+	ft_lstadd_back(head, ft_lstnew(*info_arr));
 	return (1);
 }
 
@@ -77,12 +77,12 @@ char			**init_arr_2d(char *str, t_list *copy_dw)
 	int			*info_arr;
 
 	len_arr = ft_lstsize(copy_dw) - 1;
-	arr_2d = (char **)protect_malloc(ft_calloc(len_arr + 1, sizeof(char *)));
+	arr_2d = (char **)ft_calloc(len_arr + 1, sizeof(char *));
 	i = 0;
 	while (i < len_arr)
 	{
 		info_arr = copy_dw->content;
-		arr_2d[i] = protect_malloc(ft_substr(str, info_arr[0], info_arr[1]));
+		arr_2d[i] = ft_substr(str, info_arr[0], info_arr[1]);
 		copy_dw = copy_dw->next;
 		i++;
 	}
@@ -96,7 +96,7 @@ char			**split(char const *s)
 	char	**arr_2d;
 	char	*str;
 
-	str = protect_malloc(ft_strtrim(s, " "));
+	str = ft_strtrim(s, " ");
 	data_words = NULL;
 	word_count(str, &data_words);
 	copy_data_words = data_words;
