@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 18:55:16 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 21:11:41 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void wait_child_process_end(pid_t id, t_list *var)
 	while (!WIFEXITED(status) && !WEXITSTATUS(status) && !WIFSIGNALED(status))
 		waitpid(id, &status, WUNTRACED);
 	str_status = ft_itoa(status / 256);
-	add_variable_to_list(&var, "?", str_status, 0, 0);
+	add_variable_to_list(&var, create_variable("?", str_status, 0, 0));
 	free(str_status);
 }
 
@@ -53,7 +53,7 @@ int loop_shell(t_store *store)
 	status = 1;//TODO начального OLDPWD нет
 	init_support_parsing_arr(&store->support);
 	shlvl(store->exe_args.env_init);
-	add_variable_to_list(&store->exe_args.variables, "?", "0", 0, 0);
+	add_variable_to_list(&store->exe_args.variables, create_variable("?", "0", 0, 0));
 	init_general_signal(store);
 	while (status)
 	{

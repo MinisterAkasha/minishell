@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:12:44 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 19:56:06 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 20:03:18 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_dir(char *path, char *arg)
+int		check_dir(char *path, char *arg)
 {
 	DIR				*dir;
 	struct dirent	*entry;

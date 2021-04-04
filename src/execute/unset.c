@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 17:56:27 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/29 15:40:30 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 21:12:24 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ void		set_unset_status_var(t_exe_args *exe_arg)
 	{
 		if (!validate_var_name(exe_arg->args[i]))
 		{
-			add_variable_to_list(&exe_arg->variables, "?", "1", 0, 0);
+			add_variable_to_list(&exe_arg->variables, create_variable("?", "1", 0, 0));
 			return ;
 		}
 		i++;
 	}
-	add_variable_to_list(&exe_arg->variables, "?", "0", 0, 0);
+	add_variable_to_list(&exe_arg->variables, create_variable("?", "0", 0, 0));
 }
 
 int exe_unset(t_exe_args *exe_arg)

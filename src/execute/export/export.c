@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/29 15:55:38 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 21:12:57 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ void		fill_variable_list(t_exe_args *exe_arg)
 			if (!get_env_param(variable[0], exe_arg->env_init))
 			{
 				if (!ft_strchr(exe_arg->args[i], '='))
-					add_variable_to_list(&exe_arg->variables, variable[0], "", 1, 0);
+					add_variable_to_list(&exe_arg->variables, create_variable(variable[0], "", 1, 0));
 				else if (variable[1])
-					add_variable_to_list(&exe_arg->variables, variable[0], variable[1], 1, 1);
+					add_variable_to_list(&exe_arg->variables, create_variable(variable[0], variable[1], 1, 1));
 				else
-					add_variable_to_list(&exe_arg->variables, variable[0], "", 1, 1);
+					add_variable_to_list(&exe_arg->variables, create_variable(variable[0], "", 1, 1));
 			}
 			else
 			{
@@ -163,14 +163,14 @@ void		set_export_status_var(t_exe_args *exe_arg)
 		variable = splite_var_name(exe_arg->args[i]);
 		if (!validate_var_name(variable[0]))
 		{
-			add_variable_to_list(&exe_arg->variables, "?", "1", 0, 0);
+			add_variable_to_list(&exe_arg->variables, create_variable("?", "1", 0, 0));
 			free_2d_arr(variable);
 			return ;
 		}
 		free_2d_arr(variable);
 		i++;
 	}
-	add_variable_to_list(&exe_arg->variables, "?", "0", 0, 0);
+	add_variable_to_list(&exe_arg->variables, create_variable("?", "0", 0, 0));
 }
 
 int			exe_export(t_exe_args *exe_arg)
@@ -187,7 +187,7 @@ int			exe_export(t_exe_args *exe_arg)
 	free_2d_arr(env_copy);
 	if (get_arr_length(exe_arg->args) == 0)
 	{
-		add_variable_to_list(&exe_arg->variables, "?", "0", 0, 0);
+		add_variable_to_list(&exe_arg->variables, create_variable("?", "0", 0, 0));
 		write_transform_arr(sort_export(export, 0, get_arr_length(export) - 1), exe_arg->variables);
 	}
 	free_2d_arr(export);
