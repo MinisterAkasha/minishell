@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/29 16:27:02 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 19:09:28 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ void	open_and_write_to_file(t_exe_info *next, t_exe_info *original, t_exe_args *
 				original->exe_function(exec_args);
 			else if (bin_exe_path)
 				launch_shell(*exec_args, bin_exe_path);
+			else if (!exec_args->args[0]);
+			else
+			{
+				dup2(oldstdout, fd);
+				unknown_command(exec_args);
+			}
 			dup2(oldstdout, fd);
 			free(bin_exe_path);
 		}
