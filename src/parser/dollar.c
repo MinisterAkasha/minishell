@@ -64,29 +64,77 @@ static char		*find_env(t_exe_args exe_args, char *s_dol)
 	return (env);
 }
 
-static char		*get_str_dollar(char ***arr, char **tmp_str, int i)
+static char *get_str_dollar(t_exe_args exe_args, char *arr_str, int *i)
 {
 	char	*str_dollar;
+	char	*env;
+	int		start;
 
-	if ((*arr)[i][1] && (*arr)[i][1] == '?')
-	{
-		str_dollar = "?";
-		*tmp_str = ft_strdup((*arr)[i] + 2);
-	}
+	*i += 1;
+	start = *i;
+	if (arr_str[1] && arr_str[1] == '?')
+		str_dollar = ft_strdup("?");
 	else
 	{
-		str_dollar = (*arr)[i] + 1;
-		*tmp_str = ft_strdup("");
+		str_dollar = arr_str + 1;
+		while (arr_str[*i] && arr_str[*i] != ' ' && arr_str[*i] != '$')
+			*i += 1;
+		str_dollar = ft_substr(arr_str, start, *i - start);
 	}
-	return (str_dollar);
+	env = find_env(exe_args, str_dollar);
+	free(str_dollar);
+	return (env);
+}
+
+static char *get_tail(char *arr_str, int *i)
+{
+	int		start;
+	char	*tail_str;
+
+	start = *i;
+	while (arr_str[*i] && arr_str[*i] != '$')
+		*i += 1;
+	tail_str = ft_substr(arr_str, start, *i - start);
+	return (tail_str);
+}
+
+
+char	*get_changed_str(t_exe_args exe_args, char *arr_str)
+{
+	int		i;
+	char	*env;
+	char	*str_tail;
+	char	*changed_str;
+	char	*copy_str;
+	char	*tmp_str;
+
+	i = 0;
+	changed_str = ft_strdup("");
+	while (arr_str[i])
+	{
+		env = get_str_dollar(exe_args, arr_str, &i);
+		if (arr_str[i] && arr_str[i] != '$')
+			str_tail = get_tail(arr_str, &i);
+		else
+			str_tail = ft_strdup("");
+		copy_str = ft_strdup(changed_str);
+		tmp_str = ft_strjoin(env, str_tail);
+		changed_str = ft_strjoin(copy_str, tmp_str);
+		free(env);
+		free(str_tail);
+		free(copy_str);
+		free(tmp_str);
+		if (!arr_str[i])
+			break;
+		i++;
+	}
+	return (changed_str);
 }
 
 static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 {
 	int			i;
 	char		*tmp_str;
-	char		*str_dollar;
-	char		*env;
 
 	i = 0;
 	while ((*arr)[i])
@@ -94,11 +142,9 @@ static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 		if ((*arr)[i][0] && (*arr)[i][1] && (*arr)[i][0] == '$'
 											&& (*arr)[i][1] != ' ')
 		{
-			str_dollar = get_str_dollar(arr, &tmp_str, i);
-			env = find_env(exe_args, str_dollar);
+			tmp_str = ft_strdup((*arr)[i]);
 			free((*arr)[i]);
-			(*arr)[i] = ft_strjoin(env, tmp_str);
-			free(env);
+			(*arr)[i] = get_changed_str(exe_args, tmp_str);
 			free(tmp_str);
 		}
 		i++;
