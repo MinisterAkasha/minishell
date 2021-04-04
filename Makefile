@@ -72,7 +72,7 @@ $(NAME): $(OBJ)
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
-%.o: %.c
+%.o: %.c $(INCLUDE)
 	@echo "$(CYAN)Compiling $<"
 	@$(CC) -I$(INCLUDE) -c $< -o $(OBJDIR)/$@
 
