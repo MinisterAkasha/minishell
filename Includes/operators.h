@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 17:52:44 by tilda             #+#    #+#             */
-/*   Updated: 2021/04/03 15:53:09 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 17:01:06 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	add_args(char ***exec_args, t_exe_info	*exe_info_next);
 int		exe_oper_pipe(t_exe_args *exec_args, t_list *info);
 void	handle_pipe_command(int **fd, t_exe_info *exe_info, t_exe_args *exec_args, int i);
 void	handle_start_pipe_command(int **fd, int i);
-void	handle_end_pipe_command(int **fd, int i);
+void	handle_end_pipe_command(int **fd, int i, t_exe_args *exec_args);
 void	close_unused_fd(int **fd, int index[2]);
 void	run_exe_function(t_exe_info	*exe_info, t_exe_args *exec_args);
 int		get_pipe_number(t_list *info);

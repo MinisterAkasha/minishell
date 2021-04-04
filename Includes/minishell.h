@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/03 15:59:24 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/03 17:12:51 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/errno.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <signal.h>
 
 /*
 ** required for working with directories

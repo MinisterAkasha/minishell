@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/30 18:03:28 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 15:31:32 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int main(int argc, char **argv, char **env)
 	store->exe_args.env = copy_2d_arr(env);
 	store->exe_args.env_init = copy_2d_arr(store->exe_args.env);
 	store->exe_args.variables = NULL;
+	store->exe_args.fd[0] = -1;
+	store->exe_args.fd[1] = -1;
 	loop_shell(store);
 	free_2d_arr(store->exe_args.env);
 	return (0);
