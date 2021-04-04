@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.h                                           :+:      :+:    :+:   */
+/*   ft_error_malloc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tilda <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/19 15:43:06 by tilda             #+#    #+#             */
-/*   Updated: 2021/03/19 15:43:07 by tilda            ###   ########.fr       */
+/*   Created: 2021/04/04 15:27:51 by tilda             #+#    #+#             */
+/*   Updated: 2021/04/04 15:27:53 by tilda            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERRORS_H
-# define ERRORS_H
+#include "libft.h"
 
-/*
-** protect_malloc.c
-*/
-void	error_malloc();
-void	*protect_malloc(void *value);
-char	**protect_ft_split(char **value);
-
-#endif
+void	ft_error_malloc()
+{
+	printf("Error: Malloc can't allocate memory \n%s\n", strerror(errno));
+	exit(1);
+}

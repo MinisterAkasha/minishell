@@ -37,9 +37,13 @@ int	**create_pipe_fd(int num)
 
 	i = 0;
 	fd = (int **)malloc(sizeof(int *) * (num + 1));
+	if (!fd)
+		ft_error_malloc();
 	while (i < num)
 	{
 		fd[i] = (int *)malloc(sizeof(int) * 2);
+		if (!fd[i])
+			ft_error_malloc();
 		pipe(fd[i]);
 		i++;
 	}

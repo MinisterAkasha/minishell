@@ -46,7 +46,7 @@ struct termios	init_term_history(t_history *history, char **env)
 		ft_putendl_fd("Could't get a TERM", 1);
 		exit(0);
 	}
-	history->first_str = protect_malloc(ft_strdup(""));
+	history->first_str = ft_strdup("");
 	history->is_new_str = 0;
 	tcgetattr(0, &term);
 	term_def = term;

@@ -17,28 +17,28 @@ void	ctrl_d(char **buff, char **str_stat)
 	if (!ft_strcmp(*str_stat, ""))
 	{
 		free(*str_stat);
-		*str_stat = protect_malloc(ft_strdup("exit\n"));
+		*str_stat = ft_strdup("exit\n");
 		free((*buff));
-		(*buff) = protect_malloc(ft_strdup(""));
+		(*buff) = ft_strdup("");
 	}
 	else
 	{
 		free((*buff));
-		(*buff) = protect_malloc(ft_strdup(""));
+		(*buff) = ft_strdup("");
 	}
 }
 
 void	ctrl_c(char **buff, char **str_stat)
 {
 	free(*str_stat);
-	*str_stat = protect_malloc(ft_strdup(""));
+	*str_stat = ft_strdup("");
 	free((*buff));
-	(*buff) = protect_malloc(ft_strdup("\n"));
+	(*buff) = ft_strdup("\n");
 	add_variable_to_list(&general->variables, "?", "1", 0, 0);
 }
 
 void	ctrl_slash(char **buff)
 {
 	free((*buff));
-	(*buff) = protect_malloc(ft_strdup(""));
+	(*buff) = ft_strdup("");
 }

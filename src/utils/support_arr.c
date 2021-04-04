@@ -55,10 +55,10 @@ char	**copy_2d_arr(char **arr)
 	i = 0;
 	arr_copy = (char **)malloc(sizeof(char*) * (get_arr_length(arr) + 1));
 	if (!arr_copy)
-		error_malloc();
+		ft_error_malloc();
 	while (arr[i])
 	{
-		arr_copy[i] = protect_malloc(ft_strdup(arr[i]));
+		arr_copy[i] = ft_strdup(arr[i]);
 		i++;
 	}
 	arr_copy[i] = NULL;
@@ -73,13 +73,13 @@ char	**add_param_to_2d_arr(char **arr, char *param)
 	i = 0;
 	new_arr = (char **)malloc(sizeof(char *) * (get_arr_length(arr) + 2));
 	if (!new_arr)
-		error_malloc();
+		ft_error_malloc();
 	while (arr[i])
 	{
-		new_arr[i] = protect_malloc(ft_strdup(arr[i]));
+		new_arr[i] = ft_strdup(arr[i]);
 		i++;
 	}
-	new_arr[i++] = protect_malloc(ft_strdup(param));
+	new_arr[i++] = ft_strdup(param);
 	new_arr[i] = NULL;
 	return (new_arr);
 }
@@ -95,13 +95,13 @@ char	**remove_param_from_2d_arr(char **arr, char *param)
 	j = 0;
 	new_arr = (char **)malloc(sizeof(char *) * (get_arr_length(arr)));
 	if (!new_arr)
-		error_malloc();
+		ft_error_malloc();
 	while (arr[i])
 	{
-		str = protect_ft_split(ft_split(arr[i], '='));
+		str = ft_split(arr[i], '=');
 		if (ft_strcmp(str[0], param))
 		{
-			new_arr[j] = protect_malloc(ft_strdup(arr[i]));
+			new_arr[j] = ft_strdup(arr[i]);
 			j++;
 		}
 		i++;
@@ -121,16 +121,16 @@ char		*multiply_strjoin(char **args)
 	if (!args)
 		return (NULL);
 	i = 0;
-	str = protect_malloc(ft_strdup(""));
-	tmp_str = protect_malloc(ft_strdup(""));
+	str = ft_strdup("");
+	tmp_str = ft_strdup("");
 	while (args[i])
 	{
 		free(str);
-		tmp_arg = protect_malloc(ft_strdup(args[i]));
-		str = protect_malloc(ft_strjoin(tmp_str, tmp_arg));
+		tmp_arg = ft_strdup(args[i]);
+		str = ft_strjoin(tmp_str, tmp_arg);
 		free(tmp_str);
 		free(tmp_arg);
-		tmp_str = protect_malloc(ft_strdup(str));
+		tmp_str = ft_strdup(str);
 		i++;
 	}
 	if (tmp_str)

@@ -25,7 +25,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	lens2 = ft_strlen(s2);
 	join = (char *)malloc(lens1 + lens2 + 1);
 	if (!join)
-		return (NULL);
+		ft_error_malloc();
 	tmp = join;
 	while (*s1)
 		*tmp++ = *s1++;

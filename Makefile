@@ -34,7 +34,6 @@ SRC_PATHS = ./src \
 			./src/utils \
 			./src/operators \
 			./src/operators/pipe \
-			./src/errors \
 			./src/history \
 			./src/signal \
 			./src/utils/GNL
@@ -73,7 +72,7 @@ $(NAME): $(OBJ)
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
-%.o: %.c
+%.o: %.c $(INCLUDE)
 	@echo "$(CYAN)Compiling $<"
 	@$(CC) -I$(INCLUDE) -c $< -o $(OBJDIR)/$@
 

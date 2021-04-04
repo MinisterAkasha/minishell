@@ -90,17 +90,15 @@ void			cut_separator(t_exe_args exe_args, char **arg, char sep)
 		return ;
 	index = 0;
 	i = get_next_separators(*arg, sep, &index);
-	first = protect_malloc(ft_substr(*arg, 0, index));
-	second = protect_malloc(ft_substr(*arg, index + 1,
-								(get_len((*arg), &i, sep) - index)));
-	tmp = protect_malloc(ft_strjoin(first, second));
+	first = ft_substr(*arg, 0, index);
+	second = ft_substr(*arg, index + 1, (get_len((*arg), &i, sep) - index));
+	tmp = ft_strjoin(first, second);
 	free(second);
 	index++;
 	i = get_next_separators(*arg, sep, &index);
-	second = protect_malloc(ft_substr(*arg, index + 1,
-									(get_len((*arg), &i, sep))));
+	second = ft_substr(*arg, index + 1, (get_len((*arg), &i, sep)));
 	free((*arg));
-	(*arg) = protect_malloc(ft_strjoin(tmp, second));
+	(*arg) = ft_strjoin(tmp, second);
 	free(second);
 	free(first);
 	free(tmp);

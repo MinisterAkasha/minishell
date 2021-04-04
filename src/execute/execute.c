@@ -19,6 +19,17 @@ int			unknown_command(t_exe_args *exe_arg)
 	return (1);
 }
 
+char	**get_args(t_exe_info *exe_info, t_support_parsing_data support)
+{
+	char	**args;
+
+	if (exe_info->exe_function == support.exe_func_arr[1])
+		args = ft_split(exe_info->args, '\0');
+	else
+		args = ft_split(exe_info->args, ' ');
+	return (args);
+}
+
 int	execute(t_store *store)
 {
 	t_list		*info;
@@ -31,7 +42,7 @@ int	execute(t_store *store)
 	while (info)
 	{
 		exe_info = info->content;
-		store->exe_args.args = protect_ft_split(ft_split(exe_info->args, ' '));//TODO переделать для echo
+		store->exe_args.args = get_args(exe_info, store->support);
 		bin_exe_path = search(store->exe_args.args[0], get_env_param("PATH", store->exe_args.env));
 		if (exe_info->oper_exe_func &&
 			exe_info->oper_exe_func != exe_oper_semicolon)

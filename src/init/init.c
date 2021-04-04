@@ -45,17 +45,16 @@ void init_support_parsing_arr(t_support_parsing_data *data)
 
 void	init_history_data(t_history **history)
 {
-	(*history) = (t_history *)protect_malloc(ft_calloc(sizeof(t_history), 1));
-	(*history)->arr = (char **)protect_malloc(ft_calloc(sizeof(char *), 2));
+	(*history) = (t_history *)ft_calloc(sizeof(t_history), 1);
+	(*history)->arr = (char **)ft_calloc(sizeof(char *), 2);
 	(*history)->total = 0;
 	(*history)->cur = (*history)->total;
 }
 
 void	init_general_signal(t_store *store)
 {
-	general = protect_malloc(ft_calloc(1, sizeof(t_general)));
+	general = ft_calloc(1, sizeof(t_general));
 	general->variables = store->exe_args.variables;
-	general->pid = 0;
 	signal(2, signal_ctrl_c);
 	signal(3, signal_ctrl_slash);
 }
