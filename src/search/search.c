@@ -6,16 +6,16 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:12:44 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/23 18:20:59 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 19:56:06 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_dir(char *path, char *arg)
+int	check_dir(char *path, char *arg)
 {
-	DIR *dir;
-	struct dirent *entry;
+	DIR				*dir;
+	struct dirent	*entry;
 
 	dir = opendir(path);
 	if (!dir)
@@ -34,10 +34,10 @@ static int	check_dir(char *path, char *arg)
 	return (0);
 }
 
-static char	*get_command_from_path(char *path)
+char	*get_command_from_path(char *path)
 {
-	char **splited_path;
-	char *command;
+	char	**splited_path;
+	char	*command;
 
 	splited_path = ft_split(path, '/');
 	command = ft_strdup(splited_path[get_arr_length(splited_path) - 1]);
@@ -45,16 +45,17 @@ static char	*get_command_from_path(char *path)
 	return (command);
 }
 
-static char	*get_bin_path_command(char *arg, const char *$_path)
+char	*get_bin_path_command(char *arg, const char *path)
 {
 	char	**bin_paths;
 	char	*current_path;
 	char	*with_slash;
 	char	*command;
-	int		i = 0;
+	int		i;
 
+	i = 0;
 	command = get_command_from_path(arg);
-	bin_paths = ft_split(ft_strchr($_path, '=') + 1, ':');
+	bin_paths = ft_split(ft_strchr(path, '=') + 1, ':');
 	current_path = NULL;
 	while (bin_paths[i])
 	{
@@ -63,7 +64,7 @@ static char	*get_bin_path_command(char *arg, const char *$_path)
 			with_slash = ft_strjoin(bin_paths[i], "/");
 			current_path = ft_strjoin(with_slash, command);
 			free(with_slash);
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -72,50 +73,13 @@ static char	*get_bin_path_command(char *arg, const char *$_path)
 	return (current_path);
 }
 
-static char	*get_dir_path(char *pwd, char *arg)
-{
-	char	*dir_path;
-	char	*arg_path;
-	int		len;
-
-	if (ft_strrchr(arg, '/'))
-		len = ft_strlen(arg) - ft_strlen(ft_strrchr(arg, '/'));
-	else
-		len = ft_strlen(arg);
-	arg_path = ft_substr(arg, 0, len);
-	dir_path = ft_strjoin(pwd, arg_path);
-	free(arg_path);
-	return (dir_path);
-}
-
-static char	*get_relative_path(char *arg)
+char	*search(char *arg, const char *path)
 {
 	char	*current_path;
-	char	*command;
-	char	pwd[2048];
-	char	*dir_path;
-	char	*pwd_with_slash;
-
-	getcwd(pwd, 2048);
-	current_path = NULL;
-	command = get_command_from_path(arg);
-	pwd_with_slash = ft_strjoin(pwd, "/");
-	dir_path = get_dir_path(pwd_with_slash, arg);
-	if (check_dir(dir_path, command))
-		current_path = ft_strjoin(pwd_with_slash, arg);
-	free(command);
-	free(dir_path);
-	free(pwd_with_slash);
-	return (current_path);
-}
-
-char		*search(char *arg, const char *$_path)
-{
-	char *current_path;
 
 	if (!arg)
 		return (NULL);
-	current_path = get_bin_path_command(arg, $_path);
+	current_path = get_bin_path_command(arg, path);
 	if (!current_path)
 		current_path = get_relative_path(arg);
 	return (current_path);

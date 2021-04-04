@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/03 17:12:51 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 19:53:13 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # include "operators.h"
 # include "history.h"
 # include "signals.h"
+# include "search.h"
 
 # include "../src/utils/libft/includes/libft.h"
 
