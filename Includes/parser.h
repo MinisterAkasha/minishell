@@ -42,6 +42,13 @@ int			is_word_to_cont(char *str, char sep, int i);
 int			init_data_dollar_count(int **info_arr, t_list **head);
 
 /*
+** dollar_utils.c
+*/
+
+char		*get_tail(char *arr_str, int *i);
+char		*get_str_dollar(t_exe_args exe_args, char *arr_str, int *i);
+
+/*
 ** split.c
 */
 char		**split(char const *s);

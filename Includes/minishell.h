@@ -77,6 +77,7 @@ char	**remove_param_from_2d_arr(char **arr, char *param);
 char	*multiply_strjoin(char **args);
 void	free_2d_arr_int(int **arr);
 int		get_int_arr_length(int **arr);
+char	*triple_str_join(char *first, char *second, char *third);
 
 
 /*

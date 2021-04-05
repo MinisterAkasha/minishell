@@ -33,7 +33,6 @@ char	**get_args(t_exe_info *exe_info, t_support_parsing_data support)
 		}
 		else
 			args = ft_split(exe_info->args, '\0');
-
 	}
 	else
 		args = ft_split(exe_info->args, ' ');
