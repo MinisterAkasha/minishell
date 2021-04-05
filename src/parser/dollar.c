@@ -26,7 +26,6 @@ static	int		dollar_count(char *str, t_list **head)
 
 	i = 0;
 	init_data_dollar_count(&info_arr, head);
-	info_arr[0] = 0;
 	while (str[i])
 	{
 		if (str[i] && (str[i] == '$'))
@@ -37,11 +36,7 @@ static	int		dollar_count(char *str, t_list **head)
 		info_arr[1]++;
 		i++;
 	}
-	if (!str[i])
-	{
-		info_arr[1]++;
 		init_data_dollar_count(&info_arr, head);
-	}
 	return (1);
 }
 
@@ -73,10 +68,12 @@ static char *get_str_dollar(t_exe_args exe_args, char *arr_str, int *i)
 	*i += 1;
 	start = *i;
 	if (arr_str[1] && arr_str[1] == '?')
+	{
 		str_dollar = ft_strdup("?");
+		*i += 1;
+	}
 	else
 	{
-		str_dollar = arr_str + 1;
 		while (arr_str[*i] && arr_str[*i] != ' ' && arr_str[*i] != '$')
 			*i += 1;
 		str_dollar = ft_substr(arr_str, start, *i - start);
