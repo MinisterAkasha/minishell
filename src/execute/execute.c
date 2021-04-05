@@ -22,20 +22,23 @@ int			unknown_command(t_exe_args *exe_arg)
 char	**get_args(t_exe_info *exe_info, t_support_parsing_data support)
 {
 	char	**args;
+	char	*copy_arg;
 
+	copy_arg = ft_strdup(exe_info->args);
 	if (exe_info->exe_function == support.exe_func_arr[1])
 	{
-		if (ft_strlen(exe_info->args) == 1)
+		if (ft_strlen(copy_arg) == 1)
 		{
 			args = (char **)malloc(sizeof(char *) + 2);
-			args[0] = ft_strdup(exe_info->args);
+			args[0] = ft_strdup(copy_arg);
 			args[1] = NULL;
 		}
 		else
-			args = ft_split(exe_info->args, '\0');
+			args = ft_split(copy_arg, '\0');
 	}
 	else
-		args = ft_split(exe_info->args, ' ');
+		args = ft_split(copy_arg, ' ');
+	free(copy_arg);
 	return (args);
 }
 

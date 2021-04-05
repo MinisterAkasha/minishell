@@ -83,25 +83,28 @@ t_list			*get_exe_info(char **args, t_store *store)
 	t_list		*head;
 	t_list		*tmp_lst;
 	t_exe_info	*exe_info;
+	char		**copy_args;
 	int			i;
 
 	i = 0;
 	head = NULL;
 	set_default_new_lst(&head);
 	tmp_lst = head;
-	while (args[i])
+	copy_args = copy_2d_arr(args);
+	while (copy_args[i])
 	{
-		init_exec_func(&tmp_lst, store, args, &i);
-		while (args[i] && init_operator(&tmp_lst, i, store->support, args))
+		init_exec_func(&tmp_lst, store, copy_args, &i);
+		while (copy_args[i] && init_operator(&tmp_lst, i, store->support, copy_args))
 		{
 			exe_info = tmp_lst->content;
-			concat_args(store->exe_args, &exe_info->args, args[i]);
+			concat_args(store->exe_args, &exe_info->args, copy_args[i]);
 			i++;
 		}
-		if (!args[i])
+		if (!copy_args[i])
 			break ;
 		i++;
 	}
+	free(copy_args);
 	return (head);
 }
 
