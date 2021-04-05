@@ -138,6 +138,17 @@ char		*multiply_strjoin(char **args)
 	return (str);
 }
 
+char	*triple_str_join(char *first, char *second, char *third)
+{
+	char	*result_str;
+	char	*tmp_str;
+
+	tmp_str = ft_strjoin(first, second);
+	result_str = ft_strjoin(tmp_str, third);
+	free(tmp_str);
+	return (result_str);
+}
+
 int		get_int_arr_length(int **arr)
 {
 	int len;
