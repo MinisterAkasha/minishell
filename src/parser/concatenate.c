@@ -17,13 +17,16 @@ void	concat_args(t_exe_args exe_args, char **first, char *second)
 	char		separator;
 	char		*copy_first;
 	char		*modified_arg;
+	char		*copy_second;
 
-	separator = get_separator(second);
+	copy_second = ft_strdup(second);
+	separator = get_separator(copy_second);
 	copy_first = ft_strdup(*first);
 	free(*first);
-	cut_separator(exe_args, &second, separator);
-	modified_arg = dollar_sign(second, exe_args, separator);
+	cut_separator(exe_args, &copy_second, separator);
+	modified_arg = dollar_sign(copy_second, exe_args, separator);
 	(*first) = ft_strjoin(copy_first, modified_arg);
+	free(copy_second);
 	free(copy_first);
 	free(modified_arg);
 }
