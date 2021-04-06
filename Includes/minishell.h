@@ -69,17 +69,21 @@ void	write_error(char *message_title, char *message_body, char *message_error);
 /*
 ** support_arr.c
 */
+void	print_2d_arr(char **arr);
+char	*multiply_strjoin(char **args);
+char	*triple_str_join(char *first, char *second, char *third);
+int		get_int_arr_length(int **arr);
+void	free_2d_arr_int(int **arr);
+
+
+/*
+** support_double_arr.c
+*/
 void	free_2d_arr(char **arr);
 char	**add_param_to_2d_arr(char **arr, char *param);
 int		get_arr_length(char **arr);
 char	**copy_2d_arr(char **arr);
-void	print_2d_arr(char **arr);
 char	**remove_param_from_2d_arr(char **arr, char *param);
-char	*multiply_strjoin(char **args);
-void	free_2d_arr_int(int **arr);
-int		get_int_arr_length(int **arr);
-char	*triple_str_join(char *first, char *second, char *third);
-
 
 /*
 ** support_lst.c
