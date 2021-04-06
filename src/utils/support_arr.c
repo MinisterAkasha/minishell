@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void print_2d_arr(char **arr)
+void	print_2d_arr(char **arr)
 {
 	int i;
 
@@ -24,7 +24,7 @@ void print_2d_arr(char **arr)
 	}
 }
 
-char		*multiply_strjoin(char **args)
+char	*multiply_strjoin(char **args)
 {
 	int		i;
 	char	*tmp_str;
@@ -67,7 +67,7 @@ int		get_int_arr_length(int **arr)
 	int len;
 
 	len = 0;
-	while(arr[len])
+	while (arr[len])
 		len++;
 	return (len);
 }
@@ -79,7 +79,7 @@ void	free_2d_arr_int(int **arr)
 
 	i = 0;
 	len = get_int_arr_length(arr);
-	while(i < len)
+	while (i < len)
 		free(arr[i++]);
 	free(arr);
 }

@@ -98,4 +98,3 @@ char	**remove_param_from_2d_arr(char **arr, char *param)
 	new_arr[j] = NULL;
 	return (new_arr);
 }
-
