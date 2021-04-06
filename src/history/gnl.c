@@ -20,13 +20,14 @@ static void		exe_key(char **str_stat, t_history *history)
 {
 	char		*buff;
 	int			buffer_size;
-	ssize_t		bsize;
 
 	buffer_size = 2048;
 	buff = (char *)ft_calloc(buffer_size + 1, sizeof(char));
-	bsize = read(0, buff, buffer_size);
-	if (bsize <= 0)
-		return ;//TODO сделать ошибку не считанного файла
+	if ((read(0, buff, buffer_size)) <= 0)
+	{
+		ft_putendl_fd("Couldn't read from terminal", 1);
+		exit(1);
+	}
 	if (buff[0] == 4)
 		ctrl_d(&buff, str_stat);
 	else if (buff[0] == 3)

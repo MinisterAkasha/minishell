@@ -44,7 +44,7 @@ static	int		dollar_count(char *str, t_list **head)
 	return (1);
 }
 
-char	*get_changed_str(t_exe_args exe_args, char *arr_str)
+char			*get_changed_str(t_exe_args exe_args, char *arr_str)
 {
 	int		i;
 	char	*env;
@@ -57,10 +57,7 @@ char	*get_changed_str(t_exe_args exe_args, char *arr_str)
 	while (arr_str[i])
 	{
 		env = get_str_dollar(exe_args, arr_str, &i);
-		if (arr_str[i] && arr_str[i] != '$')
-			str_tail = get_tail(arr_str, &i);
-		else
-			str_tail = ft_strdup("");
+		str_tail = get_tail(arr_str, &i);
 		copy_str = ft_strdup(changed_str);
 		free(changed_str);
 		changed_str = triple_str_join(copy_str, env, str_tail);
@@ -68,7 +65,7 @@ char	*get_changed_str(t_exe_args exe_args, char *arr_str)
 		free(str_tail);
 		free(copy_str);
 		if (!arr_str[i])
-			break;
+			break ;
 		i++;
 	}
 	return (changed_str);

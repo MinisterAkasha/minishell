@@ -60,9 +60,14 @@ char			*get_tail(char *arr_str, int *i)
 	int		start;
 	char	*tail_str;
 
-	start = *i;
-	while (arr_str[*i] && arr_str[*i] != '$')
-		*i += 1;
-	tail_str = ft_substr(arr_str, start, *i - start);
+	if (arr_str[*i] && arr_str[*i] != '$')
+	{
+		start = *i;
+		while (arr_str[*i] && arr_str[*i] != '$')
+			*i += 1;
+		tail_str = ft_substr(arr_str, start, *i - start);
+	}
+	else
+		tail_str = ft_strdup("");
 	return (tail_str);
 }
