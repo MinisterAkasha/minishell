@@ -105,21 +105,3 @@ char			**split(char const *s)
 	free(str);
 	return (arr_2d);
 }
-
-//int main()
-//{
-//	char *str = "echo ch'l'en;bin;ls ;'e'c'h'o pam> ty't'y ;e'ch'o 111'111'| cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ";
-//	char **splited_str;
-//	int i;
-//
-//	i = 0;
-//	splited_str = split(str);
-//	while (splited_str[i])
-//	{
-//		ft_putnbr_fd(i, 1);
-//		ft_putchar_fd(')', 1);
-//		ft_putendl_fd(splited_str[i], 1);
-//		i++;
-//	}
-//	return (0);
-//}

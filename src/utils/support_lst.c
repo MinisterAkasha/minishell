@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void			del_item_libft_lst(void *value)
+void	del_item_libft_lst(void *value)
 {
 	free(value);
 	value = NULL;

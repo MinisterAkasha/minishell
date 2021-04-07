@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-void	write_error(char *message_title, char *message_body, char *message_error)
+void	write_error(char *message_title, char *message_body,
+					char *message_error)
 {
 	char	*error;
 

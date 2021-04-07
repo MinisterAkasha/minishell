@@ -15,18 +15,17 @@
 /*
 ** Create a linked list 'head'
 ** Which has data to cut the 'str' by $ and spaces
-** Structure of the linked:
-** start_index -> len -> start_index -> len -> ...
+** info_arr[0] - is index of start
+** info_arr[1] - is len to cut the str
 */
 
 static	int		dollar_count(char *str, t_list **head)
 {
-	int			i;
-	int			*info_arr;
+	int		i;
+	int		*info_arr;
 
 	i = 0;
 	init_data_dollar_count(&info_arr, head);
-	info_arr[0] = 0;
 	while (str[i])
 	{
 		if (str[i] && (str[i] == '$'))
@@ -45,48 +44,37 @@ static	int		dollar_count(char *str, t_list **head)
 	return (1);
 }
 
-static char		*find_env(t_exe_args exe_args, char *s_dol)
+char			*get_changed_str(t_exe_args exe_args, char *arr_str)
 {
-	t_variable	*tmp_variable;
-	char		*env;
+	int		i;
+	char	*env;
+	char	*str_tail;
+	char	*changed_str;
+	char	*copy_str;
 
-	env = 0;
-	if ((ft_strcmp(s_dol, "")) && (env = get_env_param(s_dol, exe_args.env)))
-		env = ft_strdup(ft_strchr(env, '=') + 1);
-	else
+	i = 0;
+	changed_str = ft_strdup("");
+	while (arr_str[i])
 	{
-		tmp_variable = find_variable(exe_args.variables, s_dol);
-		if (tmp_variable)
-			env = ft_strdup(tmp_variable->value);
+		env = get_str_dollar(exe_args, arr_str, &i);
+		str_tail = get_tail(arr_str, &i);
+		copy_str = ft_strdup(changed_str);
+		free(changed_str);
+		changed_str = triple_str_join(copy_str, env, str_tail);
+		free(env);
+		free(str_tail);
+		free(copy_str);
+		if (!arr_str[i])
+			break ;
+		i++;
 	}
-	if (!env)
-		env = ft_strdup("");
-	return (env);
-}
-
-static char		*get_str_dollar(char ***arr, char **tmp_str, int i)
-{
-	char	*str_dollar;
-
-	if ((*arr)[i][1] && (*arr)[i][1] == '?')
-	{
-		str_dollar = "?";
-		*tmp_str = ft_strdup((*arr)[i] + 2);
-	}
-	else
-	{
-		str_dollar = (*arr)[i] + 1;
-		*tmp_str = ft_strdup("");
-	}
-	return (str_dollar);
+	return (changed_str);
 }
 
 static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 {
 	int			i;
 	char		*tmp_str;
-	char		*str_dollar;
-	char		*env;
 
 	i = 0;
 	while ((*arr)[i])
@@ -94,11 +82,9 @@ static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 		if ((*arr)[i][0] && (*arr)[i][1] && (*arr)[i][0] == '$'
 											&& (*arr)[i][1] != ' ')
 		{
-			str_dollar = get_str_dollar(arr, &tmp_str, i);
-			env = find_env(exe_args, str_dollar);
+			tmp_str = ft_strdup((*arr)[i]);
 			free((*arr)[i]);
-			(*arr)[i] = ft_strjoin(env, tmp_str);
-			free(env);
+			(*arr)[i] = get_changed_str(exe_args, tmp_str);
 			free(tmp_str);
 		}
 		i++;
