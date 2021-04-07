@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 21:52:32 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/07 13:08:23 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,20 @@ char	**get_args(t_exe_info *exe_info, t_support_parsing_data support)
 }
 
 int		choose_command_and_run(t_exe_info *exe_info, t_store *store,
-	t_list *info, int i)
+	t_list **info)
 {
 	char		*bin_exe_path;
+	int			i;
 
+	i = 0;
 	bin_exe_path = search(store->exe_args.args[0],
 		get_env_param("PATH", store->exe_args.env));
 	if (exe_info->oper_exe_func &&
 		exe_info->oper_exe_func != exe_oper_semicolon)
 	{
-		i = exe_info->oper_exe_func(&store->exe_args, info);
+		i = exe_info->oper_exe_func(&store->exe_args, *info);
 		while (i--)
-			info = info->next;
+			*info = (*info)->next;
 	}
 	else if (exe_info->exe_function)
 		exe_info->exe_function(&store->exe_args);
@@ -76,15 +78,14 @@ int		execute(t_store *store)
 {
 	t_list		*info;
 	t_exe_info	*exe_info;
-	int			i;
 
 	info = store->exe_info;
-	i = 0;
 	while (info)
 	{
 		exe_info = info->content;
+		printf("%s\n", exe_info->args);
 		store->exe_args.args = get_args(exe_info, store->support);
-		if (choose_command_and_run(exe_info, store, info, i))
+		if (choose_command_and_run(exe_info, store, &info))
 			return (1);
 		free_2d_arr(store->exe_args.args);
 		info = info->next;
