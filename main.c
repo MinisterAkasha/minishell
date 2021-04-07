@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 21:41:18 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/07 19:00:14 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,23 @@ int launch_shell(t_exe_args exe_args, char *bin_path)
 	return (1);
 }
 
+void	init_env(char **env, t_store *store)
+{
+	// char **env_copy;
+
+	// env_copy = copy_2d_arr(env);
+	// store->exe_args.env_init = copy_2d_arr(env);
+	// store->exe_args.env = copy_2d_arr(env);
+	// if (store->exe_args.env_init)
+		// free_2d_arr(store->exe_args.env_init);
+	// if (store->exe_args.env)
+	// free_2d_arr(store->exe_args.env);
+	store->exe_args.env_init = remove_param_from_2d_arr(env, "OLDPWD");
+	store->exe_args.env = remove_param_from_2d_arr(env, "OLDPWD");
+	add_variable(&store->exe_args.variables, create_var("OLDPWD", "", 1, 0));
+	// free_2d_arr(env_copy);
+}
+
 int loop_shell(t_store *store)
 {
 	char			*line;
@@ -51,6 +68,7 @@ int loop_shell(t_store *store)
 
 	init_history_data(&history);
 	status = 1;//TODO начального OLDPWD нет
+	// 
 	init_support_parsing_arr(&store->support);
 	shlvl(store->exe_args.env_init);
 	add_variable(&store->exe_args.variables, create_var("?", "0", 0, 0));
@@ -75,11 +93,12 @@ int main(int argc, char **argv, char **env)
 	t_store *store;
 
 	if (!(store = (t_store*)ft_calloc(sizeof(t_store), 1)))
-		return (0); //TODO обработать ошибку
+		return (0);//TODO обработать ошибку
 	store->exe_args.args = argv;
-	store->exe_args.env = copy_2d_arr(env);
-	store->exe_args.env_init = copy_2d_arr(store->exe_args.env);
 	store->exe_args.variables = NULL;
+	init_env(env, store);
+	// store->exe_args.env = copy_2d_arr(env);
+	// store->exe_args.env_init = copy_2d_arr(env);
 	store->exe_args.fd[0] = -1;
 	store->exe_args.fd[1] = -1;
 	loop_shell(store);

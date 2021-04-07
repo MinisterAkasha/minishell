@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 21:43:13 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 21:41:18 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/07 14:05:12 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ int		exe_cd(t_exe_args *exe_args)
 	else if (!res)
 	{
 		getcwd(new_pwd, 2048);
-		change_env_value(old_pwd, "OLDPWD", &exe_args->env);
 		change_env_value(new_pwd, "PWD", &exe_args->env);
+		change_env_value(new_pwd, "PWD", &exe_args->env_init);
+		add_variable(&exe_args->variables, create_var("OLDPWD", old_pwd, 1, 1));
 		add_variable(&exe_args->variables, create_var("?", "0", 0, 0));
 	}
 	else if (res < -1)
