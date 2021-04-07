@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/07 13:08:23 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/07 13:18:13 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int		execute(t_store *store)
 	while (info)
 	{
 		exe_info = info->content;
-		printf("%s\n", exe_info->args);
 		store->exe_args.args = get_args(exe_info, store->support);
 		if (choose_command_and_run(exe_info, store, &info))
 			return (1);
