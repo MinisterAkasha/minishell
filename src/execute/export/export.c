@@ -38,7 +38,7 @@ void		fill_variable_list(t_exe_args *exe_arg)
 	while (exe_arg->args[i])
 	{
 		variable = splite_var_name(exe_arg->args[i]);
-		if (validate_var_name(variable[0]))
+		if (validate_var_name(variable[0]) && ft_strcmp(exe_arg->args[i], "="))
 		{
 			if (!get_env_param(variable[0], exe_arg->env_init))
 			{
