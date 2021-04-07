@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 21:41:18 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/04 21:57:05 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,21 @@ void		fill_variable_list(t_exe_args *exe_arg)
 	}
 }
 
-char		**fill_arr_with_variable(char **arr, t_variable *$variable)
+char		**fill_arr_with_variable(char **arr, t_variable *var)
 {
 	char *variable;
 	char *key_pattern;
 	char **arr_copy;
 
-	key_pattern = ft_strjoin($variable->key, "=");
-	variable = ft_strjoin(key_pattern, $variable->value);
+	key_pattern = ft_strjoin(var->key, "=");
+	variable = ft_strjoin(key_pattern, var->value);
 	arr_copy = add_param_to_2d_arr(arr, variable);
 	free(variable);
 	free(key_pattern);
 	return (arr_copy);
 }
 
-static void	write_transform_arr(char **arr, t_list *var)
+void	write_transform_arr(char **arr, t_list *var)
 {
 	int			i;
 	char		**str;
@@ -109,18 +109,18 @@ char		**fill_export_with_variables(char **env, t_list *variables)
 	char		**new_arr;
 	char		**sup_arr;
 	t_list		*tmp;
-	t_variable	*$variable;
+	t_variable	*var;
 
 	tmp = variables;
 	new_arr = copy_2d_arr(env);
 	while (tmp)
 	{
-		$variable = tmp->content;
-		if ($variable->is_exported)
+		var = tmp->content;
+		if (var->is_exported)
 		{
 			sup_arr = copy_2d_arr(new_arr);
 			free_2d_arr(new_arr);
-			new_arr = fill_arr_with_variable(sup_arr, $variable);
+			new_arr = fill_arr_with_variable(sup_arr, var);
 			free_2d_arr(sup_arr);
 		}
 		tmp = tmp->next;
@@ -133,18 +133,18 @@ char		**fill_env_with_variables(char **env, t_list *variables)
 	char		**new_arr;
 	char		**sup_arr;
 	t_list		*tmp;
-	t_variable	*$variable;
+	t_variable	*var;
 
 	tmp = variables;
 	new_arr = copy_2d_arr(env);
 	while (tmp)
 	{
-		$variable = tmp->content;
-		if ($variable->is_env)
+		var = tmp->content;
+		if (var->is_env)
 		{
 			sup_arr = copy_2d_arr(new_arr);
 			free_2d_arr(new_arr);
-			new_arr = fill_arr_with_variable(sup_arr, $variable);
+			new_arr = fill_arr_with_variable(sup_arr, var);
 			free_2d_arr(sup_arr);
 		}
 		tmp = tmp->next;
