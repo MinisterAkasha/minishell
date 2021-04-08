@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 17:52:44 by tilda             #+#    #+#             */
-/*   Updated: 2021/04/08 16:19:03 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 16:52:52 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	run_command(char *bin_path, t_exe_info *exe_info, t_exe_args *exec_args);
 void	kill_all_processes(int *pid, int index);
 void	check_command(char *path, t_exe_info *exe_info, t_exe_args *exec_args);
 int		check_redirect(int **fd, int index, t_list *info, t_exe_args *exec_args);
-void	check_identifier(t_list *info, int pipe_num);
+void	check_identifier(t_list *info, t_exe_args *exec_args, int pipe_num);
 
 
 void	add_args(char ***exec_args, t_exe_info	*exe_info_next);

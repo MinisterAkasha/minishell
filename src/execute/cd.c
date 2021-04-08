@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 21:43:13 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 14:29:43 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 17:07:15 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,27 @@ int		cd_home(char *home)
 	return (res);
 }
 
-int		cd_oldpwd(t_exe_args *exe_args)
+int		cd_oldpwd(char *oldpwd)
 {
 	int			res;
-	char		**oldpwd;
+	char		**oldpwd_splited;
 
-	oldpwd = ft_split(get_env_param("OLDPWD", exe_args->env), '=');
+	oldpwd_splited = ft_split(oldpwd, '=');
 	res = -1;
-	if (!get_env_param("OLDPWD", exe_args->env))
+	if (!oldpwd)
 	{
 		write_error("minishell: ", "cd", "OLDPWD not set");
 		res = -2;
 	}
 	else
 	{
-		res = chdir(oldpwd[1]);
+		res = chdir(oldpwd_splited[1]);
 		if (res == -1)
 		{
-			write_error("minishell: cd: ", oldpwd[1], strerror(errno));
+			write_error("minishell: cd: ", oldpwd_splited[1], strerror(errno));
 			res = -2;
 		}
-		free_2d_arr(oldpwd);
+		free_2d_arr(oldpwd_splited);
 	}
 	return (res);
 }
@@ -97,7 +97,7 @@ int		exe_cd(t_exe_args *exe_args)
 	if (!exe_args->args[0])
 		res = cd_home(get_env_param("HOME", exe_args->env));
 	else if (!ft_strcmp(exe_args->args[0], "-"))
-		res = cd_oldpwd(exe_args);
+		res = cd_oldpwd(get_env_param("OLDPWD", exe_args->env));
 	else
 		res = chdir(exe_args->args[0]);
 	if (res == -1)

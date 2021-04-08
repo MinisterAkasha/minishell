@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:23:49 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 15:33:38 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 17:10:15 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ char	**splite_var_name(char *str);
 
 void	delete_var(void *ptr);
 void	ft_lstdelone_var(t_list **lst, void (*del)(void *), t_variable *var);
+
+int		cd_oldpwd(char *oldpwd);
 
 #endif
