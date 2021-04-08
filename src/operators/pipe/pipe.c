@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:46:31 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 20:01:58 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 13:54:29 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int		*create_child_processes(int pipe_num, t_list *info,
 	return (pid);
 }
 
-int		handle_parent_process(int *pid, int **fd)
+int		handle_parent_process(int *pid, int **fd, t_list *var)
 {
 	int	i;
 	int	status;
@@ -71,7 +71,7 @@ int		handle_parent_process(int *pid, int **fd)
 	i = 0;
 	while (i <= get_int_arr_length(fd))
 	{
-		waitpid(pid[i], &status, WUNTRACED);
+		wait_child_process_end(pid[i], var);
 		if (i == 0)
 			close(fd[i][1]);
 		else if (i == get_int_arr_length(fd))
@@ -100,7 +100,7 @@ int		exe_oper_pipe(t_exe_args *exec_args, t_list *info)
 	if (exec_args->fd[0] == -1 && red)
 		return (pipe_num + red);
 	pid = create_child_processes(pipe_num, info, exec_args, fd);
-	i = handle_parent_process(pid, fd);
+	i = handle_parent_process(pid, fd, exec_args->variables);
 	free(pid);
 	free_2d_arr_int(fd);
 	return (i + red - 1);
