@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 17:56:27 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 21:41:18 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 12:56:27 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	delete_var(void *ptr)
 	var = ptr;
 	free(var->key);
 	free(var->value);
+	free(var);
 	var->key = NULL;
 	var->value = NULL;
 }
