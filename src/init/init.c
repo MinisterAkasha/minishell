@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 19:00:33 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 19:39:19 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 19:55:29 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	init_history_data(t_history **history)
 
 void	init_general_signal(t_store *store)
 {
-	general = ft_calloc(1, sizeof(t_general));
-	general->variables = store->exe_args.variables;
+	g_general = ft_calloc(1, sizeof(t_general));
+	g_general->variables = store->exe_args.variables;
 	signal(2, signal_ctrl_c);
 	signal(3, signal_ctrl_slash);
 }

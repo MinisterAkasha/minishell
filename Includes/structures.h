@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:40:03 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 21:06:35 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 19:48:29 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ typedef struct	s_support_parsing_data
 {
 	char		*exe_str_arr[7];
 	int			(*exe_func_arr[7])(t_exe_args *);
-	int			(*operators_exe_func_arr[5])(t_exe_args *exec_args, t_list *info);
+	int			(*operators_exe_func_arr[5])
+		(t_exe_args *exec_args, t_list *info);
 	char		*operators_arr[5];
 }				t_support_parsing_data;
 
