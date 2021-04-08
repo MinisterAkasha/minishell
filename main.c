@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 13:23:53 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 19:37:35 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int launch_shell(t_exe_args exe_args, char *bin_path)
 	if (!child_process_id)
 	{
 		if (execve(bin_path, exe_args.args, exe_args.env) == -1)
-			printf("EXECVE ERROR. CODE: %s\n", strerror(errno));//TODO обработать ошибку
+			write_error("EXECVE ERROR. ", strerror(errno), "");
 	}
 	else if (child_process_id < 0)
-		printf("FORK ERROR: CODE: %d\n", errno);//TODO обработать ошибку
+		write_error("FORK ERROR: ", strerror(errno), "");
 	else
 		wait_child_process_end(child_process_id, exe_args.variables);
 	return (1);

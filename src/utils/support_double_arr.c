@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:38:03 by tilda             #+#    #+#             */
-/*   Updated: 2021/04/07 20:32:13 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 19:33:44 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	**remove_param_from_2d_arr(char **arr, char *param)
 
 	i = 0;
 	j = 0;
-	new_arr = (char **)malloc(sizeof(char *) * (get_arr_length(arr)));
+	new_arr = (char **)ft_calloc(sizeof(char *), (get_arr_length(arr) + 1));
 	if (!new_arr)
 		ft_error_malloc();
 	while (arr[i])
