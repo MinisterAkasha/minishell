@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/07 13:18:13 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 14:19:55 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int		choose_command_and_run(t_exe_info *exe_info, t_store *store,
 	char		*bin_exe_path;
 	int			i;
 
-	i = 0;
 	bin_exe_path = search(store->exe_args.args[0],
 		get_env_param("PATH", store->exe_args.env));
 	if (exe_info->oper_exe_func &&
@@ -65,7 +64,6 @@ int		choose_command_and_run(t_exe_info *exe_info, t_store *store,
 	else if (!ft_strlen(exe_info->args))
 	{
 		free(bin_exe_path);
-		free_2d_arr(store->exe_args.args);
 		return (1);
 	}
 	else
@@ -85,8 +83,10 @@ int		execute(t_store *store)
 		exe_info = info->content;
 		store->exe_args.args = get_args(exe_info, store->support);
 		if (choose_command_and_run(exe_info, store, &info))
+		{
+			free_2d_arr(store->exe_args.args);
 			return (1);
-		free_2d_arr(store->exe_args.args);
+		}
 		info = info->next;
 	}
 	return (1);
