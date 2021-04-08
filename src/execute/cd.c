@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 21:43:13 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 13:08:47 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 14:29:43 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ int		cd_oldpwd(t_exe_args *exe_args)
 	else
 	{
 		res = chdir(oldpwd[1]);
+		if (res == -1)
+		{
+			write_error("minishell: cd: ", oldpwd[1], strerror(errno));
+			res = -2;
+		}
 		free_2d_arr(oldpwd);
 	}
 	return (res);
