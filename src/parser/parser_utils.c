@@ -53,7 +53,9 @@ int		is_word_to_cont(char *str, char sep, int i)
 	int		next_operands;
 	int		is_separator;
 	int		is_space;
+	int		is_curly_brackets;
 
+	is_curly_brackets = (str[i] == '}' && sep == '{');
 	is_separator = (str[i] == '"' || str[i] == '\'');
 	next_operands = (str[i + 1] == ';' || str[i + 1] == '|' ||
 						str[i + 1] == '>' || str[i + 1] == '<');
@@ -63,6 +65,7 @@ int		is_word_to_cont(char *str, char sep, int i)
 				(str[i + 1] == ' ' && sep == 'f'));
 	if (str[i + 1] == '\0' || is_space
 		|| (sep == str[i] && is_separator)
+		|| (is_curly_brackets)
 		|| (sep == 'f' && next_operands)
 		|| (sep == 'f' && cur_operands))
 	{
