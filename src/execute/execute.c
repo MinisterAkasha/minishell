@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 14:19:55 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 15:27:07 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int		execute(t_store *store)
 			free_2d_arr(store->exe_args.args);
 			return (1);
 		}
+		free_2d_arr(store->exe_args.args);
 		info = info->next;
 	}
 	return (1);
