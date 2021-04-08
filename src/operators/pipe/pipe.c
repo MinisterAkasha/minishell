@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:46:31 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 13:54:29 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 16:18:55 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int		exe_oper_pipe(t_exe_args *exec_args, t_list *info)
 	pipe_num = get_pipe_number(info);
 	fd = create_pipe_fd(pipe_num);
 	red = check_redirect(fd, pipe_num, info, exec_args);
+	check_identifier(info, pipe_num);
 	if (exec_args->fd[0] == -1 && red)
 		return (pipe_num + red);
 	pid = create_child_processes(pipe_num, info, exec_args, fd);
