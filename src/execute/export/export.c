@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 21:57:05 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 19:20:13 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,53 +27,6 @@ char	**splite_var_name(char *str)
 	arr[1] = ft_substr(str, i + 1, ft_strlen(str) - i);
 	arr[2] = NULL;
 	return (arr);
-}
-
-void		fill_variable_list(t_exe_args *exe_arg)
-{
-	char	**variable;
-	int		i;
-
-	i = 0;
-	while (exe_arg->args[i])
-	{
-		variable = splite_var_name(exe_arg->args[i]);
-		if (validate_var_name(variable[0]) && ft_strcmp(exe_arg->args[i], "="))
-		{
-			if (!get_env_param(variable[0], exe_arg->env_init))
-			{
-				if (!ft_strchr(exe_arg->args[i], '='))
-					add_variable(&exe_arg->variables, create_var(variable[0], "", 1, 0));
-				else if (variable[1])
-					add_variable(&exe_arg->variables, create_var(variable[0], variable[1], 1, 1));
-				else
-					add_variable(&exe_arg->variables, create_var(variable[0], "", 1, 1));
-			}
-			else
-			{
-				if (ft_strchr(exe_arg->args[i], '='))
-					change_env_value(variable[1], variable[0], &exe_arg->env_init);
-			}
-		}
-		else
-			write_error("minishell: export: '", exe_arg->args[i], "': not a valid identifier");
-		free_2d_arr(variable);
-		i++;
-	}
-}
-
-char		**fill_arr_with_variable(char **arr, t_variable *var)
-{
-	char *variable;
-	char *key_pattern;
-	char **arr_copy;
-
-	key_pattern = ft_strjoin(var->key, "=");
-	variable = ft_strjoin(key_pattern, var->value);
-	arr_copy = add_param_to_2d_arr(arr, variable);
-	free(variable);
-	free(key_pattern);
-	return (arr_copy);
 }
 
 void	write_transform_arr(char **arr, t_list *var)
@@ -104,55 +57,7 @@ void	write_transform_arr(char **arr, t_list *var)
 	}
 }
 
-char		**fill_export_with_variables(char **env, t_list *variables)
-{
-	char		**new_arr;
-	char		**sup_arr;
-	t_list		*tmp;
-	t_variable	*var;
-
-	tmp = variables;
-	new_arr = copy_2d_arr(env);
-	while (tmp)
-	{
-		var = tmp->content;
-		if (var->is_exported)
-		{
-			sup_arr = copy_2d_arr(new_arr);
-			free_2d_arr(new_arr);
-			new_arr = fill_arr_with_variable(sup_arr, var);
-			free_2d_arr(sup_arr);
-		}
-		tmp = tmp->next;
-	}
-	return (new_arr);
-}
-
-char		**fill_env_with_variables(char **env, t_list *variables)
-{
-	char		**new_arr;
-	char		**sup_arr;
-	t_list		*tmp;
-	t_variable	*var;
-
-	tmp = variables;
-	new_arr = copy_2d_arr(env);
-	while (tmp)
-	{
-		var = tmp->content;
-		if (var->is_env)
-		{
-			sup_arr = copy_2d_arr(new_arr);
-			free_2d_arr(new_arr);
-			new_arr = fill_arr_with_variable(sup_arr, var);
-			free_2d_arr(sup_arr);
-		}
-		tmp = tmp->next;
-	}
-	return (new_arr);
-}
-
-void		set_export_status_var(t_exe_args *exe_arg)
+void	set_export_status_var(t_exe_args *exe_arg)
 {
 	char	**variable;
 	int		i;
@@ -173,7 +78,7 @@ void		set_export_status_var(t_exe_args *exe_arg)
 	add_variable(&exe_arg->variables, create_var("?", "0", 0, 0));
 }
 
-int			exe_export(t_exe_args *exe_arg)
+int		exe_export(t_exe_args *exe_arg)
 {
 	char		**export;
 	char		**env_copy;
@@ -188,7 +93,8 @@ int			exe_export(t_exe_args *exe_arg)
 	if (get_arr_length(exe_arg->args) == 0)
 	{
 		add_variable(&exe_arg->variables, create_var("?", "0", 0, 0));
-		write_transform_arr(sort_export(export, 0, get_arr_length(export) - 1), exe_arg->variables);
+		write_transform_arr(sort_export(export, 0, get_arr_length(export) - 1),
+			exe_arg->variables);
 	}
 	free_2d_arr(export);
 	return (1);
