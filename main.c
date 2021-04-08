@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 19:37:35 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 19:59:18 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/minishell.h"
 
-void wait_child_process_end(pid_t id, t_list *var)
+void	wait_child_process_end(pid_t id, t_list *var)
 {
 	int		status;
 	char	*str_status;
@@ -25,7 +25,7 @@ void wait_child_process_end(pid_t id, t_list *var)
 	free(str_status);
 }
 
-int launch_shell(t_exe_args exe_args, char *bin_path)
+int		launch_shell(t_exe_args exe_args, char *bin_path)
 {
 	pid_t child_process_id;
 
@@ -49,7 +49,7 @@ void	init_env(char **env, t_store *store)
 	add_variable(&store->exe_args.variables, create_var("OLDPWD", "", 1, 0));
 }
 
-int loop_shell(t_store *store)
+int		loop_shell(t_store *store)
 {
 	char			*line;
 	char			**args;
@@ -77,12 +77,12 @@ int loop_shell(t_store *store)
 	return (1);
 }
 
-int main(int argc, char **argv, char **env)
+int		main(int argc, char **argv, char **env)
 {
 	t_store *store;
 
 	if (!(store = (t_store*)ft_calloc(sizeof(t_store), 1)))
-		return (0);//TODO обработать ошибку
+		ft_error_malloc();
 	store->exe_args.args = argv;
 	store->exe_args.variables = NULL;
 	init_env(env, store);
