@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 21:41:18 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 13:22:47 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char		*search(char *arg, const char *$_path);
 /*
 ** shlvl.c
 */
-void		shlvl(char **env);
+void		shlvl(t_exe_args exe_args);
 
 /*
 ** variable.c

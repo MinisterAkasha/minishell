@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 12:58:43 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 13:23:53 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int loop_shell(t_store *store)
 	init_history_data(&history);
 	status = 1;
 	init_support_parsing_arr(&store->support);
-	shlvl(store->exe_args.env_init);
+	shlvl(store->exe_args);
 	add_variable(&store->exe_args.variables, create_var("?", "0", 0, 0));
 	init_general_signal(store);
 	while (status)
