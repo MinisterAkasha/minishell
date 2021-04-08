@@ -6,16 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 19:00:33 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/14 14:02:52 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 19:39:19 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-** Don't change the value and order of exe_str_arr
-*/
-void init_support_parsing_arr(t_support_parsing_data *data)
+void	init_support_parsing_arr(t_support_parsing_data *data)
 {
 	data->exe_str_arr[0] = "cd";
 	data->exe_str_arr[1] = "echo";
