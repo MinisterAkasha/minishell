@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:23:49 by akasha            #+#    #+#             */
-/*   Updated: 2021/03/29 14:58:34 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/08 12:27:07 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,8 @@ char	**fill_env_with_variables(char **env, t_list *variables);
 char	**sort_export(char **export, int left, int right);
 int		partition(char **env, int left, int right);
 void	swap_elems(char **elem_1, char **elem_2);
+
+void	delete_var(void *ptr);
+void	ft_lstdelone_var(t_list **lst, void (*del)(void *), t_variable *var);
 
 #endif
