@@ -39,7 +39,7 @@ static void		init_exec_func(t_list **lst,
 	exe_info = tmp_lst->content;
 	if (args[*i] && !ft_strcmp(args[*i], " "))
 		*i += 1;
-	str_to_compare = get_str_to_compare(args, store->exe_args, i);
+	str_to_compare = get_str_to_compare(args, store->exe_args, i, exe_info);
 	j = 0;
 	while (j < sizeof(store->support.exe_str_arr) / sizeof(char *))
 	{
@@ -95,7 +95,7 @@ t_list			*get_exe_info(char **args, t_store *store)
 		while (args[i] && init_operator(&tmp_lst, i, store->support, args))
 		{
 			exe_info = tmp_lst->content;
-			concat_args(store->exe_args, &exe_info->args, args[i]);
+			concat_args(store->exe_args, &exe_info->args, args[i], exe_info);
 			i++;
 		}
 		if (!args[i])

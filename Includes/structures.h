@@ -26,6 +26,7 @@ typedef struct	s_exe_args
 
 typedef struct	s_exe_info
 {
+	int					is_error;
 	int					(*exe_function)(t_exe_args *);
 	int					(*oper_exe_func)(t_exe_args *exec_args, t_list *info);
 	char				*args;

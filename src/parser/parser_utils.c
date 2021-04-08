@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-char	*get_str_to_compare(char **args, t_exe_args exe_args, int *i)
+char *get_str_to_compare(char **args, t_exe_args exe_args, int *i,
+						 t_exe_info *exe_info)
 {
 	char			*str_to_compare;
 
@@ -24,7 +25,7 @@ char	*get_str_to_compare(char **args, t_exe_args exe_args, int *i)
 			&& ft_strcmp(args[*i], "<")
 			&& ft_strcmp(args[*i], ">>"))
 	{
-		concat_args(exe_args, &str_to_compare, args[*i]);
+		concat_args(exe_args, &str_to_compare, args[*i], exe_info);
 		*i += 1;
 	}
 	return (str_to_compare);
@@ -38,6 +39,7 @@ void	set_default_new_lst(t_list **lst)
 	exe_info->exe_function = NULL;
 	exe_info->oper_exe_func = NULL;
 	exe_info->args = ft_strdup("");
+	exe_info->is_error = 0;
 	ft_lstadd_back(lst, ft_lstnew(exe_info));
 }
 

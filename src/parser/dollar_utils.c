@@ -31,6 +31,21 @@ static char		*find_env(t_exe_args exe_args, char *s_dol)
 	return (env);
 }
 
+char	*curly_brackets(char *arr_str, int *i)
+{
+	int		start;
+	char	*str_dollar;
+
+	*i += 1;
+	start = *i;
+	while(arr_str[*i] && arr_str[*i] != '}')
+		*i += 1;
+	str_dollar = ft_substr(arr_str, start, *i - start);
+	if (arr_str[*i] == '}')
+		*i += 1;
+	return (str_dollar);
+}
+
 char			*get_str_dollar(t_exe_args exe_args, char *arr_str, int *i)
 {
 	char	*str_dollar;
@@ -39,11 +54,13 @@ char			*get_str_dollar(t_exe_args exe_args, char *arr_str, int *i)
 
 	*i += 1;
 	start = *i;
-	if (arr_str[1] && arr_str[1] == '?')
+	if (arr_str[*i] && arr_str[*i] == '?')
 	{
 		str_dollar = ft_strdup("?");
 		*i += 1;
 	}
+	else if (arr_str[*i] && arr_str[*i] == '{')
+		str_dollar = curly_brackets(arr_str, i);
 	else
 	{
 		while (arr_str[*i] && arr_str[*i] != ' ' && arr_str[*i] != '$')

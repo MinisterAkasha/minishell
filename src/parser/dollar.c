@@ -22,13 +22,19 @@
 static	int		dollar_count(char *str, t_list **head)
 {
 	int		i;
+	int		curly_brecket;
 	int		*info_arr;
 
 	i = 0;
+	curly_brecket = 0;
 	init_data_dollar_count(&info_arr, head);
 	while (str[i])
 	{
-		if (str[i] && (str[i] == '$'))
+		if (str[i] == '{')
+			curly_brecket = 1;
+		else if (str[i] == '}')
+			curly_brecket = 0;
+		if (str[i] && (str[i] == '$') && curly_brecket == 0)
 		{
 			init_data_dollar_count(&info_arr, head);
 			info_arr[0] = i;
@@ -71,7 +77,22 @@ char			*get_changed_str(t_exe_args exe_args, char *arr_str)
 	return (changed_str);
 }
 
-static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
+void		validate_curly_brackets(char *tmp_str, t_exe_info *exe_info)
+{
+	int		i;
+
+	i = 1;
+	if (tmp_str[i] == '{')
+	{
+		i++;
+		while(tmp_str[i] && tmp_str[i] != '}' && ft_isalnum(tmp_str[i]))
+			i += 1;
+		if (tmp_str[i] && tmp_str[i] != '}' && !ft_isalnum(tmp_str[i]))
+			exe_info->is_error = 1;
+	}
+}
+
+static void		change_dollar_to_env(char ***arr, t_exe_args exe_args, t_exe_info *exe_info)
 {
 	int			i;
 	char		*tmp_str;
@@ -84,7 +105,11 @@ static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 		{
 			tmp_str = ft_strdup((*arr)[i]);
 			free((*arr)[i]);
-			(*arr)[i] = get_changed_str(exe_args, tmp_str);
+			validate_curly_brackets(tmp_str, exe_info);
+			if (exe_info->is_error == 1)
+				(*arr)[i] = ft_substr(tmp_str, 1, ft_strlen(tmp_str) - 1);
+			else
+				(*arr)[i] = get_changed_str(exe_args, tmp_str);
 			free(tmp_str);
 		}
 		i++;
@@ -95,7 +120,7 @@ static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 ** Change $str to str from the env variable
 */
 
-char			*dollar_sign(char *arg, t_exe_args exe_args, char sep)
+char *	dollar_sign(char *arg, t_exe_args exe_args, char sep, t_exe_info *exe_info)
 {
 	t_list	*head;
 	t_list	*copy_head;
@@ -108,7 +133,7 @@ char			*dollar_sign(char *arg, t_exe_args exe_args, char sep)
 		dollar_count(arg, &head);
 		copy_head = head;
 		double_arr = init_arr_2d(arg, copy_head);
-		change_dollar_to_env(&double_arr, exe_args);
+		change_dollar_to_env(&double_arr, exe_args,exe_info);
 		changed_arg = multiply_strjoin(double_arr);
 		free_2d_arr(double_arr);
 		ft_lstclear(&head, &del_item_libft_lst);

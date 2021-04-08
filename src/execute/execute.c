@@ -50,7 +50,9 @@ int		choose_command_and_run(t_exe_info *exe_info, t_store *store,
 
 	bin_exe_path = search(store->exe_args.args[0],
 		get_env_param("PATH", store->exe_args.env));
-	if (exe_info->oper_exe_func &&
+	if (exe_info->is_error == 1)
+		write_error("minishell: ", exe_info->args, "Fucking error");//TODO Исправить!!!
+	else if (exe_info->oper_exe_func &&
 		exe_info->oper_exe_func != exe_oper_semicolon)
 	{
 		i = exe_info->oper_exe_func(&store->exe_args, *info);

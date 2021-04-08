@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-void	concat_args(t_exe_args exe_args, char **first, char *second)
+void	concat_args(t_exe_args exe_args, char **first, char *second,
+				t_exe_info *exe_info)
 {
 	char		separator;
 	char		*copy_first;
@@ -24,7 +25,7 @@ void	concat_args(t_exe_args exe_args, char **first, char *second)
 	copy_first = ft_strdup(*first);
 	free(*first);
 	cut_separator(exe_args, &copy_second, separator);
-	modified_arg = dollar_sign(copy_second, exe_args, separator);
+	modified_arg = dollar_sign(copy_second, exe_args, separator, exe_info);
 	(*first) = ft_strjoin(copy_first, modified_arg);
 	free(copy_second);
 	free(copy_first);
