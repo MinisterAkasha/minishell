@@ -28,7 +28,7 @@ static	int		dollar_count(char *str, t_list **head)
 	init_data_dollar_count(&info_arr, head);
 	while (str[i])
 	{
-		if (str[i] && (str[i] == '$'))
+		if (str[i] && (str[i] == '\\' || (str[i] == '$' && str[i - 1] != '\\')))
 		{
 			init_data_dollar_count(&info_arr, head);
 			info_arr[0] = i;
@@ -79,14 +79,18 @@ static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 	i = 0;
 	while ((*arr)[i])
 	{
+		tmp_str = ft_strdup((*arr)[i]);
+		free((*arr)[i]);
 		if ((*arr)[i][0] && (*arr)[i][1] && (*arr)[i][0] == '$'
 											&& (*arr)[i][1] != ' ')
 		{
-			tmp_str = ft_strdup((*arr)[i]);
-			free((*arr)[i]);
 			(*arr)[i] = get_changed_str(exe_args, tmp_str);
-			free(tmp_str);
 		}
+		else if ((*arr)[i][0] && (*arr)[i][0] == '\\' && (*arr)[i][1] == '$')
+			(*arr)[i] = ft_substr(tmp_str, 1, ft_strlen(tmp_str) - 1);
+		else
+			(*arr)[i] = ft_strdup(tmp_str);
+		free(tmp_str);
 		i++;
 	}
 }
