@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:12:44 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 20:03:18 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/09 15:03:14 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*search(char *arg, const char *path)
 {
 	char	*current_path;
 
-	if (!arg)
+	if (!arg || !path)
 		return (NULL);
 	current_path = get_bin_path_command(arg, path);
 	if (!current_path)
