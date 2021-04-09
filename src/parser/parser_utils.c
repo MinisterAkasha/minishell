@@ -71,7 +71,7 @@ int		validate_flag_n(t_support_parsing_data support, t_exe_info *exe_info)
 		if (arg[i] == '-' && arg[i + 1] == 'n')
 		{
 			i++;
-			while(arg[i] && arg[i] == 'n')
+			while (arg[i] && arg[i] == 'n')
 				i++;
 			if (!arg[i])
 				return (1);
