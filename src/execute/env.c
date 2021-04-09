@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:15:38 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 13:25:25 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/09 15:09:08 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	change_env_value(char *value, char *key, char ***env)
 char	*get_env_param(char *key, char **env)
 {
 	int		i;
-	char	*env_param;
 
 	i = 0;
 	while (env[i])
@@ -58,8 +57,6 @@ char	*get_env_param(char *key, char **env)
 
 int		exe_env(t_exe_args *exe_args)
 {
-	char	**env_copy;
-
 	print_2d_arr(exe_args->env);
 	add_variable(&exe_args->variables, create_var("?", "0", 0, 0));
 	return (1);

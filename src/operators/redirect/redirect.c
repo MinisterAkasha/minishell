@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 21:34:48 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/09 15:11:31 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,6 @@ static void	run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 void		open_and_write_to_file(t_exe_info *next, t_exe_info *original,
 	t_exe_args *exec_args, t_exe_info *current)
 {
-	int			oldstdout;
-	char		*bin_exe_path;
-
 	open_needed_fd(next, current, exec_args);
 	if (next->oper_exe_func != exe_oper_redirect
 		&& next->oper_exe_func != exe_oper_double_redirect)

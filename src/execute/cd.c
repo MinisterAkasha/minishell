@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 21:43:13 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 17:07:15 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/09 15:08:50 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int		exe_cd(t_exe_args *exe_args)
 	int		res;
 	char	old_pwd[2048];
 	char	new_pwd[2048];
-	char	**env_copy;
 
 	getcwd(old_pwd, 2048);
 	if (!exe_args->args[0])

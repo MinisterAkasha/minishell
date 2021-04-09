@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 17:56:27 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 14:24:20 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/09 15:09:15 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int		exe_unset(t_exe_args *exe_arg)
 {
 	int			i;
 	char		**env_copy;
-	t_variable	*var;
 
 	i = 0;
 	while (exe_arg->args[i])
