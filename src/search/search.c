@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:12:44 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/09 15:03:14 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/09 15:46:31 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,17 @@ char	*get_bin_path_command(char *arg, const char *path)
 char	*search(char *arg, const char *path)
 {
 	char	*current_path;
+	char	*command;
 
-	if (!arg || !path)
+	if (!arg)
 		return (NULL);
+	if (!path)
+	{
+		command = get_command_from_path(arg);
+		write_error("minishell: ", command, "No such file or directory");
+		free(command);
+		return (NULL);
+	}
 	current_path = get_bin_path_command(arg, path);
 	if (!current_path)
 		current_path = get_relative_path(arg);
