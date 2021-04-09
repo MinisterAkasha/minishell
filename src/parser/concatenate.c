@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+char	*str_without_escape(char *str)
+{
+	char	*str_without_escape;
+	str_without_escape = ft_substr(str, 1, ft_strlen(str) - 1);
+	return (str_without_escape);
+}
+
 void	concat_args(t_exe_args exe_args, char **first, char *second)
 {
 	char		separator;
@@ -20,11 +27,16 @@ void	concat_args(t_exe_args exe_args, char **first, char *second)
 	char		*copy_second;
 
 	copy_second = ft_strdup(second);
-	separator = get_separator(copy_second);
 	copy_first = ft_strdup(*first);
 	free(*first);
-	cut_separator(exe_args, &copy_second, separator);
-	modified_arg = dollar_sign(copy_second, exe_args, separator);
+	if (copy_second[0] == '\\')
+		modified_arg = str_without_escape(copy_second);
+	else
+	{
+		separator = get_separator(copy_second);
+		cut_separator(exe_args, &copy_second, separator);
+		modified_arg = dollar_sign(copy_second, exe_args, separator);
+	}
 	(*first) = ft_strjoin(copy_first, modified_arg);
 	free(copy_second);
 	free(copy_first);

@@ -131,7 +131,7 @@ char			**split(char const *s)
 //
 //int main()
 //{
-//      char *str = "fas  \\ echo fasdfasdf\\?fads echo $\\? echo \\pd ; echo 'ff\\>pp'  echo \\> 213 ; echo \\\\fads ; echo \\\\aa ; echo \\$ ; echo ch'l'en;bin;ls ;'e'c'h'o pam> ty't'y ;e'ch'o 111'111'| cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra \\";
+//      char *str = "fas \\>> \\ echo fasdfasdf\\?fads echo $\\? echo \\pd ; echo 'ff\\>pp'  echo \\> 213 ; echo \\\\fads ; echo \\\\aa ; echo \\$ ; echo ch'l'en;bin;ls ;'e'c'h'o pam> ty't'y ;e'ch'o 111'111'| cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra \\";
 //      char **splited_str;
 //      int i;
 //
