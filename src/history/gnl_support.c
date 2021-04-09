@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gnl_support.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tilda <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 20:32:06 by tilda             #+#    #+#             */
-/*   Updated: 2021/03/21 20:32:07 by tilda            ###   ########.fr       */
+/*   Updated: 2021/04/09 15:32:48 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ struct termios	init_term_history(t_history *history, char **env)
 	struct termios	term_def;
 	char			*term_env;
 
-	term_env = ft_strchr(get_env_param("TERM", env), '=') + 1;
+	term_env = ft_strchr("TERM=xterm-256color", '=') + 1;
 	if (!term_env)
 	{
 		ft_putendl_fd("Could't get a TERM", 1);
