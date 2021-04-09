@@ -34,6 +34,19 @@ static	int		init_data_word_count(char *sep, int **info_arr, t_list **head)
 	return (1);
 }
 
+//void			init_escape_symbol(char *sep, int **info_arr, t_list **head, int i)
+//{
+//	int		*copy_arr;
+//
+//	copy_arr = *info_arr;
+//	copy_arr[1] -= 1;
+//	init_data_word_count(sep, &copy_arr, head);
+//	copy_arr[1] = 2;
+//	copy_arr[0] = i;
+//	init_data_word_count(sep, &copy_arr, head);
+//	info_arr = &copy_arr;
+//}
+
 /*
 ** Create a linked list 'head'
 ** Which has data to cut the 'str' by quotes and spaces
@@ -52,13 +65,23 @@ static	int		word_count(char *str, t_list **head)
 	while (str[i])
 	{
 		info_arr[1]++;
-		if (sep == 'f' && (str[i] == '"' || str[i] == '\'' || str[i] == '\\'))
+		if (sep == 'f' && (str[i] == '"' || str[i] == '\''))
 			sep = str[i];
-		else if (sep == 'f' && str[i] == '>' && str[i + 1] == '>')
+		else if ((sep == 'f' && str[i] == '>' && str[i + 1] == '>'))
 		{
 			info_arr[1]++;
 			i++;
 			init_data_word_count(&sep, &info_arr, head);
+		}
+		else if ((sep == 'f' && str[i] == '\\'))
+		{
+			info_arr[1]--;
+			init_data_word_count(&sep, &info_arr, head);
+			info_arr[1] = 2;
+			info_arr[0] = i;
+			init_data_word_count(&sep, &info_arr, head);
+//			init_escape_symbol(&sep, &info_arr, head, i);
+			i++;
 		}
 		else if (is_word_to_cont(str, sep, i))
 			init_data_word_count(&sep, &info_arr, head);
@@ -108,7 +131,7 @@ char			**split(char const *s)
 //
 //int main()
 //{
-//      char *str = " echo \\> 213 ; echo \\\\fads ; echo \\$; echo ch'l'en;bin;ls ;'e'c'h'o pam> ty't'y ;e'ch'o 111'111'| cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra ";
+//      char *str = "fas  \\ echo fasdfasdf\\?fads echo $\\? echo \\pd ; echo 'ff\\>pp'  echo \\> 213 ; echo \\\\fads ; echo \\\\aa ; echo \\$ ; echo ch'l'en;bin;ls ;'e'c'h'o pam> ty't'y ;e'ch'o 111'111'| cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra \\";
 //      char **splited_str;
 //      int i;
 //
