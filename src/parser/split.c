@@ -26,14 +26,6 @@ static	int		skip_spaces(char *str, char separator, int i)
 	return (i);
 }
 
-static	int		init_data_word_count(char *sep, int **info_arr, t_list **head)
-{
-	(*info_arr) = (int *)ft_calloc(2, sizeof(int));
-	*sep = 'f';
-	ft_lstadd_back(head, ft_lstnew(*info_arr));
-	return (1);
-}
-
 /*
 ** Create a linked list 'head'
 ** Which has data to cut the 'str' by quotes and spaces
@@ -41,7 +33,7 @@ static	int		init_data_word_count(char *sep, int **info_arr, t_list **head)
 ** start_index -> len -> start_index -> len -> ...
 */
 
-static	int		word_count(char *str, t_list **head)
+static void		word_count(char *str, t_list **head)
 {
 	int			i;
 	char		sep;
@@ -54,19 +46,20 @@ static	int		word_count(char *str, t_list **head)
 		info_arr[1]++;
 		if (sep == 'f' && (str[i] == '"' || str[i] == '\''))
 			sep = str[i];
-		else if (sep == 'f' && str[i] == '>' && str[i + 1] == '>')
+		else if ((sep == 'f' && str[i] == '>' && str[i + 1] == '>'))
 		{
 			info_arr[1]++;
 			i++;
 			init_data_word_count(&sep, &info_arr, head);
 		}
+		else if ((sep == 'f' && str[i] == '\\'))
+			init_escape_symbol(&sep, &info_arr, head, &i);
 		else if (is_word_to_cont(str, sep, i))
 			init_data_word_count(&sep, &info_arr, head);
 		i = skip_spaces(str, sep, i);
 		if (info_arr[1] == 0)
 			info_arr[0] = i;
 	}
-	return (1);
 }
 
 char			**init_arr_2d(char *str, t_list *copy_dw)
