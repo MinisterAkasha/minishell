@@ -53,7 +53,9 @@ int		is_word_to_cont(char *str, char sep, int i)
 	int		next_operands;
 	int		is_separator;
 	int		is_space;
+	int		is_escape;
 
+	is_escape = (i - 1 >= 0 && str[i - 1] == '\\');
 	is_separator = (str[i] == '"' || str[i] == '\'');
 	next_operands = (str[i + 1] == ';' || str[i + 1] == '|' ||
 						str[i + 1] == '>' || str[i + 1] == '<');
@@ -62,6 +64,7 @@ int		is_word_to_cont(char *str, char sep, int i)
 	is_space = ((str[i] == ' ' && sep == 'f') ||
 				(str[i + 1] == ' ' && sep == 'f'));
 	if (str[i + 1] == '\0' || is_space
+		|| (is_escape)
 		|| (sep == str[i] && is_separator)
 		|| (sep == 'f' && next_operands)
 		|| (sep == 'f' && cur_operands))
