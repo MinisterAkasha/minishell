@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/09 15:08:36 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/09 18:48:03 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		launch_shell(t_exe_args exe_args, char *bin_path)
 	if (!child_process_id)
 	{
 		if (execve(bin_path, exe_args.args, exe_args.env) == -1)
-			write_error("EXECVE ERROR. ", strerror(errno), "");
+			write_error("minishell: ", bin_path, "No such file or directory");
 	}
 	else if (child_process_id < 0)
 		write_error("FORK ERROR: ", strerror(errno), "");
