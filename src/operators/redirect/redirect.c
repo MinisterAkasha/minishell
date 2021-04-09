@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/09 15:11:31 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/09 20:40:39 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int			exe_oper_redirect(t_exe_args *exec_args, t_list *info)
 	current = tmp->content;
 	while (tmp->next)
 	{
+		if (current->oper_exe_func == exe_oper_pipe)
+			i--;
 		if (current->oper_exe_func != exe_oper_redirect
 			&& current->oper_exe_func != exe_oper_double_redirect
 			&& current->oper_exe_func != exe_oper_reverse_redirect)

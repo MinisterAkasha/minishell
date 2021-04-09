@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 15:17:33 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 15:49:27 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/09 20:39:35 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,18 @@ void	run_exe_function(t_exe_info *exe_info, t_exe_args *exec_args)
 
 void	run_command(char *bin_path, t_exe_info *exe_info, t_exe_args *exec_args)
 {
+	int res;
+
+	res = open(exec_args->args[0], O_RDWR);
 	if (exe_info->exe_function)
 		run_exe_function(exe_info, exec_args);
 	else if (bin_path)
 		execve(bin_path, exec_args->args, exec_args->env);
+	else if (res != -1)
+	{
+		close(res);
+		exit(0);
+	}
 	else
 	{
 		unknown_command(exec_args);
@@ -75,7 +83,12 @@ void	run_command(char *bin_path, t_exe_info *exe_info, t_exe_args *exec_args)
 
 void	check_command(char *path, t_exe_info *exe_info, t_exe_args *exec_args)
 {
-	if (!exe_info->exe_function && !path)
+	int res;
+
+	res = open(exec_args->args[0], O_RDWR);
+	if (res != -1)
+		close(res);
+	else if (!exe_info->exe_function && !path)
 	{
 		unknown_command(exec_args);
 		exit(127);
