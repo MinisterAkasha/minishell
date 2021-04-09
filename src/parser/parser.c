@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <tcl.h>
+#include <tclDecls.h>
 #include "minishell.h"
 
 static int		init_redirection(t_exe_info **exe_info_lst,
@@ -96,6 +98,7 @@ t_list			*get_exe_info(char **args, t_store *store)
 		{
 			exe_info = tmp_lst->content;
 			concat_args(store->exe_args, &exe_info->args, args[i]);
+			exe_info->is_flag_n = validate_flag_n(store->support, exe_info);
 			i++;
 		}
 		if (!args[i])

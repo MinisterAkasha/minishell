@@ -39,6 +39,7 @@ void		set_default_new_lst(t_list **lst);
 char		*get_str_to_compare(char **args, t_exe_args exe_args, int *i);
 void		init_arg(t_exe_info **tmp_lst, char *str);
 int			init_data_dollar_count(int **info_arr, t_list **head);
+int			validate_flag_n(t_support_parsing_data support, t_exe_info *exe_info);
 
 /*
 ** split_utils.c
