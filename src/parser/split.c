@@ -26,27 +26,6 @@ static	int		skip_spaces(char *str, char separator, int i)
 	return (i);
 }
 
-static	int		init_data_word_count(char *sep, int **info_arr, t_list **head)
-{
-	(*info_arr) = (int *)ft_calloc(2, sizeof(int));
-	*sep = 'f';
-	ft_lstadd_back(head, ft_lstnew(*info_arr));
-	return (1);
-}
-
-//void			init_escape_symbol(char *sep, int **info_arr, t_list **head, int i)
-//{
-//	int		*copy_arr;
-//
-//	copy_arr = *info_arr;
-//	copy_arr[1] -= 1;
-//	init_data_word_count(sep, &copy_arr, head);
-//	copy_arr[1] = 2;
-//	copy_arr[0] = i;
-//	init_data_word_count(sep, &copy_arr, head);
-//	info_arr = &copy_arr;
-//}
-
 /*
 ** Create a linked list 'head'
 ** Which has data to cut the 'str' by quotes and spaces
@@ -54,7 +33,7 @@ static	int		init_data_word_count(char *sep, int **info_arr, t_list **head)
 ** start_index -> len -> start_index -> len -> ...
 */
 
-static	int		word_count(char *str, t_list **head)
+static void		word_count(char *str, t_list **head)
 {
 	int			i;
 	char		sep;
@@ -74,22 +53,13 @@ static	int		word_count(char *str, t_list **head)
 			init_data_word_count(&sep, &info_arr, head);
 		}
 		else if ((sep == 'f' && str[i] == '\\'))
-		{
-			info_arr[1]--;
-			init_data_word_count(&sep, &info_arr, head);
-			info_arr[1] = 2;
-			info_arr[0] = i;
-			init_data_word_count(&sep, &info_arr, head);
-//			init_escape_symbol(&sep, &info_arr, head, i);
-			i++;
-		}
+			init_escape_symbol(&sep, &info_arr, head, &i);
 		else if (is_word_to_cont(str, sep, i))
 			init_data_word_count(&sep, &info_arr, head);
 		i = skip_spaces(str, sep, i);
 		if (info_arr[1] == 0)
 			info_arr[0] = i;
 	}
-	return (1);
 }
 
 char			**init_arr_2d(char *str, t_list *copy_dw)
@@ -128,21 +98,3 @@ char			**split(char const *s)
 	free(str);
 	return (arr_2d);
 }
-//
-//int main()
-//{
-//      char *str = "fas \\>> \\ echo fasdfasdf\\?fads echo $\\? echo \\pd ; echo 'ff\\>pp'  echo \\> 213 ; echo \\\\fads ; echo \\\\aa ; echo \\$ ; echo ch'l'en;bin;ls ;'e'c'h'o pam> ty't'y ;e'ch'o 111'111'| cd papka ; echo \"222\"222 >> 'echo' \"333333\" ;    echo    '' | echo 44'44'44 ; echo some_word > test.txt test test ; echo next_word > extra_test.txt extra extra \\";
-//      char **splited_str;
-//      int i;
-//
-//      i = 0;
-//      splited_str = split(str);
-//      while (splited_str[i])
-//      {
-//              ft_putnbr_fd(i, 1);
-//              ft_putchar_fd(')', 1);
-//              ft_putendl_fd(splited_str[i], 1);
-//              i++;
-//      }
-//      return (0);
-//}

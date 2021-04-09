@@ -15,6 +15,7 @@
 char	*str_without_escape(char *str)
 {
 	char	*str_without_escape;
+
 	str_without_escape = ft_substr(str, 1, ft_strlen(str) - 1);
 	return (str_without_escape);
 }
