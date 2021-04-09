@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/09 15:57:05 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/09 20:51:58 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		choose_command_and_run(t_exe_info *exe_info, t_store *store,
 	else if (exe_info->exe_function)
 		exe_info->exe_function(&store->exe_args);
 	else if (bin_exe_path)
-		launch_shell(store->exe_args, bin_exe_path);
+		launch_process(store->exe_args, bin_exe_path);
 	else if (!ft_strlen(exe_info->args))
 	{
 		free(bin_exe_path);

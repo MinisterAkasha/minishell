@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/09 20:40:39 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/09 20:51:58 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,24 @@ static void	open_needed_fd(t_exe_info *next, t_exe_info *current,
 static void	run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 {
 	char	*bin_exe_path;
-	int		oldstdout;
+	int		oldstd;
 
 	bin_exe_path = search(exec_args->args[0],
 			get_env_param("PATH", exec_args->env));
-	oldstdout = dup(exec_args->fd[1]);
+	oldstd = dup(exec_args->fd[1]);
 	dup2(exec_args->fd[0], exec_args->fd[1]);
 	if (original->exe_function)
 		original->exe_function(exec_args);
 	else if (bin_exe_path)
-		launch_shell(*exec_args, bin_exe_path);
+		launch_process(*exec_args, bin_exe_path);
 	else if (!exec_args->args[0])
 		;
 	else
 	{
-		dup2(oldstdout, exec_args->fd[1]);
+		dup2(oldstd, exec_args->fd[1]);
 		unknown_command(exec_args);
 	}
-	dup2(oldstdout, exec_args->fd[1]);
+	dup2(oldstd, exec_args->fd[1]);
 	free(bin_exe_path);
 }
 
