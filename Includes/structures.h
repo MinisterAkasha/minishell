@@ -29,6 +29,7 @@ typedef struct	s_exe_info
 	int					(*exe_function)(t_exe_args *);
 	int					(*oper_exe_func)(t_exe_args *exec_args, t_list *info);
 	char				*args;
+	int					is_flag_n;
 }				t_exe_info;
 
 typedef struct	s_support_parsing_data

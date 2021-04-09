@@ -38,6 +38,7 @@ void	set_default_new_lst(t_list **lst)
 	exe_info->exe_function = NULL;
 	exe_info->oper_exe_func = NULL;
 	exe_info->args = ft_strdup("");
+	exe_info->is_flag_n = 0;
 	ft_lstadd_back(lst, ft_lstnew(exe_info));
 }
 
@@ -47,33 +48,34 @@ void	init_arg(t_exe_info **exe_info_lst, char *str)
 	(*exe_info_lst)->args = ft_strdup(str);
 }
 
-int		is_word_to_cont(char *str, char sep, int i)
-{
-	int		cur_operands;
-	int		next_operands;
-	int		is_separator;
-	int		is_space;
-
-	is_separator = (str[i] == '"' || str[i] == '\'');
-	next_operands = (str[i + 1] == ';' || str[i + 1] == '|' ||
-						str[i + 1] == '>' || str[i + 1] == '<');
-	cur_operands = (str[i] == ';' || str[i] == '|' ||
-						str[i] == '>' || str[i] == '<');
-	is_space = ((str[i] == ' ' && sep == 'f') ||
-				(str[i + 1] == ' ' && sep == 'f'));
-	if (str[i + 1] == '\0' || is_space
-		|| (sep == str[i] && is_separator)
-		|| (sep == 'f' && next_operands)
-		|| (sep == 'f' && cur_operands))
-	{
-		return (1);
-	}
-	return (0);
-}
-
 int		init_data_dollar_count(int **info_arr, t_list **head)
 {
 	(*info_arr) = (int *)ft_calloc(2, sizeof(int));
 	ft_lstadd_back(head, ft_lstnew((*info_arr)));
 	return (1);
+}
+
+int		validate_flag_n(t_support_parsing_data support, t_exe_info *exe_info)
+{
+	int		i;
+	char	*arg;
+
+	i = 0;
+	arg = exe_info->args;
+	if (exe_info->exe_function != support.exe_func_arr[1])
+		return (0);
+	else if (exe_info->is_flag_n == 1)
+		return (1);
+	if (arg[i] && arg[i + 1])
+	{
+		if (arg[i] == '-' && arg[i + 1] == 'n')
+		{
+			i++;
+			while (arg[i] && arg[i] == 'n')
+				i++;
+			if (!arg[i])
+				return (1);
+		}
+	}
+	return (0);
 }
