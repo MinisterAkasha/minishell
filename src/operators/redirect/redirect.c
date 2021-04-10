@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 18:36:39 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/10 19:30:16 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,15 @@ static void	open_needed_fd(t_list *info, t_exe_args *exec_args)
 	}
 }
 
-static void	run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
+static void	dup_fd(t_exe_args *exec_args)
+{
+	if (exec_args->fd[0] != -1)
+		dup2(exec_args->fd[0], 1);
+	if (exec_args->fd[2] != -1)
+		dup2(exec_args->fd[2], 0);
+}
+
+void		run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 {
 	char	*path;
 	int		oldstd_out;
@@ -79,10 +87,7 @@ static void	run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 	path = search(exec_args->args[0], get_env_param("PATH", exec_args->env));
 	oldstd_out = dup(1);
 	oldstd_in = dup(0);
-	if (exec_args->fd[0] != -1)
-		dup2(exec_args->fd[0], 1);
-	if (exec_args->fd[2] != -1)
-		dup2(exec_args->fd[2], 0);
+	dup_fd(exec_args);
 	if (original->exe_function)
 		original->exe_function(exec_args);
 	else if (path)
@@ -98,16 +103,6 @@ static void	run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 	dup2(oldstd_out, 1);
 	dup2(oldstd_in, 0);
 	free(path);
-}
-
-void		write_to_file(t_exe_info *next, t_exe_info *original,
-	t_exe_args *exec_args, t_exe_info *current)
-{
-	if (exec_args->fd[4] != -2)
-		run_command_to_dup_fd(exec_args, original);
-	close(exec_args->fd[0]);
-	close(exec_args->fd[2]);
-	reset_fd(exec_args);	
 }
 
 int			exe_oper_redirect(t_exe_args *exec_args, t_list *info)

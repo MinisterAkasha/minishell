@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 18:10:09 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/10 19:24:28 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ void	run_oper_exec_function(t_exe_args *exec_args,
 {
 	int i;
 
-	i = exe_info->oper_exe_func(exec_args, *info);
+	if (!check_is_all_command(*info, exec_args))
+		i = ft_lstsize(*info) - 1;
+	else
+		i = exe_info->oper_exe_func(exec_args, *info);
 	while (i--)
 		*info = (*info)->next;
 }
@@ -56,7 +59,6 @@ int		choose_command_and_run(t_exe_info *exe_info, t_store *store,
 	t_list **info)
 {
 	char		*bin_exe_path;
-	int			i;
 
 	if (!exe_info->exe_function)
 		bin_exe_path = search(store->exe_args.args[0],

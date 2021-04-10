@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 18:23:59 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/10 19:24:43 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,6 @@ int				validate_var_name(char *name);
 int				check_var_name_chars(char *name);
 
 void			reset_fd(t_exe_args *exec_args);
+int				check_is_all_command(t_list *info, t_exe_args *exec_args);
 
 #endif
