@@ -71,6 +71,24 @@ char			*get_changed_str(t_exe_args exe_args, char *arr_str)
 	return (changed_str);
 }
 
+int		ft_costil(char *str)
+{
+	int		len;
+
+	len = ft_strlen(str);
+	if (str[0] == '$')
+	{
+		if (str[1] == '\'')
+		{
+			if (str[len - 1] == '"')
+			{
+				return (0);
+			}
+		}
+	}
+	return (1);
+}
+
 static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 {
 	int			i;
@@ -82,7 +100,7 @@ static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 		tmp_str = ft_strdup((*arr)[i]);
 		free((*arr)[i]);
 		if ((*arr)[i][0] && (*arr)[i][1] && (*arr)[i][0] == '$'
-											&& (*arr)[i][1] != ' ')
+			&& (*arr)[i][1] != ' ' && ft_costil((*arr)[i]))
 		{
 			(*arr)[i] = get_changed_str(exe_args, tmp_str);
 		}
