@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 17:52:44 by tilda             #+#    #+#             */
-/*   Updated: 2021/04/09 15:11:15 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/10 17:57:12 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,5 @@ int		check_redirect(int index, t_list *info,
 void	check_identifier(t_list *info, t_exe_args *exec_args, int pipe_num);
 
 void	add_args(char ***exec_args, t_exe_info	*exe_info_next);
+int		check_is_redirect_funtion(t_exe_info *current);
 #endif

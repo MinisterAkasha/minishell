@@ -6,13 +6,14 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 15:26:50 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/10 17:56:54 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	use_correct_open(t_exe_args *exec_args, char *next_fd, t_exe_info *exe_info)
+static void	use_correct_open(t_exe_args *exec_args,
+	char *next_fd, t_exe_info *exe_info)
 {
 	if (exe_info->oper_exe_func == exe_oper_redirect)
 	{
@@ -69,12 +70,11 @@ static void	open_needed_fd(t_list *info, t_exe_args *exec_args)
 
 static void	run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 {
-	char	*bin_exe_path;
+	char	*path;
 	int		oldstd_out;
 	int		oldstd_in;
 
-	bin_exe_path = search(exec_args->args[0],
-			get_env_param("PATH", exec_args->env));
+	path = search(exec_args->args[0], get_env_param("PATH", exec_args->env));
 	oldstd_out = dup(1);
 	oldstd_in = dup(0);
 	if (exec_args->fd[0] != -1)
@@ -83,8 +83,8 @@ static void	run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 		dup2(exec_args->fd[2], 0);
 	if (original->exe_function)
 		original->exe_function(exec_args);
-	else if (bin_exe_path)
-		launch_process(*exec_args, bin_exe_path);
+	else if (path)
+		launch_process(*exec_args, path);
 	else if (!exec_args->args[0])
 		;
 	else
@@ -94,7 +94,7 @@ static void	run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 	}
 	dup2(oldstd_out, 1);
 	dup2(oldstd_in, 0);
-	free(bin_exe_path);
+	free(path);
 }
 
 void		write_to_file(t_exe_info *next, t_exe_info *original,
@@ -126,9 +126,7 @@ int			exe_oper_redirect(t_exe_args *exec_args, t_list *info)
 	{
 		if (current->oper_exe_func == exe_oper_pipe)
 			i--;
-		if (current->oper_exe_func != exe_oper_redirect
-			&& current->oper_exe_func != exe_oper_double_redirect
-			&& current->oper_exe_func != exe_oper_reverse_redirect)
+		if (!check_is_redirect_funtion(current))
 			break ;
 		exe_info_next = tmp->next->content;
 		add_args(&exec_args->args, exe_info_next);
