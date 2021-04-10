@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 17:56:54 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/10 18:13:44 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	use_correct_open(t_exe_args *exec_args,
 		if (exec_args->fd[2] == -1)
 		{
 			write_error("minishell: ", next_fd, strerror(errno));
+			add_variable(&exec_args->variables, create_var("?", "1", 0, 0));
 			exec_args->fd[4] = -2;
 		}
 	}
@@ -61,7 +62,8 @@ static void	open_needed_fd(t_list *info, t_exe_args *exec_args)
 		next_info = tmp->next;
 		next_exe_info = next_info->content;
 		next_fd = ft_split(next_exe_info->args, ' ');
-		use_correct_open(exec_args, next_fd[0], exe_info);
+		if (exec_args->fd[4] != -2)
+			use_correct_open(exec_args, next_fd[0], exe_info);
 		free_2d_arr(next_fd);
 		tmp = tmp->next;
 		exe_info = tmp->content;
@@ -90,6 +92,7 @@ static void	run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 	else
 	{
 		dup2(oldstd_out, exec_args->fd[1]);
+		add_variable(&exec_args->variables, create_var("?", "1", 0, 0));
 		unknown_command(exec_args);
 	}
 	dup2(oldstd_out, 1);
