@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 12:48:08 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/10 18:10:09 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,16 @@ char	**get_args(t_exe_info *exe_info, t_support_parsing_data support)
 	return (args);
 }
 
+void	run_oper_exec_function(t_exe_args *exec_args,
+	t_exe_info *exe_info, t_list **info)
+{
+	int i;
+
+	i = exe_info->oper_exe_func(exec_args, *info);
+	while (i--)
+		*info = (*info)->next;
+}
+
 int		choose_command_and_run(t_exe_info *exe_info, t_store *store,
 	t_list **info)
 {
@@ -53,11 +63,7 @@ int		choose_command_and_run(t_exe_info *exe_info, t_store *store,
 			get_env_param("PATH", store->exe_args.env));
 	if (exe_info->oper_exe_func &&
 		exe_info->oper_exe_func != exe_oper_semicolon)
-	{
-		i = exe_info->oper_exe_func(&store->exe_args, *info);
-		while (i--)
-			*info = (*info)->next;
-	}
+		run_oper_exec_function(&store->exe_args, exe_info, info);
 	else if (exe_info->exe_function)
 		exe_info->exe_function(&store->exe_args);
 	else if (bin_exe_path)
