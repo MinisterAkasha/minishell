@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 18:24:38 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/10 18:36:39 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,27 +112,25 @@ void		write_to_file(t_exe_info *next, t_exe_info *original,
 
 int			exe_oper_redirect(t_exe_args *exec_args, t_list *info)
 {
-	t_list		*tmp;
 	t_exe_info	*current;
 	t_exe_info	*exe_info;
 	t_exe_info	*exe_info_next;
 	int			i;
 
 	i = 0;
-	tmp = info;
-	exe_info = tmp->content;
-	current = tmp->content;
-	open_needed_fd(tmp, exec_args);
-	while (tmp->next)
+	exe_info = info->content;
+	current = info->content;
+	open_needed_fd(info, exec_args);
+	while (info->next)
 	{
 		if (current->oper_exe_func == exe_oper_pipe)
 			i--;
 		if (!check_is_redirect_funtion(current))
 			break ;
-		exe_info_next = tmp->next->content;
+		exe_info_next = info->next->content;
 		add_args(&exec_args->args, exe_info_next);
-		tmp = tmp->next;
-		current = tmp->content;
+		info = info->next;
+		current = info->content;
 		i++;
 	}
 	write_to_file(exe_info_next, exe_info, exec_args, current);
