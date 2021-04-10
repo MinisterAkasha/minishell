@@ -46,8 +46,11 @@ char			*get_str_dollar(t_exe_args exe_args, char *arr_str, int *i)
 	}
 	else
 	{
-		while (arr_str[*i] && arr_str[*i] != ' ' && arr_str[*i] != '$')
+		while (arr_str[*i] && arr_str[*i] != ' ' && arr_str[*i] != '$'
+				&& arr_str[*i] != '"' && arr_str[*i] != '\'')
+		{
 			*i += 1;
+		}
 		str_dollar = ft_substr(arr_str, start, *i - start);
 	}
 	env = find_env(exe_args, str_dollar);

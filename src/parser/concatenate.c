@@ -35,8 +35,8 @@ void	concat_args(t_exe_args exe_args, char **first, char *second)
 	else
 	{
 		separator = get_separator(copy_second);
-		cut_separator(exe_args, &copy_second, separator);
 		modified_arg = dollar_sign(copy_second, exe_args, separator);
+		cut_separator(exe_args, &modified_arg, separator);
 	}
 	(*first) = ft_strjoin(copy_first, modified_arg);
 	free(copy_second);

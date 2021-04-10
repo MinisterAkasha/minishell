@@ -107,17 +107,12 @@ char			*dollar_sign(char *arg, t_exe_args exe_args, char sep)
 	char	**double_arr;
 
 	head = NULL;
-	if (sep != '\'')
-	{
-		dollar_count(arg, &head);
-		copy_head = head;
-		double_arr = init_arr_2d(arg, copy_head);
-		change_dollar_to_env(&double_arr, exe_args);
-		changed_arg = multiply_strjoin(double_arr);
-		free_2d_arr(double_arr);
-		ft_lstclear(&head, &del_item_libft_lst);
-	}
-	else
-		changed_arg = ft_strdup(arg);
+	dollar_count(arg, &head);
+	copy_head = head;
+	double_arr = init_arr_2d(arg, copy_head);
+	change_dollar_to_env(&double_arr, exe_args);
+	changed_arg = multiply_strjoin(double_arr);
+	free_2d_arr(double_arr);
+	ft_lstclear(&head, &del_item_libft_lst);
 	return (changed_arg);
 }
