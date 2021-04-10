@@ -71,7 +71,7 @@ char			*get_changed_str(t_exe_args exe_args, char *arr_str)
 	return (changed_str);
 }
 
-int		ft_costil(char *str)
+int				ft_costil(char *str)
 {
 	int		len;
 

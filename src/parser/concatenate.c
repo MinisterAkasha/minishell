@@ -29,18 +29,17 @@ void	concat_args(t_exe_args exe_args, char **first, char *second)
 
 	copy_second = ft_strdup(second);
 	copy_first = ft_strdup(*first);
+	separator = get_separator(copy_second);
 	free(*first);
 	if (copy_second[0] == '\\')
 		modified_arg = str_without_escape(copy_second);
 	else if (copy_second[0] == '\'')
 	{
 		modified_arg = ft_strdup(copy_second);
-		separator = get_separator(copy_second);
 		cut_separator(exe_args, &modified_arg, separator);
 	}
 	else
 	{
-		separator = get_separator(copy_second);
 		modified_arg = dollar_sign(copy_second, exe_args, separator);
 		cut_separator(exe_args, &modified_arg, separator);
 	}
