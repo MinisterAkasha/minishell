@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:46:31 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/09 15:11:20 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/10 17:49:28 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int		exe_oper_pipe(t_exe_args *exec_args, t_list *info)
 		return (pipe_num + red);
 	pid = create_child_processes(pipe_num, info, exec_args, fd);
 	i = handle_parent_process(pid, fd, exec_args->variables);
+	exec_args->fd[0] = -1;
+	exec_args->fd[1] = -1;
 	free(pid);
 	free_2d_arr_int(fd);
 	return (i + red - 1);

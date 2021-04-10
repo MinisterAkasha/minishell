@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 15:17:33 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 15:16:38 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/10 17:47:31 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int		get_pipe_number(t_list *info)
 		exe_info = tmp->content;
 		num++;
 	}
-	printf("num :>> %d\n", num);
 	return (num);
 }
 
