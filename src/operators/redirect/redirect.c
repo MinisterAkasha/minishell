@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 18:13:44 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/10 18:24:38 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,7 @@ void		write_to_file(t_exe_info *next, t_exe_info *original,
 		run_command_to_dup_fd(exec_args, original);
 	close(exec_args->fd[0]);
 	close(exec_args->fd[2]);
-	exec_args->fd[0] = -1;
-	exec_args->fd[2] = -1;
-	exec_args->fd[4] = 0;
+	reset_fd(exec_args);	
 }
 
 int			exe_oper_redirect(t_exe_args *exec_args, t_list *info)
