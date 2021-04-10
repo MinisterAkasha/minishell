@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 19:24:28 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/10 19:37:04 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int		execute(t_store *store)
 	{
 		exe_info = info->content;
 		store->exe_args.args = get_args(exe_info, store->support);
+		store->exe_args.is_flag_n = exe_info->is_flag_n;
 		if (choose_command_and_run(exe_info, store, &info))
 		{
 			free_2d_arr(store->exe_args.args);
