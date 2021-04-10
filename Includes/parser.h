@@ -39,14 +39,16 @@ void		set_default_new_lst(t_list **lst);
 char		*get_str_to_compare(char **args, t_exe_args exe_args, int *i);
 void		init_arg(t_exe_info **tmp_lst, char *str);
 int			init_data_dollar_count(int **info_arr, t_list **head);
-int			validate_flag_n(t_support_parsing_data support, t_exe_info *exe_info);
+int			validate_flag_n(t_support_parsing_data support,
+							t_exe_info *exe_info);
 
 /*
 ** split_utils.c
 */
-int		is_word_to_cont(char *str, char sep, int i);
-void	init_escape_symbol(char *sep, int **info_arr, t_list **head, int *i);
-int		init_data_word_count(char *sep, int **info_arr, t_list **head);
+int			is_word_to_cont(char *str, char sep, int i);
+int			init_data_word_count(char *sep, int **info_arr, t_list **head);
+void		init_escape_symbol(char *sep, int **info_arr, t_list **head,
+								int *i);
 
 /*
 ** dollar_utils.c
