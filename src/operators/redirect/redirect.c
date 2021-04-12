@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/12 12:44:28 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/12 12:55:39 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,10 @@ static void	dup_fd(t_exe_args *exec_args)
 
 void		run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 {
-	char	*path;
-	int		oldstd_out;
-	int		oldstd_in;
+	char		*path;
+	int			oldstd_out;
+	int			oldstd_in;
+	t_variable	*var;
 
 	path = search(exec_args, get_env_param("PATH", exec_args->env));
 	oldstd_out = dup(1);
@@ -96,9 +97,13 @@ void		run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 		;
 	else
 	{
-		dup2(oldstd_out, exec_args->fd[1]);
-		add_variable(&exec_args->variables, create_var("?", "1", 0, 0));
-		unknown_command(exec_args);
+		var = find_variable(exec_args->variables, "?");
+		if (ft_atoi(var->value) != 127)
+		{
+			dup2(oldstd_out, exec_args->fd[1]);
+			add_variable(&exec_args->variables, create_var("?", "1", 0, 0));
+			unknown_command(exec_args);
+		}
 	}
 	dup2(oldstd_out, 1);
 	dup2(oldstd_in, 0);
