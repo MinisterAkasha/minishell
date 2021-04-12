@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:12:44 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/09 15:46:31 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/12 12:43:18 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +73,23 @@ char	*get_bin_path_command(char *arg, const char *path)
 	return (current_path);
 }
 
-char	*search(char *arg, const char *path)
+char	*search(t_exe_args *exe_args, const char *path)
 {
 	char	*current_path;
 	char	*command;
 
-	if (!arg)
+	if (!exe_args->args[0])
 		return (NULL);
 	if (!path)
 	{
-		command = get_command_from_path(arg);
+		command = get_command_from_path(exe_args->args[0]);
+		add_variable(&exe_args->variables, create_var("?", "127", 0, 0));
 		write_error("minishell: ", command, "No such file or directory");
 		free(command);
 		return (NULL);
 	}
-	current_path = get_bin_path_command(arg, path);
+	current_path = get_bin_path_command(exe_args->args[0], path);
 	if (!current_path)
-		current_path = get_relative_path(arg);
+		current_path = get_relative_path(exe_args->args[0]);
 	return (current_path);
 }

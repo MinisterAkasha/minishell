@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 19:20:42 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 19:24:35 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/12 12:37:49 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int		check_is_all_command(t_list *info, t_exe_args *exec_args)
 		|| exe_info->oper_exe_func == exe_oper_reverse_redirect))
 		{
 			add_variable(&exec_args->variables, create_var("?", "258", 0, 0));
-			write_error("minihsell", "", "syntax error near unexpected token 'newline'");
+			write_error("minihsell", "",
+				"syntax error near unexpected token 'newline'");
 			return (0);
 		}
 		tmp = tmp->next;

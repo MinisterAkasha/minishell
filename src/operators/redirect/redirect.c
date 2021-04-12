@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 19:30:16 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/12 12:44:28 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void		run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 	int		oldstd_out;
 	int		oldstd_in;
 
-	path = search(exec_args->args[0], get_env_param("PATH", exec_args->env));
+	path = search(exec_args, get_env_param("PATH", exec_args->env));
 	oldstd_out = dup(1);
 	oldstd_in = dup(0);
 	dup_fd(exec_args);

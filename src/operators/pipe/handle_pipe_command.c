@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 15:01:20 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/04 18:47:35 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/12 12:43:27 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	handle_pipe_command(int **fd, t_exe_info *exe_info,
 
 	old_stdout = dup(1);
 	old_stdin = dup(0);
-	bin_path = search(exec_args->args[0],
+	bin_path = search(exec_args,
 			get_env_param("PATH", exec_args->env));
 	check_command(bin_path, exe_info, exec_args);
 	if (i == 0)

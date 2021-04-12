@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 19:37:04 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/12 12:44:36 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		choose_command_and_run(t_exe_info *exe_info, t_store *store,
 	char		*bin_exe_path;
 
 	if (!exe_info->exe_function)
-		bin_exe_path = search(store->exe_args.args[0],
+		bin_exe_path = search(&store->exe_args,
 			get_env_param("PATH", store->exe_args.env));
 	if (exe_info->oper_exe_func &&
 		exe_info->oper_exe_func != exe_oper_semicolon)
