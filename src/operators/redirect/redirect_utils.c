@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 19:25:52 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 19:30:28 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/12 13:05:02 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,17 @@ void	write_to_file(t_exe_info *next, t_exe_info *original,
 	close(exec_args->fd[0]);
 	close(exec_args->fd[2]);
 	reset_fd(exec_args);
+}
+
+void	error_redirect_command(t_exe_args *exec_args, int oldstd_out)
+{
+	t_variable	*var;
+
+	var = find_variable(exec_args->variables, "?");
+	if (ft_atoi(var->value) != 127)
+	{
+		dup2(oldstd_out, exec_args->fd[1]);
+		add_variable(&exec_args->variables, create_var("?", "1", 0, 0));
+		unknown_command(exec_args);
+	}
 }

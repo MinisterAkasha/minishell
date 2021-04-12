@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 17:52:44 by tilda             #+#    #+#             */
-/*   Updated: 2021/04/10 19:30:45 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/12 13:05:28 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ int		check_is_redirect_funtion(t_exe_info *current);
 void	write_to_file(t_exe_info *next, t_exe_info *original,
 	t_exe_args *exec_args, t_exe_info *current);
 void	run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original);
+void	error_redirect_command(t_exe_args *exec_args, int oldstd_out);
 
 #endif
