@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 21:24:08 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/12 16:01:58 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/15 19:43:23 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,25 @@
 
 int		check_alpha_in_string(char *str)
 {
-	int i;
+	int		i;
+	char	*str_code;
 
 	i = 0;
-	while (str[i])
+	str_code = ft_itoa(ft_atoi(str));
+	if (!ft_strcmp(str_code, str))
 	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
+		free(str_code);
+		return (1);
+	}
+	else
+	{
+		free(str_code);
+		while (str[i])
+		{
+			if (!ft_isdigit(str[i]))
+				return (0);
+			i++;
+		}
 	}
 	return (1);
 }
@@ -33,7 +44,12 @@ void	success_exit(t_exe_args *exe_args)
 	var = find_variable(exe_args->variables, "?");
 	write(1, "exit\n", 5);
 	if (exe_args->args[0])
-		exit(ft_atoi(exe_args->args[0]) % 256);
+	{
+		if (ft_atoi(exe_args->args[0]) < 0)
+			exit((ft_atoi(exe_args->args[0]) + 256) % 256);
+		else
+			exit(ft_atoi(exe_args->args[0]) % 256);
+	}
 	else
 		exit(ft_atoi(var->value));
 }
