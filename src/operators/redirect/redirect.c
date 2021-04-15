@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/14 22:27:51 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/15 21:36:14 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,15 @@ static void	open_needed_fd(t_list *info, t_exe_args *exec_args)
 		tmp = tmp->next;
 		exe_info = tmp->content;
 	}
+	if (exe_info->oper_exe_func == exe_oper_pipe)
+		pipe(exec_args->pipe_fd);
 }
 
 void		dup_fd(t_exe_args *exec_args)
 {
-	if (exec_args->fd[0] != -1)
+	if (exec_args->pipe_fd[1] != -1)
+		dup2(exec_args->pipe_fd[1], 1);
+	else if (exec_args->fd[0] != -1)
 		dup2(exec_args->fd[0], 1);
 	if (exec_args->fd[2] != -1)
 		dup2(exec_args->fd[2], 0);

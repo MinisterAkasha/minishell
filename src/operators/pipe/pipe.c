@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:46:31 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/14 21:23:29 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/15 20:40:53 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int		exe_oper_pipe(t_exe_args *exec_args, t_list *info)
 	int			red;
 
 	pipe_num = get_pipe_number(info);
-	fd = create_pipe_fd(pipe_num);
+	fd = create_pipe_fd(pipe_num, exec_args);
 	red = check_redirect(pipe_num, info, exec_args);
 	if (exec_args->fd[4] == -2 && red)
 	{

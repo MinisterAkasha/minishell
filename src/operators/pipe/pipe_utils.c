@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 15:17:33 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/15 14:27:06 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/15 21:34:46 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		get_pipe_number(t_list *info)
 	return (num);
 }
 
-int		**create_pipe_fd(int num)
+int		**create_pipe_fd(int num, t_exe_args *exec_args)
 {
 	int		**fd;
 	int		i;
@@ -44,7 +44,13 @@ int		**create_pipe_fd(int num)
 		fd[i] = (int *)malloc(sizeof(int) * 2);
 		if (!fd[i])
 			ft_error_malloc();
-		pipe(fd[i]);
+		if (i == 0 && exec_args->pipe_fd[1] != -1)
+		{
+			fd[i][0] = exec_args->pipe_fd[0];
+			fd[i][1] = exec_args->pipe_fd[1];
+		}
+		else
+			pipe(fd[i]);
 		i++;
 	}
 	fd[i] = NULL;

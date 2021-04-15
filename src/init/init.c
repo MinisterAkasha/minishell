@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 19:00:33 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/14 15:05:15 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/15 20:43:06 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,6 @@ void	init_fd(t_exe_args *exe_args)
 	exe_args->fd[2] = -1;
 	exe_args->fd[3] = -1;
 	exe_args->fd[4] = 0;
+	exe_args->pipe_fd[0] = -1;
+	exe_args->pipe_fd[1] = -1;
 }
