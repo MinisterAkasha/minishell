@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tilda <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 20:34:30 by tilda             #+#    #+#             */
-/*   Updated: 2021/03/21 20:34:31 by tilda            ###   ########.fr       */
+/*   Updated: 2021/04/12 13:51:58 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 /*
 ** gnl.c
 */
-void			gnl(char **line, t_history *history, char **env);
+void			gnl(char **line, t_history *history);
 
 /*
 ** keys.c
@@ -34,11 +34,12 @@ void			set_alpha(char **str_stat, char *buff, t_history *history);
 /*
 ** gnl_support.c
 */
-struct termios	init_term_history(t_history *history, char **env);
+struct termios	init_term_history(t_history *history);
 int				ft_putchar(int c);
 void			create_new_history(t_history *history, char *line);
 int				exit_gnl(t_history *history, struct termios term_default,
 						int state);
+void			clean_old_line(char *str_stat);
 
 /*
 ** signal_keys.c

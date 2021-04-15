@@ -14,6 +14,7 @@
 
 void	set_str_key_up(char **str_stat, t_history *history)
 {
+	clean_old_line(*str_stat);
 	if (history->cur == history->total && history->is_new_str != 1 &&
 		history->arr[history->cur])
 	{
@@ -29,14 +30,12 @@ void	set_str_key_up(char **str_stat, t_history *history)
 		(*str_stat) = ft_strdup(history->arr[history->cur - 1]);
 		history->cur--;
 	}
-	tputs(restore_cursor, 1, ft_putchar);
-	tputs(delete_line, 1, ft_putchar);
-	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 	ft_putstr_fd(*str_stat, 1);
 }
 
 void	set_str_key_down(char **str_stat, t_history *history)
 {
+	clean_old_line(*str_stat);
 	if (history->cur == history->total)
 	{
 		if (!history->is_new_str)
@@ -56,9 +55,6 @@ void	set_str_key_down(char **str_stat, t_history *history)
 		(*str_stat) = ft_strdup(history->arr[history->cur + 1]);
 		history->cur++;
 	}
-	tputs(restore_cursor, 1, ft_putchar);
-	tputs(delete_line, 1, ft_putchar);
-	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 	ft_putstr_fd(*str_stat, 1);
 }
 

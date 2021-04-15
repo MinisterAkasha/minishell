@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gnl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tilda <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 20:04:36 by tilda             #+#    #+#             */
-/*   Updated: 2021/03/21 20:04:37 by tilda            ###   ########.fr       */
+/*   Updated: 2021/04/12 13:51:46 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ static int		find_nl(char **str_stat, char **line, t_history *history)
 	return (0);
 }
 
-void			gnl(char **line, t_history *history, char **env)
+void			gnl(char **line, t_history *history)
 {
 	static char		*str_stat = NULL;
 	struct termios	term_default;
 
-	term_default = init_term_history(history, env);
+	term_default = init_term_history(history);
 	if (!str_stat)
 		str_stat = ft_strdup("");
 	while (1)

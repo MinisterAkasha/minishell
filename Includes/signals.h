@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.h                                           :+:      :+:    :+:   */
+/*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tilda <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:56:06 by tilda             #+#    #+#             */
-/*   Updated: 2021/03/30 17:56:08 by tilda            ###   ########.fr       */
+/*   Updated: 2021/04/12 14:07:39 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <signals.h>
 
-void	signal_ctrl_slash(int signum);
-void	signal_ctrl_c(int signum);
+void	signal_listener(int signum);
 
 #endif

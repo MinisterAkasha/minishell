@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tilda <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 19:48:01 by tilda             #+#    #+#             */
-/*   Updated: 2021/03/23 19:48:02 by tilda            ###   ########.fr       */
+/*   Updated: 2021/04/14 14:37:33 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** info_arr[1] - is len to cut the str
 */
 
-static	int		dollar_count(char *str, t_list **head)
+static int		dollar_count(char *str, t_list **head, t_exe_info *exe_info)
 {
 	int		i;
 	int		*info_arr;
@@ -28,7 +28,8 @@ static	int		dollar_count(char *str, t_list **head)
 	init_data_dollar_count(&info_arr, head);
 	while (str[i])
 	{
-		if (str[i] && (str[i] == '\\' || (str[i] == '$' && str[i - 1] != '\\')))
+		if (str[i] && ((str[i] == '\\' || (str[i] == '$' && str[i - 1] != '\\'))
+			|| (str[i] == '=' && exe_info->exe_function == exe_export)))
 		{
 			init_data_dollar_count(&info_arr, head);
 			info_arr[0] = i;
@@ -117,7 +118,8 @@ static void		change_dollar_to_env(char ***arr, t_exe_args exe_args)
 ** Change $str to str from the env variable
 */
 
-char			*dollar_sign(char *arg, t_exe_args exe_args, char sep)
+char			*dollar_sign(char *arg, t_exe_args exe_args,
+					t_exe_info *exe_info)
 {
 	t_list	*head;
 	t_list	*copy_head;
@@ -125,7 +127,7 @@ char			*dollar_sign(char *arg, t_exe_args exe_args, char sep)
 	char	**double_arr;
 
 	head = NULL;
-	dollar_count(arg, &head);
+	dollar_count(arg, &head, exe_info);
 	copy_head = head;
 	double_arr = init_arr_2d(arg, copy_head);
 	change_dollar_to_env(&double_arr, exe_args);

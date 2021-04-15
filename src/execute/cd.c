@@ -6,13 +6,13 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 21:43:13 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/09 15:08:50 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/14 12:52:31 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		cd_home(char *home)
+int		cd_home(char *home, t_exe_args **exe_args)
 {
 	int		res;
 	char	**home_arr;
@@ -26,6 +26,10 @@ int		cd_home(char *home)
 	{
 		home_arr = ft_split(home, '=');
 		res = chdir(home_arr[1]);
+		free_2d_arr((*exe_args)->args);
+		(*exe_args)->args = (char **)malloc(sizeof(char*) * 2);
+		(*exe_args)->args[0] = ft_strdup(home_arr[1]);
+		(*exe_args)->args[1] = NULL;
 		free_2d_arr(home_arr);
 	}
 	return (res);
@@ -86,6 +90,15 @@ void	cd_success(char old_pwd[2048], char new_pwd[2048],
 	add_variable(&(*exe_args)->variables, create_var("?", "0", 0, 0));
 }
 
+int		commom_cd(t_exe_args *exe_args)
+{
+	if (exe_args->args[0][0])
+		return (chdir(exe_args->args[0]));
+	else
+		add_variable(&exe_args->variables, create_var("?", "0", 0, 0));
+	return (1);
+}
+
 int		exe_cd(t_exe_args *exe_args)
 {
 	int		res;
@@ -94,11 +107,11 @@ int		exe_cd(t_exe_args *exe_args)
 
 	getcwd(old_pwd, 2048);
 	if (!exe_args->args[0])
-		res = cd_home(get_env_param("HOME", exe_args->env));
+		res = cd_home(get_env_param("HOME", exe_args->env), &exe_args);
 	else if (!ft_strcmp(exe_args->args[0], "-"))
 		res = cd_oldpwd(get_env_param("OLDPWD", exe_args->env));
 	else
-		res = chdir(exe_args->args[0]);
+		res = commom_cd(exe_args);
 	if (res == -1)
 	{
 		add_variable(&exe_args->variables,

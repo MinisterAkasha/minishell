@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 19:25:52 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/12 13:05:02 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/14 20:28:59 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ int		check_is_redirect_funtion(t_exe_info *current)
 	return (1);
 }
 
-void	write_to_file(t_exe_info *next, t_exe_info *original,
-	t_exe_args *exec_args, t_exe_info *current)
+void	write_to_file(t_exe_info *original, t_exe_args *exec_args)
 {
 	if (exec_args->fd[4] != -2)
 		run_command_to_dup_fd(exec_args, original);
@@ -59,6 +58,6 @@ void	error_redirect_command(t_exe_args *exec_args, int oldstd_out)
 	{
 		dup2(oldstd_out, exec_args->fd[1]);
 		add_variable(&exec_args->variables, create_var("?", "1", 0, 0));
-		unknown_command(exec_args);
+		invalid_input(exec_args);
 	}
 }

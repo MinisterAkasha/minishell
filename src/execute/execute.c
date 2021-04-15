@@ -6,18 +6,11 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:22:26 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/12 13:02:08 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/14 20:28:59 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int		unknown_command(t_exe_args *exe_arg)
-{
-	write_error("minishell: ", exe_arg->args[0], "command not found");
-	add_variable(&exe_arg->variables, create_var("?", "127", 0, 0));
-	return (1);
-}
 
 char	**get_args(t_exe_info *exe_info, t_support_parsing_data support)
 {
@@ -37,7 +30,7 @@ char	**get_args(t_exe_info *exe_info, t_support_parsing_data support)
 			args = ft_split(copy_arg, '\0');
 	}
 	else
-		args = ft_split(copy_arg, ' ');
+		args = copy_2d_arr(exe_info->double_arr_args);
 	free(copy_arg);
 	return (args);
 }
@@ -71,13 +64,12 @@ int		choose_command_and_run(t_exe_info *exe_info, t_store *store,
 		launch_process(store->exe_args, bin_exe_path);
 		free(bin_exe_path);
 	}
+	else if (store->exe_args.args[0] && !store->exe_args.args[0][0])
+		invalid_input(&store->exe_args);
 	else if (!ft_strlen(exe_info->args))
-	{
-		free(bin_exe_path);
 		return (1);
-	}
 	else if (get_env_param("PATH", store->exe_args.env))
-		unknown_command(&store->exe_args);
+		invalid_input(&store->exe_args);
 	return (0);
 }
 

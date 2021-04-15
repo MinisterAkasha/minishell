@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 19:02:34 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 19:19:42 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/14 13:27:17 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,15 @@ void	fill_variable_list(t_exe_args *exe_arg)
 	while (exe_arg->args[i])
 	{
 		variable = splite_var_name(exe_arg->args[i]);
-		if (validate_var_name(variable[0]) && ft_strcmp(exe_arg->args[i], "="))
-			fill_valid_var(variable, exe_arg, i);
-		else
-			write_error("minishell: export: '", exe_arg->args[i],
-				"': not a valid identifier");
+		if (ft_strlen(variable[0]))
+		{
+			if (validate_var_name(variable[0])
+				&& ft_strcmp(exe_arg->args[i], "="))
+				fill_valid_var(variable, exe_arg, i);
+			else
+				write_error("minishell: export: '", exe_arg->args[i],
+					"': not a valid identifier");
+		}
 		free_2d_arr(variable);
 		i++;
 	}

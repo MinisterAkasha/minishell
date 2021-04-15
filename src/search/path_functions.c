@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 19:50:03 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/09 19:06:53 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/14 19:04:10 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,23 @@ char	*get_relative_path(char *arg)
 	free(command);
 	free(dir_path);
 	return (current_path);
+}
+
+int		check_currect_path(char *arg, const char *bin_path)
+{
+	char	*path;
+	int		i;
+
+	i = 0;
+	if (ft_strrchr(arg, '/'))
+	{
+		path = ft_substr(arg, 0, ft_strlen(arg)
+			- ft_strlen(ft_strrchr(arg, '/')));
+		if (!ft_strcmp(path, bin_path))
+			i = 1;
+		free(path);
+	}
+	else
+		i = 1;
+	return (i);
 }

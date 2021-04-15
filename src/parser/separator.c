@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   separator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tilda <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 16:29:21 by tilda             #+#    #+#             */
-/*   Updated: 2021/03/15 16:29:22 by tilda            ###   ########.fr       */
+/*   Updated: 2021/04/12 13:56:10 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static	int		get_len(char *arg, int *i, char sep)
 	return (*i);
 }
 
-void			cut_separator(t_exe_args exe_args, char **arg, char sep)
+void			cut_separator(char **arg, char sep)
 {
 	int		i;
 	int		index;

@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:23:49 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 19:47:50 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/12 15:54:42 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		execute(t_store *store);
 int		exe_unset(t_exe_args *exe_arg);
 int		exe_env(t_exe_args *exe_args);
 int		exe_cd(t_exe_args *exe_args);
-int		cd_home(char *home);
+int		cd_home(char *home, t_exe_args **exe_args);
 
 /*
 ** export

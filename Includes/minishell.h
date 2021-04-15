@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:35 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/12 12:44:02 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/15 14:44:21 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdio.h>
 # include <sys/errno.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 # include <fcntl.h>
 # include <signal.h>
 
@@ -25,7 +27,6 @@
 ** required for working with directories
 */
 # include <dirent.h>
-# include <sys/types.h>
 
 # include "structures.h"
 
@@ -57,12 +58,15 @@ int				launch_process(t_exe_args exe_args, char *bin_path);
 void			init_support_parsing_arr(t_support_parsing_data *data);
 void			init_history_data(t_history **history);
 void			init_general_signal(t_store *store);
+void			init_fd(t_exe_args *exe_args);
 
 /*
 ** support.c
 */
 void			write_error(char *message_title,
 	char *message_body, char *message_error);
+char			*str_to_lower(char *arg);
+char			**remove_elem_2d_arr(char **arr, char *param);
 
 /*
 ** support_arr.c
@@ -97,7 +101,7 @@ char			*get_env_param(char *key, char **env);
 /*
 ** shlvl.c
 */
-void			shlvl(t_exe_args exe_args);
+void			shlvl(t_exe_args *exe_args);
 
 /*
 ** variable.c
@@ -110,6 +114,7 @@ int				validate_var_name(char *name);
 int				check_var_name_chars(char *name);
 
 void			reset_fd(t_exe_args *exec_args);
+int				check_is_all_command(t_list *info, t_exe_args *exec_args);
 int				check_is_all_command(t_list *info, t_exe_args *exec_args);
 
 #endif

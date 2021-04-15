@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 20:32:06 by tilda             #+#    #+#             */
-/*   Updated: 2021/04/09 15:32:48 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/12 13:51:16 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void			create_new_history(t_history *history, char *line)
 	}
 }
 
-struct termios	init_term_history(t_history *history, char **env)
+struct termios	init_term_history(t_history *history)
 {
 	struct termios	term;
 	struct termios	term_def;
@@ -58,4 +58,17 @@ struct termios	init_term_history(t_history *history, char **env)
 	tputs(save_cursor, 1, ft_putchar);
 	ft_putstr_fd("(╯✧▽✧)╯ -> ", 1);
 	return (term_def);
+}
+
+void			clean_old_line(char *str_stat)
+{
+	size_t i;
+
+	i = 0;
+	while (i != ft_strlen(str_stat))
+	{
+		tputs(cursor_left, 1, ft_putchar);
+		tputs(delete_character, 1, ft_putchar);
+		i++;
+	}
 }

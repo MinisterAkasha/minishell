@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 15:17:33 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/12 12:48:27 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/15 14:27:06 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,24 +79,27 @@ void	run_command(char *bin_path, t_exe_info *exe_info, t_exe_args *exec_args)
 	{
 		var = find_variable(exec_args->variables, "?");
 		if (ft_atoi(var->value) != 127)
-			unknown_command(exec_args);
+			invalid_input(exec_args);
 		exit(127);
 	}
 }
 
-void	check_command(char *path, t_exe_info *exe_info, t_exe_args *exec_args)
+void	check_command(char *path, t_exe_info *exe_info,
+	t_exe_args *exec_args, int i)
 {
 	int			res;
 	t_variable	*var;
 
 	res = open(exec_args->args[0], O_RDWR);
-	if (res != -1)
+	if (res != -1 && i == 0)
 		close(res);
 	else if (!exe_info->exe_function && !path)
 	{
+		if (res != -1)
+			close(res);
 		var = find_variable(exec_args->variables, "?");
 		if (ft_atoi(var->value) != 127)
-			unknown_command(exec_args);
+			invalid_input(exec_args);
 		exit(127);
 	}
 }

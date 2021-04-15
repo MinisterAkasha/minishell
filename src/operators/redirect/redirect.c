@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:10:16 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/12 13:06:53 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/14 22:27:51 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ static void	open_needed_fd(t_list *info, t_exe_args *exec_args)
 	exe_info = tmp->content;
 	exec_args->fd[1] = 1;
 	exec_args->fd[3] = 0;
-	while (tmp
-		&& (exe_info->oper_exe_func == exe_oper_redirect
-		|| exe_info->oper_exe_func == exe_oper_double_redirect
-		|| exe_info->oper_exe_func == exe_oper_reverse_redirect))
+	while (tmp && (check_is_redirect_funtion(exe_info)))
 	{
 		next_info = tmp->next;
 		next_exe_info = next_info->content;
@@ -70,7 +67,7 @@ static void	open_needed_fd(t_list *info, t_exe_args *exec_args)
 	}
 }
 
-static void	dup_fd(t_exe_args *exec_args)
+void		dup_fd(t_exe_args *exec_args)
 {
 	if (exec_args->fd[0] != -1)
 		dup2(exec_args->fd[0], 1);
@@ -83,7 +80,6 @@ void		run_command_to_dup_fd(t_exe_args *exec_args, t_exe_info *original)
 	char		*path;
 	int			oldstd_out;
 	int			oldstd_in;
-	t_variable	*var;
 
 	path = search(exec_args, get_env_param("PATH", exec_args->env));
 	oldstd_out = dup(1);
@@ -125,6 +121,6 @@ int			exe_oper_redirect(t_exe_args *exec_args, t_list *info)
 		current = info->content;
 		i++;
 	}
-	write_to_file(exe_info_next, exe_info, exec_args, current);
+	write_to_file(exe_info, exec_args);
 	return (i);
 }

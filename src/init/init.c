@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 19:00:33 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 19:55:29 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/14 15:05:15 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,15 @@ void	init_general_signal(t_store *store)
 {
 	g_general = ft_calloc(1, sizeof(t_general));
 	g_general->variables = store->exe_args.variables;
-	signal(2, signal_ctrl_c);
-	signal(3, signal_ctrl_slash);
+	signal(2, signal_listener);
+	signal(3, signal_listener);
+}
+
+void	init_fd(t_exe_args *exe_args)
+{
+	exe_args->fd[0] = -1;
+	exe_args->fd[1] = -1;
+	exe_args->fd[2] = -1;
+	exe_args->fd[3] = -1;
+	exe_args->fd[4] = 0;
 }

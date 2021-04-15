@@ -6,22 +6,27 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/10 15:05:54 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/14 23:07:29 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/minishell.h"
 
-void	wait_child_process_end(pid_t id, t_list *var)
+void	wait_child_process_end(pid_t id, t_list *var_list)
 {
-	int		status;
-	char	*str_status;
+	int			status;
+	char		*str_status;
+	t_variable	*var;
 
 	waitpid(id, &status, WUNTRACED);
 	while (!WIFEXITED(status) && !WEXITSTATUS(status) && !WIFSIGNALED(status))
 		waitpid(id, &status, WUNTRACED);
 	str_status = ft_itoa(status / 256);
-	add_variable(&var, create_var("?", str_status, 0, 0));
+	var = find_variable(g_general->variables, "?");
+	if (ft_atoi(var->value) == 130 || ft_atoi(var->value) == 131)
+		add_variable(&var_list, create_var("?", var->value, 0, 0));
+	else
+		add_variable(&var_list, create_var("?", str_status, 0, 0));
 	free(str_status);
 }
 
@@ -59,12 +64,12 @@ int		loop_shell(t_store *store)
 	init_history_data(&history);
 	status = 1;
 	init_support_parsing_arr(&store->support);
-	shlvl(store->exe_args);
+	shlvl(&store->exe_args);
 	add_variable(&store->exe_args.variables, create_var("?", "0", 0, 0));
 	init_general_signal(store);
 	while (status)
 	{
-		gnl(&line, history, store->exe_args.env);
+		gnl(&line, history);
 		args = split(line);
 		store->exe_info = get_exe_info(args, store);
 		status = execute(store);
@@ -86,11 +91,7 @@ int		main(int argc, char **argv, char **env)
 	store->exe_args.args = argv;
 	store->exe_args.variables = NULL;
 	init_env(env, store);
-	store->exe_args.fd[0] = -1;
-	store->exe_args.fd[1] = -1;
-	store->exe_args.fd[2] = -1;
-	store->exe_args.fd[3] = -1;
-	store->exe_args.fd[4] = 0;
+	init_fd(&store->exe_args);
 	loop_shell(store);
 	free_2d_arr(store->exe_args.env);
 	return (argc);

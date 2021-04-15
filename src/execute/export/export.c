@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 23:09:30 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/08 19:27:01 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/14 14:36:24 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,18 @@ char	**splite_var_name(char *str)
 	if (!arr)
 		ft_error_malloc();
 	i = 0;
-	while (str[i] != '=' && str[i])
-		i++;
-	arr[0] = ft_substr(str, 0, i);
-	arr[1] = ft_substr(str, i + 1, ft_strlen(str) - i);
+	if (str[0] != '=')
+	{
+		while (str[i] != '=' && str[i])
+			i++;
+		arr[0] = ft_substr(str, 0, i);
+		arr[1] = ft_substr(str, i + 1, ft_strlen(str) - i);
+	}
+	else
+	{
+		arr[0] = ft_strdup("=");
+		arr[1] = NULL;
+	}
 	arr[2] = NULL;
 	return (arr);
 }
@@ -78,6 +86,20 @@ void	set_export_status_var(t_exe_args *exe_arg)
 	add_variable(&exe_arg->variables, create_var("?", "0", 0, 0));
 }
 
+int		check_arr_elem_length(char **arr)
+{
+	int i;
+
+	i = 0;
+	while (arr[i])
+	{
+		if (ft_strlen(arr[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int		exe_export(t_exe_args *exe_arg)
 {
 	char		**export;
@@ -90,7 +112,7 @@ int		exe_export(t_exe_args *exe_arg)
 	free_2d_arr(exe_arg->env);
 	exe_arg->env = fill_env_with_variables(env_copy, exe_arg->variables);
 	free_2d_arr(env_copy);
-	if (get_arr_length(exe_arg->args) == 0)
+	if (!get_arr_length(exe_arg->args) || check_arr_elem_length(exe_arg->args))
 	{
 		add_variable(&exe_arg->variables, create_var("?", "0", 0, 0));
 		write_transform_arr(sort_export(export, 0, get_arr_length(export) - 1),
