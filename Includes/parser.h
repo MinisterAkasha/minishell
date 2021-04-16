@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 16:43:25 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/16 16:28:50 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/16 19:16:49 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,15 @@ char		*dollar_sign(char *arg, t_exe_args exe_args, t_exe_info *exe_info);
 */
 t_list		*get_exe_info(char **args, t_store *store, char *input);
 int			check_valid_operator(char *input, t_exe_args *exe_args);
+int			compare_with_redirect(char c);
+int			compare_with_non_redirect(char c);
+int			find_closest_redirect_index(char *input, int end);
+int			find_index_prev_semicolon(char *input, int current_index);
+void		create_and_write_error(char *token, t_exe_args *exec_args);
+int			check_spaces_between(char *input, int end, int start);
+char		*get_double_token(char *input, int end, int start);
+int			make_currect_error(int i, int j, char *input, t_exe_args *exe_args);
+int			check_input_without_redirect(char *input, t_exe_args *exe_args);
+int			check_input_with_redirect(char *input, t_exe_args *exe_args);
 
 #endif
