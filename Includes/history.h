@@ -40,6 +40,7 @@ void			create_new_history(t_history *history, char *line);
 int				exit_gnl(t_history *history, struct termios term_default,
 						int state);
 void			clean_old_line(char *str_stat);
+char			*get_buff();
 
 /*
 ** signal_keys.c
