@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:01:06 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/14 23:07:29 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/16 14:41:51 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		loop_shell(t_store *store)
 	{
 		gnl(&line, history);
 		args = split(line);
-		store->exe_info = get_exe_info(args, store);
+		store->exe_info = get_exe_info(args, store, line);
 		status = execute(store);
 		ft_lstclear(&store->exe_info, &exe_info_lstclear);
 		free_2d_arr(args);

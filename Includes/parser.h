@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 16:43:25 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/14 20:28:59 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/16 16:28:50 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ char		*dollar_sign(char *arg, t_exe_args exe_args, t_exe_info *exe_info);
 /*
 ** parser.c
 */
-t_list		*get_exe_info(char **args, t_store *store);
+t_list		*get_exe_info(char **args, t_store *store, char *input);
+int			check_valid_operator(char *input, t_exe_args *exe_args);
 
 #endif

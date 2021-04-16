@@ -6,7 +6,7 @@
 /*   By: akasha <akasha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 15:05:53 by akasha            #+#    #+#             */
-/*   Updated: 2021/04/12 13:55:54 by akasha           ###   ########.fr       */
+/*   Updated: 2021/04/16 16:28:54 by akasha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,15 @@ static int		init_operator(t_list **tmp_lst, int i,
 	return (1);
 }
 
-t_list			*get_exe_info(char **args, t_store *store)
+t_list			*get_exe_info(char **args, t_store *store, char *input)
 {
 	t_list		*head;
 	t_list		*tmp_lst;
 	t_exe_info	*exe_info;
 	int			i;
 
+	if (!check_valid_operator(input, &store->exe_args))
+		return (NULL);
 	i = 0;
 	head = NULL;
 	set_default_new_lst(&head);

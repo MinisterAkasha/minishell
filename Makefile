@@ -6,7 +6,7 @@
 #    By: akasha <akasha@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/09 14:03:17 by tilda             #+#    #+#              #
-#    Updated: 2021/04/09 15:11:48 by akasha           ###   ########.fr        #
+#    Updated: 2021/04/16 17:42:16 by akasha           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC_PATHS = ./src \
 			./src/shlvl \
 			./src/variable \
 			./src/utils \
+			./src/utils/check_operators \
 			./src/operators \
 			./src/operators/pipe \
 			./src/operators/redirect \
