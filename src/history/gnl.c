@@ -19,21 +19,20 @@
 static void		exe_key(char **str_stat, t_history *history)
 {
 	char		*buff;
-	int			buffer_size;
 
-	buffer_size = 2048;
-	buff = (char *)ft_calloc(buffer_size + 1, sizeof(char));
-	if ((read(0, buff, buffer_size)) <= 0)
-	{
-		ft_putendl_fd("Couldn't read from terminal", 1);
-		exit(1);
-	}
+	buff = get_buff();
 	if (buff[0] == 4)
 		ctrl_d(&buff, str_stat);
 	else if (buff[0] == 3)
 		ctrl_c(&buff, str_stat);
 	else if (buff[0] == 28)
 		ctrl_slash(&buff);
+	else if (!ft_strcmp(buff, "\e[D") || !ft_strcmp(buff, "\e[C")
+				|| !ft_strcmp(buff, "\t"))
+	{
+		free(buff);
+		buff = ft_strdup("");
+	}
 	if (!(ft_strcmp(buff, "\177")))
 		delete_char(str_stat);
 	else if (!(ft_strcmp(buff, "\e[A")))

@@ -72,3 +72,18 @@ void			clean_old_line(char *str_stat)
 		i++;
 	}
 }
+
+char			*get_buff(void)
+{
+	char		*buff;
+	int			buffer_size;
+
+	buffer_size = 2048;
+	buff = (char *)ft_calloc(buffer_size + 1, sizeof(char));
+	if ((read(0, buff, buffer_size)) <= 0)
+	{
+		ft_putendl_fd("Couldn't read from terminal", 1);
+		exit(1);
+	}
+	return (buff);
+}
