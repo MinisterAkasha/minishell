@@ -57,25 +57,23 @@ int		init_data_dollar_count(int **info_arr, t_list **head)
 	return (1);
 }
 
-int		validate_flag_n(t_support_parsing_data support, t_exe_info *exe_info)
+int		validate_flag_n(char *str, t_exe_info *exe_info)
 {
 	int		i;
-	char	*arg;
 
 	i = 0;
-	arg = exe_info->args;
-	if (exe_info->exe_function != support.exe_func_arr[1])
+	if (exe_info->exe_function != exe_echo)
 		return (0);
 	else if (exe_info->is_flag_n == 1)
 		return (1);
-	if (arg[i] && arg[i + 1])
+	if (str[i] && str[i + 1])
 	{
-		if (arg[i] == '-' && arg[i + 1] == 'n')
+		if (str[i] == '-' && str[i + 1] == 'n')
 		{
 			i++;
-			while (arg[i] && arg[i] == 'n')
+			while (str[i] && str[i] == 'n')
 				i++;
-			if (!arg[i])
+			if (!str[i])
 				return (1);
 		}
 	}

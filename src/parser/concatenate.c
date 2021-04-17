@@ -47,11 +47,13 @@ char	*str_without_escape(char *str)
 	return (str_without_escape);
 }
 
-char	*change_str(char *copy_second, char separator, t_exe_args exe_args,
-				t_exe_info *exe_info)
+char *change_str(char *copy_first, char *copy_second, t_exe_args exe_args,
+				 t_exe_info *exe_info)
 {
 	char	*modified_arg;
+	char		separator;
 
+	separator = get_separator(copy_second);
 	if (copy_second[0] == '\\')
 		modified_arg = str_without_escape(copy_second);
 	else if (copy_second[0] == '\'')
@@ -64,13 +66,22 @@ char	*change_str(char *copy_second, char separator, t_exe_args exe_args,
 		modified_arg = dollar_sign(copy_second, exe_args, exe_info);
 		cut_separator(&modified_arg, separator);
 	}
+	if (modified_arg[0] == '-' &&  exe_info->exe_function == exe_echo
+		&& (!ft_strcmp(copy_first, "") || !ft_strcmp(copy_first, " ")))
+	{
+		exe_info->is_flag_n = validate_flag_n(modified_arg, exe_info);
+		if (exe_info->is_flag_n)
+		{
+			free(modified_arg);
+			modified_arg = ft_strdup("");
+		}
+	}
 	return (modified_arg);
 }
 
 void	concat_args(t_exe_args exe_args, char **first, char *second,
 					t_exe_info *exe_info)
 {
-	char		separator;
 	char		*copy_first;
 	char		*modified_arg;
 	char		*copy_second;
@@ -78,9 +89,8 @@ void	concat_args(t_exe_args exe_args, char **first, char *second,
 
 	copy_second = ft_strdup(second);
 	copy_first = ft_strdup(*first);
-	separator = get_separator(copy_second);
 	free(*first);
-	modified_arg = change_str(copy_second, separator, exe_args, exe_info);
+	modified_arg = change_str(copy_first, copy_second, exe_args, exe_info);
 	(*first) = ft_strjoin(copy_first, modified_arg);
 	copy_arr = copy_2d_arr(exe_info->double_arr_args);
 	if (ft_strcmp(modified_arg, " "))
@@ -100,6 +110,6 @@ void	to_concatenate(char **args, int i, t_store *store,
 	if (is_concatenate(args, i))
 	{
 		concat_args(store->exe_args, &exe_info->args, args[i], exe_info);
-		exe_info->is_flag_n = validate_flag_n(store->support, exe_info);
+//		exe_info->is_flag_n = validate_flag_n(exe_info);
 	}
 }
