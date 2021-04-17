@@ -32,7 +32,7 @@ void		cut_separator(char **arg, char separator);
 */
 void		concat_args(t_exe_args exe_args, char **first, char *second,
 				t_exe_info *exe_info);
-int			is_concatenate(char **args, int i);
+int is_concatenate(char **args, int i, t_exe_info *exe_info);
 void		to_concatenate(char **args, int i, t_store *store,
 							t_exe_info *exe_info);
 

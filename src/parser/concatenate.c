@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int		is_concatenate(char **args, int i)
+int is_concatenate(char **args, int i, t_exe_info *exe_info)
 {
 	char	*next_arg;
 	char	*current_arg;
@@ -27,7 +27,8 @@ int		is_concatenate(char **args, int i)
 											|| !ft_strcmp(next_arg, ";")
 											|| !ft_strcmp(next_arg, ">")
 											|| !ft_strcmp(next_arg, "<")
-											|| !ft_strcmp(next_arg, ">>")))
+											|| !ft_strcmp(next_arg, ">>")
+											|| !ft_strcmp(exe_info->args, "")))
 		{
 			result = 0;
 		}
@@ -107,7 +108,7 @@ void	concat_args(t_exe_args exe_args, char **first, char *second,
 void	to_concatenate(char **args, int i, t_store *store,
 							t_exe_info *exe_info)
 {
-	if (is_concatenate(args, i))
+	if (is_concatenate(args, i, exe_info))
 	{
 		concat_args(store->exe_args, &exe_info->args, args[i], exe_info);
 //		exe_info->is_flag_n = validate_flag_n(exe_info);
