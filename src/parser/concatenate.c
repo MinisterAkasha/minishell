@@ -57,14 +57,12 @@ char *change_str(char *copy_first, char *copy_second, t_exe_args exe_args,
 	separator = get_separator(copy_second);
 	if (copy_second[0] == '\\')
 		modified_arg = str_without_escape(copy_second);
-	else if (copy_second[0] == '\'')
-	{
-		modified_arg = ft_strdup(copy_second);
-		cut_separator(&modified_arg, separator);
-	}
 	else
 	{
-		modified_arg = dollar_sign(copy_second, exe_args, exe_info);
+		if (copy_second[0] == '\'')
+			modified_arg = ft_strdup(copy_second);
+		else
+			modified_arg = dollar_sign(copy_second, exe_args, exe_info);
 		cut_separator(&modified_arg, separator);
 	}
 	if (modified_arg[0] == '-' &&  exe_info->exe_function == exe_echo
