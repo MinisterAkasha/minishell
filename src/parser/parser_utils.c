@@ -64,8 +64,6 @@ int		validate_flag_n(char *str, t_exe_info *exe_info)
 	i = 0;
 	if (exe_info->exe_function != exe_echo)
 		return (0);
-	else if (exe_info->is_flag_n == 1)
-		return (1);
 	if (str[i] && str[i + 1])
 	{
 		if (str[i] == '-' && str[i + 1] == 'n')

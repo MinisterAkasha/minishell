@@ -32,7 +32,7 @@ void		cut_separator(char **arg, char separator);
 */
 void		concat_args(t_exe_args exe_args, char **first, char *second,
 				t_exe_info *exe_info);
-int is_concatenate(char **args, int i, t_exe_info *exe_info);
+int			is_concatenate(char **args, int i, t_exe_info *exe_info);
 void		to_concatenate(char **args, int i, t_store *store,
 							t_exe_info *exe_info);
 
@@ -44,7 +44,7 @@ char		*get_str_to_compare(char **args, t_exe_args exe_args, int *i,
 						t_exe_info *exe_info);
 void		init_arg(t_exe_info **tmp_lst, char *str);
 int			init_data_dollar_count(int **info_arr, t_list **head);
-int validate_flag_n(char *str, t_exe_info *exe_info);
+int			validate_flag_n(char *str, t_exe_info *exe_info);
 
 /*
 ** split_utils.c
