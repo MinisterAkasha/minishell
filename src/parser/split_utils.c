@@ -19,7 +19,8 @@ int		is_word_to_cont(char *str, char sep, int i)
 	int		is_separator;
 	int		is_space;
 
-	is_separator = (str[i] == '"' || str[i] == '\'');
+	is_separator = (str[i] == '"' || str[i] == '\'') && i != 0
+				&& !(str[i] == '"' && str[i - 1] == '\\');
 	next_operands = (str[i + 1] == ';' || str[i + 1] == '|' ||
 					str[i + 1] == '>' || str[i + 1] == '<');
 	cur_operands = (str[i] == ';' || str[i] == '|' ||

@@ -37,8 +37,11 @@ static	int		get_next_separators(char *arg, char sep, int *index)
 	{
 		if (arg[i] == sep && (arg[i] == '\'' || arg[i] == '"'))
 		{
-			*index = i;
-			break ;
+			if (i == 0 || !(arg[i - 1] == '\\' && arg[i] == '"'))
+			{
+				*index = i;
+				break ;
+			}
 		}
 		i++;
 	}
@@ -55,7 +58,10 @@ static	int		verify_sep(char *arg, char sep)
 	while (arg[i])
 	{
 		if (arg[i] == sep && (arg[i] == '\'' || arg[i] == '"'))
-			nbr_sep++;
+		{
+			if (i == 0 || !(arg[i - 1] == '\\' && arg[i] == '"'))
+				nbr_sep++;
+		}
 		i++;
 	}
 	if (nbr_sep == 2)
@@ -70,8 +76,11 @@ static	int		get_len(char *arg, int *i, char sep)
 	{
 		if (sep == arg[*i] && (arg[*i] == '\'' || arg[*i] == '"'))
 		{
-			*i -= 1;
-			break ;
+			if (*i == 0 || !(arg[*i - 1] == '\\' && arg[*i] == '"'))
+			{
+				*i -= 1;
+				break ;
+			}
 		}
 		*i += 1;
 	}

@@ -40,12 +40,30 @@ int		is_concatenate(char **args, int i, t_exe_info *exe_info)
 	return (result);
 }
 
-char	*str_without_escape(char *str)
+void	cut_escape(char **str)
 {
+	char	*copy_str;
 	char	*str_without_escape;
+	int		i;
+	int		j;
 
-	str_without_escape = ft_substr(str, 1, ft_strlen(str) - 1);
-	return (str_without_escape);
+	i = 0;
+	j = 0;
+	copy_str = ft_strdup(*str);
+	str_without_escape = ft_calloc(ft_strlen(copy_str) + 1, sizeof(char));
+	while (copy_str[i])
+	{
+		if (copy_str[i] == '\\' &&
+		(copy_str[i + 1] == '"' || copy_str[i + 1] == '\\'))
+			i++;
+		str_without_escape[j] = copy_str[i];
+		j++;
+		i++;
+	}
+	free(*str);
+	free(copy_str);
+	(*str) = ft_strdup(str_without_escape);
+	free(str_without_escape);
 }
 
 char	*change_str(char *copy_second, t_exe_args exe_args,
@@ -56,7 +74,7 @@ char	*change_str(char *copy_second, t_exe_args exe_args,
 
 	separator = get_separator(copy_second);
 	if (copy_second[0] == '\\')
-		modified_arg = str_without_escape(copy_second);
+		modified_arg = ft_substr(copy_second, 1, ft_strlen(copy_second) - 1);
 	else
 	{
 		if (copy_second[0] == '\'')
@@ -64,6 +82,8 @@ char	*change_str(char *copy_second, t_exe_args exe_args,
 		else
 			modified_arg = dollar_sign(copy_second, exe_args, exe_info);
 		cut_separator(&modified_arg, separator);
+		if (separator == '"')
+			cut_escape(&modified_arg);
 	}
 	return (modified_arg);
 }
